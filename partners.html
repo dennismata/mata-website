@@ -3,209 +3,248 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Partner Portal – Mata Gold</title>
+  <title>Partner Portal – Mata Tape, Inc.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="shared.css" />
   <style>
-    /* ── ACCESS GATE ───────────────── */
-    .gate-section {
+    /* ── GATE ──────────────────────── */
+    .gate-wrap {
       min-height: calc(100vh - 68px);
       display: flex; align-items: center; justify-content: center;
-      padding: 100px 32px;
+      flex-direction: column; padding: 100px 32px 60px; gap: 48px;
     }
-
     .gate-card {
-      background: var(--white);
-      border-radius: 28px;
-      padding: 56px 48px;
-      max-width: 480px; width: 100%;
-      box-shadow: 0 24px 80px rgba(0,32,91,.12);
-      text-align: center;
+      background: var(--white); border-radius: 28px;
+      padding: 56px 48px; max-width: 460px; width: 100%;
+      box-shadow: 0 24px 80px rgba(0,32,91,.1); text-align: center;
     }
-
-    .gate-logo { height: 48px; margin: 0 auto 32px; }
-
+    .gate-logo { height: 44px; margin: 0 auto 32px; }
     .gate-card h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 30px; font-weight: 800;
-      color: var(--navy); margin-bottom: 10px;
+      font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 10px;
     }
-
-    .gate-card p {
-      font-size: 15px; color: var(--muted);
-      line-height: 1.65; margin-bottom: 32px;
-    }
-
-    .gate-input-wrap { position: relative; margin-bottom: 16px; }
-
+    .gate-card p { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 28px; }
     .gate-input {
-      width: 100%; padding: 16px 20px;
-      border: 2px solid rgba(0,32,91,.15);
-      border-radius: 12px; font-family: 'Inter', sans-serif;
-      font-size: 15px; color: var(--navy);
-      background: var(--cream); outline: none;
-      transition: border-color .2s;
-      letter-spacing: 2px; text-align: center;
-      text-transform: uppercase;
+      width: 100%; padding: 15px 20px;
+      border: 2px solid rgba(0,32,91,.15); border-radius: 12px;
+      font-family: 'Inter', sans-serif; font-size: 15px; color: var(--navy);
+      background: var(--cream); outline: none; transition: border-color .2s;
+      letter-spacing: 2px; text-align: center; text-transform: uppercase;
+      margin-bottom: 12px; display: block;
     }
     .gate-input:focus { border-color: var(--gold); background: var(--white); }
-    .gate-input::placeholder { letter-spacing: 0; text-transform: none; color: #aaa; }
-
+    .gate-input::placeholder { letter-spacing: 0; text-transform: none; color: #aaa; font-size: 14px; }
     .gate-submit {
-      width: 100%; padding: 16px;
-      background: var(--navy); color: var(--white);
-      border: none; border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: background .2s, transform .2s;
+      width: 100%; padding: 15px; background: var(--navy); color: var(--white);
+      border: none; border-radius: 12px; font-family: 'Inter', sans-serif;
+      font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s;
     }
-    .gate-submit:hover { background: #001845; transform: translateY(-1px); }
+    .gate-submit:hover { background: #001845; }
+    .gate-error { display: none; margin-top: 12px; font-size: 13px; color: #c0392b; font-weight: 600; }
+    .gate-help { font-size: 13px; color: var(--muted); margin-top: 20px; }
+    .gate-help a { color: var(--gold); font-weight: 600; }
 
-    .gate-error {
-      display: none; margin-top: 12px;
-      font-size: 13px; color: #c0392b; font-weight: 600;
+    .program-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px; max-width: 860px; width: 100%;
     }
+    .program-card {
+      background: var(--white); border-radius: 20px; padding: 28px 24px;
+      box-shadow: 0 4px 20px rgba(0,32,91,.06); text-align: center;
+    }
+    .program-card .icon { font-size: 28px; margin-bottom: 12px; }
+    .program-card h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+    .program-card p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-    .gate-divider {
-      display: flex; align-items: center; gap: 12px;
-      margin: 24px 0; color: var(--muted); font-size: 13px;
+    /* ── DASHBOARD SHARED ──────────── */
+    .dashboard { display: none; }
+    .dash-header {
+      background: var(--navy); padding: 110px 0 52px; color: var(--white);
     }
-    .gate-divider::before, .gate-divider::after {
-      content: ''; flex: 1; height: 1px; background: rgba(0,32,91,.1);
+    .dash-header-inner {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
     }
-
-    .gate-contact {
-      font-size: 13px; color: var(--muted);
-    }
-    .gate-contact a { color: var(--gold); font-weight: 600; }
-
-    /* ── PARTNER DASHBOARD (hidden until unlocked) ──── */
-    #partner-dashboard { display: none; }
-
-    .dashboard-header {
-      background: var(--navy); padding: 120px 0 60px; color: var(--white);
-    }
-    .dashboard-header .eyebrow { color: var(--gold); }
-    .dashboard-header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 4vw, 52px); font-weight: 900;
-      color: var(--white); margin-bottom: 12px;
-    }
-    .dashboard-header p { font-size: 16px; color: rgba(255,255,255,.65); }
-
     .partner-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--gold); color: var(--white);
-      font-size: 12px; font-weight: 700; letter-spacing: 1px;
-      text-transform: uppercase; padding: 6px 16px;
-      border-radius: 50px; margin-bottom: 20px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 14px;
     }
-
-    .dashboard-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; margin-bottom: 48px;
+    .dash-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 44px); font-weight: 900;
+      color: var(--white); margin-bottom: 6px;
     }
+    .dash-header p { font-size: 15px; color: rgba(255,255,255,.6); }
+    .sign-out-btn {
+      background: rgba(255,255,255,.1); color: var(--white);
+      border: 1px solid rgba(255,255,255,.25); padding: 10px 20px;
+      border-radius: 50px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background .2s;
+    }
+    .sign-out-btn:hover { background: rgba(255,255,255,.2); }
 
-    .stat-card {
-      background: var(--white); border-radius: var(--radius);
-      padding: 28px 24px;
+    /* ── ORDER GRID ────────────────── */
+    .order-section { padding: 64px 0; }
+    .order-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 8px;
+    }
+    .order-section .sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; }
+    .order-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .order-card {
+      background: var(--white); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,32,91,.07);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .order-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,32,91,.12); }
+    .order-card-img {
+      background: var(--cream2); padding: 32px 24px;
+      display: flex; align-items: center; justify-content: center; min-height: 180px;
+    }
+    .order-card-img img { max-width: 140px; }
+    .order-card-body { padding: 20px 24px 24px; }
+    .order-card-body .size-pill {
+      display: inline-block; background: var(--cream); color: var(--gold);
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 50px; margin-bottom: 8px;
+    }
+    .order-card-body h3 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+
+    .price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .price-partner { font-size: 22px; font-weight: 800; color: var(--navy); }
+    .price-msrp { font-size: 14px; color: var(--muted); text-decoration: line-through; }
+    .price-saving {
+      font-size: 12px; font-weight: 700; color: #2a7a2a;
+      background: #e8f5e9; padding: 3px 8px; border-radius: 50px;
+    }
+    .price-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+
+    .qty-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .qty-label { font-size: 13px; font-weight: 600; color: var(--navy); }
+    .qty-control { display: flex; align-items: center; }
+    .qty-btn {
+      width: 32px; height: 32px; border: 1.5px solid rgba(0,32,91,.2);
+      background: var(--cream); color: var(--navy); font-size: 16px; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
+    }
+    .qty-btn:first-child { border-radius: 8px 0 0 8px; }
+    .qty-btn:last-child  { border-radius: 0 8px 8px 0; }
+    .qty-btn:hover { background: var(--cream2); }
+    .qty-input {
+      width: 44px; height: 32px; border: 1.5px solid rgba(0,32,91,.2);
+      border-left: none; border-right: none; text-align: center;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700;
+      color: var(--navy); background: var(--white); outline: none;
+    }
+    .order-btn {
+      width: 100%; padding: 13px; background: var(--gold); color: var(--white);
+      border: none; border-radius: 10px; font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s, transform .15s;
+    }
+    .order-btn:hover { background: #b5841e; transform: translateY(-1px); }
+
+    /* ── REBATE TRACKER (BPN) ──────── */
+    .rebate-section { padding: 48px 0 0; }
+    .rebate-banner {
+      background: var(--navy); border-radius: 20px; padding: 36px 40px;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+    }
+    .rebate-banner h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 6px;
+    }
+    .rebate-banner p { font-size: 14px; color: rgba(255,255,255,.6); }
+    .rebate-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+    .rebate-stat { text-align: center; }
+    .rebate-stat .val {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; font-weight: 900; color: var(--gold);
+    }
+    .rebate-stat .lbl { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 4px; font-weight: 600; }
+
+    .period-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .period-tab {
+      padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 600;
+      border: 1.5px solid rgba(0,32,91,.15); background: transparent;
+      color: var(--muted); cursor: pointer; transition: all .2s;
+    }
+    .period-tab.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+    /* ── ADMIN ─────────────────────── */
+    .admin-section { padding: 64px 0; }
+    .admin-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 8px;
+    }
+    .admin-section .sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; }
+
+    .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px; }
+    .admin-stat {
+      background: var(--white); border-radius: 16px; padding: 24px;
       box-shadow: 0 4px 20px rgba(0,32,91,.07);
     }
-    .stat-card .stat-label {
-      font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+    .admin-stat .lbl {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
       text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
     }
-    .stat-card .stat-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px; font-weight: 800; color: var(--navy);
-    }
-    .stat-card .stat-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .admin-stat .val { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 800; color: var(--navy); }
+    .admin-stat .sub-val { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .admin-stat .sub-val strong { color: var(--gold); }
 
-    .dashboard-section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px; font-weight: 700;
-      color: var(--navy); margin-bottom: 24px;
+    .program-report {
+      background: var(--white); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,32,91,.07); margin-bottom: 28px;
     }
-
-    /* Partner pricing table */
-    .pricing-table {
-      width: 100%; border-collapse: collapse;
-      background: var(--white); border-radius: var(--radius);
-      overflow: hidden; box-shadow: 0 4px 20px rgba(0,32,91,.07);
-      margin-bottom: 48px;
-    }
-    .pricing-table th {
-      background: var(--navy); color: var(--white);
-      padding: 14px 20px; font-size: 13px; font-weight: 600;
-      text-align: left; letter-spacing: .5px;
-    }
-    .pricing-table td {
-      padding: 14px 20px; font-size: 14px;
-      border-bottom: 1px solid rgba(0,32,91,.06);
-    }
-    .pricing-table tr:last-child td { border-bottom: none; }
-    .pricing-table td.price { font-weight: 700; color: var(--navy); }
-    .pricing-table td.saving { color: var(--gold); font-weight: 600; }
-
-    /* Orders table */
-    .orders-table {
-      width: 100%; border-collapse: collapse;
-      background: var(--white); border-radius: var(--radius);
-      overflow: hidden; box-shadow: 0 4px 20px rgba(0,32,91,.07);
-      margin-bottom: 32px;
-    }
-    .orders-table th {
-      background: var(--cream2); color: var(--navy);
-      padding: 12px 20px; font-size: 12px; font-weight: 700;
-      text-align: left; letter-spacing: 1px; text-transform: uppercase;
-    }
-    .orders-table td {
-      padding: 14px 20px; font-size: 14px; color: var(--text);
-      border-bottom: 1px solid rgba(0,32,91,.06);
-    }
-    .orders-table tr:last-child td { border-bottom: none; }
-
-    .status-pill {
-      display: inline-block; padding: 3px 12px;
-      border-radius: 50px; font-size: 12px; font-weight: 700;
-    }
-    .status-pill.paid    { background: #d4edda; color: #155724; }
-    .status-pill.pending { background: #fff3cd; color: #856404; }
-    .status-pill.open    { background: #cce5ff; color: #004085; }
-
-    .download-bar {
+    .report-header {
       display: flex; align-items: center; justify-content: space-between;
-      background: var(--cream); border-radius: 12px;
-      padding: 16px 20px; margin-bottom: 48px;
-      flex-wrap: wrap; gap: 12px;
+      padding: 20px 28px; border-bottom: 1px solid rgba(0,32,91,.07); flex-wrap: wrap; gap: 12px;
     }
-    .download-bar p { font-size: 14px; color: var(--muted); }
-    .download-bar p strong { color: var(--navy); }
+    .report-header h3 { font-size: 17px; font-weight: 700; color: var(--navy); }
+    .report-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 50px;
+    }
+    .badge-t1p  { background: #e8f0fe; color: #1a56db; }
+    .badge-cpia { background: #e8f5e9; color: #1e7e34; }
+    .badge-bpn  { background: #fff3e0; color: #e65100; }
 
-    /* Partner program info */
-    .partner-types {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+    .report-body { padding: 24px 28px; }
+    .report-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid rgba(0,32,91,.06);
     }
-    .partner-type-card {
-      background: var(--cream); border-radius: var(--radius);
-      padding: 32px 24px; text-align: center;
-      border: 2px solid transparent; transition: border-color .2s;
+    .report-row:last-child { border-bottom: none; }
+    .report-row .rl { font-size: 14px; color: var(--muted); }
+    .report-row .rv { font-size: 14px; font-weight: 700; color: var(--navy); }
+    .report-row .rv.hl { color: var(--gold); font-size: 16px; }
+
+    .report-footer {
+      padding: 14px 28px; background: var(--cream2);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
     }
-    .partner-type-card.active { border-color: var(--gold); }
-    .partner-type-card h4 {
-      font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px;
+    .report-footer p { font-size: 13px; color: var(--muted); }
+
+    .private-notice {
+      display: flex; align-items: center; gap: 10px;
+      background: #fff3e0; border: 1.5px solid #e65100;
+      border-radius: 12px; padding: 14px 20px; margin-bottom: 36px;
     }
-    .partner-type-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .private-notice svg { width: 20px; height: 20px; color: #e65100; flex-shrink: 0; }
+    .private-notice p { font-size: 13px; color: #7a3800; font-weight: 500; }
 
     @media (max-width: 900px) {
-      .dashboard-grid, .partner-types { grid-template-columns: 1fr 1fr; }
-      .gate-card { padding: 40px 28px; }
+      .order-grid, .admin-grid, .program-cards { grid-template-columns: 1fr 1fr; }
+      .rebate-banner { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
-      .dashboard-grid, .partner-types { grid-template-columns: 1fr; }
+      .order-grid, .admin-grid, .program-cards { grid-template-columns: 1fr; }
+      .gate-card { padding: 36px 24px; }
     }
   </style>
 </head>
@@ -213,174 +252,260 @@
 
   <nav id="navbar">
     <div class="container nav-inner">
-      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Gold" /></a>
+      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
       <ul class="nav-links">
         <li><a href="index.html#features">Features</a></li>
         <li><a href="index.html#products">Products</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="partners.html">Partners</a></li>
-        <li><a href="legal.html">Legal</a></li>
       </ul>
       <div class="nav-right">
-        <a href="partners.html" class="btn btn--ghost">Partner Login</a>
         <a href="index.html#sample" class="btn btn--gold">Get In Touch</a>
       </div>
     </div>
   </nav>
 
-  <!-- ACCESS GATE -->
+  <!-- ── ACCESS GATE ─────────────────────────────── -->
   <div id="access-gate">
-    <section class="gate-section">
+    <div class="gate-wrap">
       <div class="gate-card">
-        <img class="gate-logo" src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Gold" />
+        <img class="gate-logo" src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." />
         <h1>Partner Portal</h1>
-        <p>Enter your activation code to access partner pricing, order history, and rebate reports. Contact us if you need an access code.</p>
-
-        <div class="gate-input-wrap">
-          <input id="access-code-input" class="gate-input" type="text" placeholder="Enter activation code" maxlength="12" autocomplete="off" />
-        </div>
-        <button class="gate-submit" onclick="checkCode()">Access Portal</button>
+        <p>Enter your activation code to access partner pricing and place orders with your discount automatically applied.</p>
+        <input id="code-input" class="gate-input" type="text" placeholder="Enter activation code" maxlength="16" autocomplete="off" />
+        <button class="gate-submit" onclick="unlock()">Access Portal</button>
         <p class="gate-error" id="gate-error">Invalid code. Please try again or contact us.</p>
-
-        <div class="gate-divider">or</div>
-        <p class="gate-contact">Don't have a code? <a href="mailto:partners@mata-tape.com">Contact our partner team</a></p>
+        <p class="gate-help">Don't have a code? <a href="mailto:partners@mata-tape.com">Contact our partner team</a></p>
       </div>
-    </section>
-  </div>
-
-  <!-- PARTNER DASHBOARD (shown after valid code) -->
-  <div id="partner-dashboard">
-
-    <div class="dashboard-header">
-      <div class="container">
-        <div class="partner-badge" id="partner-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span id="partner-type-label">Partner</span>
-        </div>
-        <h1>Welcome back,<br /><span id="partner-name">Partner</span></h1>
-        <p>Your partner dashboard — pricing, orders, and rebate reporting in one place.</p>
-      </div>
-    </div>
-
-    <section class="section section--white">
-      <div class="container">
-
-        <!-- Stats -->
-        <div class="dashboard-grid" style="margin-bottom:56px;">
-          <div class="stat-card">
-            <div class="stat-label">YTD Orders</div>
-            <div class="stat-value">—</div>
-            <div class="stat-sub">No orders yet this year</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">YTD Volume</div>
-            <div class="stat-value">—</div>
-            <div class="stat-sub">Rolls purchased this year</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Rebate Earned</div>
-            <div class="stat-value">—</div>
-            <div class="stat-sub">Based on current period</div>
-          </div>
-        </div>
-
-        <!-- Partner pricing -->
-        <h2 class="dashboard-section-title">Your Partner Pricing</h2>
-        <table class="pricing-table" id="partner-pricing-table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Size</th>
-              <th>MSRP</th>
-              <th>Your Price</th>
-              <th>Discount</th>
-            </tr>
-          </thead>
-          <tbody id="pricing-body">
-            <!-- Populated by JS based on partner type -->
-          </tbody>
-        </table>
-
-        <!-- Order history -->
-        <h2 class="dashboard-section-title">Recent Orders</h2>
-        <table class="orders-table">
-          <thead>
-            <tr>
-              <th>Order #</th><th>Date</th><th>Product</th>
-              <th>Qty</th><th>Total</th><th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="6" style="text-align:center;color:var(--muted);padding:32px;">
-                No orders yet. <a href="index.html#products" style="color:var(--gold);font-weight:600;">Browse products →</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Rebate download -->
-        <h2 class="dashboard-section-title">Rebate Reports</h2>
-        <div class="download-bar">
-          <p><strong>Q1 2026</strong> — Jan 1 – Mar 31, 2026 &nbsp;|&nbsp; Qualifying volume: $0.00</p>
-          <button class="btn btn--navy" onclick="alert('Export will be available once orders are placed.')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download CSV
-          </button>
-        </div>
-        <div class="download-bar">
-          <p><strong>Full Year 2025</strong> — Jan 1 – Dec 31, 2025 &nbsp;|&nbsp; Qualifying volume: $0.00</p>
-          <button class="btn btn--ghost">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download CSV
-          </button>
-        </div>
-
-        <!-- Sign out -->
-        <div style="margin-top:48px;padding-top:32px;border-top:1px solid rgba(0,32,91,.08);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-          <p style="font-size:14px;color:var(--muted);">Questions? Contact your partner representative at <a href="mailto:partners@mata-tape.com" style="color:var(--gold);font-weight:600;">partners@mata-tape.com</a></p>
-          <button class="btn btn--ghost" onclick="signOut()">Sign Out</button>
-        </div>
-
-      </div>
-    </section>
-  </div>
-
-  <!-- PUBLIC: Partner program info (below gate, visible to all) -->
-  <section class="section" id="partner-info">
-    <div class="container">
-      <div style="text-align:center;max-width:560px;margin:0 auto 56px;">
-        <span class="eyebrow">Industry Programs</span>
-        <h2 class="section-title">Mata Gold Partner Programs</h2>
-        <p class="section-sub">We work directly with franchises, associations, and buying groups to provide exclusive pricing and rebate programs.</p>
-      </div>
-      <div class="partner-types">
-        <div class="partner-type-card">
-          <div style="font-size:32px;margin-bottom:12px;">🏢</div>
-          <h4>T1P Franchise</h4>
-          <p>Exclusive pricing and volume programs for T1P franchise members. Consistent supply and dedicated support across all locations.</p>
-        </div>
-        <div class="partner-type-card">
-          <div style="font-size:32px;margin-bottom:12px;">🎨</div>
+      <div class="program-cards">
+        <div class="program-card">
+          <div class="icon">🎨</div>
           <h4>CPIA Members</h4>
-          <p>Special member pricing for California Professional and Industrial Applicators. A benefit of your CPIA membership, automatically applied.</p>
+          <p>Exclusive member pricing as a benefit of your CPIA membership. Order directly with your discount at checkout.</p>
         </div>
-        <div class="partner-type-card">
-          <div style="font-size:32px;margin-bottom:12px;">📦</div>
+        <div class="program-card">
+          <div class="icon">🏢</div>
+          <h4>T1P Franchise</h4>
+          <p>Preferred pricing for T1P franchise partners with dedicated supply and support.</p>
+        </div>
+        <div class="program-card">
+          <div class="icon">📦</div>
           <h4>BPN Buying Group</h4>
-          <p>Volume-based rebate programs for BPN members. Track your group's collective purchasing and download rebate summaries at any time.</p>
+          <p>Group pricing for BPN members with real-time rebate tracking for your group.</p>
         </div>
-      </div>
-      <div style="text-align:center;margin-top:48px;">
-        <p style="font-size:15px;color:var(--muted);margin-bottom:20px;">Interested in becoming a partner? Reach out to our team.</p>
-        <a href="mailto:partners@mata-tape.com" class="btn btn--gold">Contact Partner Team</a>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- ── CPIA DASHBOARD ──────────────────────────── -->
+  <div id="dash-cpia" class="dashboard">
+    <div class="dash-header">
+      <div class="container dash-header-inner">
+        <div>
+          <div class="partner-badge">CPIA Member</div>
+          <h1>CPIA Member Pricing</h1>
+          <p>Your 30% member discount is applied below. Check out securely via Stripe.</p>
+        </div>
+        <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="order-section">
+        <h2>Order Mata Gold</h2>
+        <p class="sub">Prices reflect your CPIA member discount.</p>
+        <div class="order-grid" id="cpia-products"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── T1P DASHBOARD ───────────────────────────── -->
+  <div id="dash-t1p" class="dashboard">
+    <div class="dash-header">
+      <div class="container dash-header-inner">
+        <div>
+          <div class="partner-badge">T1P Franchise Partner</div>
+          <h1>T1P Partner Pricing</h1>
+          <p>Your 30% franchise discount is applied below. Check out securely via Stripe.</p>
+        </div>
+        <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="order-section">
+        <h2>Order Mata Gold</h2>
+        <p class="sub">Prices reflect your T1P franchise discount.</p>
+        <div class="order-grid" id="t1p-products"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BPN DASHBOARD ───────────────────────────── -->
+  <div id="dash-bpn" class="dashboard">
+    <div class="dash-header">
+      <div class="container dash-header-inner">
+        <div>
+          <div class="partner-badge">BPN Buying Group</div>
+          <h1>BPN Member Pricing</h1>
+          <p>Your 30% group discount is applied below. Track your group's earned rebate in real time.</p>
+        </div>
+        <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="rebate-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px;">
+          <div>
+            <span class="eyebrow">Group Rebate Tracker</span>
+            <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--navy);margin:0;">BPN Group Earnings</h2>
+          </div>
+          <div class="period-tabs">
+            <button class="period-tab active">Q1 2026</button>
+            <button class="period-tab">YTD 2026</button>
+            <button class="period-tab">Full Year 2025</button>
+          </div>
+        </div>
+        <div class="rebate-banner">
+          <div>
+            <h3>Your group earns 5% back on every order.</h3>
+            <p>Group purchases are tracked at your discounted partner price. BPN distributes the 5% rebate among members at the end of each period.</p>
+          </div>
+          <div class="rebate-stats">
+            <div class="rebate-stat"><div class="val">$0</div><div class="lbl">Group Purchases</div></div>
+            <div class="rebate-stat"><div class="val">$0</div><div class="lbl">Discount Received</div></div>
+            <div class="rebate-stat"><div class="val">$0</div><div class="lbl">Rebate Earned (5%)</div></div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px;">Rebates are calculated on gross purchases and distributed by BPN at the end of each period.</p>
+      </div>
+      <div class="order-section">
+        <h2>Order Mata Gold</h2>
+        <p class="sub">30% BPN group discount applied at checkout.</p>
+        <div class="order-grid" id="bpn-products"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ADMIN DASHBOARD ─────────────────────────── -->
+  <div id="dash-admin" class="dashboard">
+    <div class="dash-header">
+      <div class="container dash-header-inner">
+        <div>
+          <div class="partner-badge" style="background:#e65100;">Admin View</div>
+          <h1>Sales &amp; Rebate Reports</h1>
+          <p>Internal reporting only — not visible to any partner.</p>
+        </div>
+        <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="admin-section">
+        <div class="private-notice">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <p><strong>Private admin view.</strong> Accessible only with your admin code. Partner accounts cannot see this data.</p>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px;">
+          <div>
+            <h2 style="margin-bottom:4px;">Program Overview</h2>
+            <p class="sub" style="margin:0;">Gross sales and amounts payable per partner program.</p>
+          </div>
+          <div class="period-tabs">
+            <button class="period-tab active">Q1 2026</button>
+            <button class="period-tab">YTD 2026</button>
+            <button class="period-tab">Full Year 2025</button>
+          </div>
+        </div>
+
+        <div class="admin-grid">
+          <div class="admin-stat">
+            <div class="lbl">Total Partner Sales</div>
+            <div class="val">$0</div>
+            <div class="sub-val">Across all programs</div>
+          </div>
+          <div class="admin-stat">
+            <div class="lbl">T1P Kickback Owed</div>
+            <div class="val">$0</div>
+            <div class="sub-val"><strong>5%</strong> of T1P gross sales</div>
+          </div>
+          <div class="admin-stat">
+            <div class="lbl">BPN Rebate Owed</div>
+            <div class="val">$0</div>
+            <div class="sub-val"><strong>5%</strong> of BPN gross sales</div>
+          </div>
+        </div>
+
+        <!-- T1P -->
+        <div class="program-report">
+          <div class="report-header">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <h3>T1P Franchise</h3>
+              <span class="report-badge badge-t1p">Kickback — not disclosed to franchisees</span>
+            </div>
+            <button class="btn btn--ghost" style="padding:8px 16px;font-size:13px;" onclick="alert('Export available once orders are placed.')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="report-body">
+            <div class="report-row"><span class="rl">Gross Sales (T1P)</span><span class="rv">$0.00</span></div>
+            <div class="report-row"><span class="rl">Number of Orders</span><span class="rv">0</span></div>
+            <div class="report-row"><span class="rl">Avg. Order Value</span><span class="rv">—</span></div>
+            <div class="report-row"><span class="rl">Kickback Rate</span><span class="rv">5%</span></div>
+            <div class="report-row"><span class="rl">Kickback Payable to T1P</span><span class="rv hl">$0.00</span></div>
+          </div>
+          <div class="report-footer"><p>Paid to T1P corporate. Franchisees are not aware of this arrangement.</p></div>
+        </div>
+
+        <!-- CPIA -->
+        <div class="program-report">
+          <div class="report-header">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <h3>CPIA Members</h3>
+              <span class="report-badge badge-cpia">Member Benefit — no rebate obligation</span>
+            </div>
+            <button class="btn btn--ghost" style="padding:8px 16px;font-size:13px;" onclick="alert('Export available once orders are placed.')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="report-body">
+            <div class="report-row"><span class="rl">Gross Sales (CPIA members)</span><span class="rv">$0.00</span></div>
+            <div class="report-row"><span class="rl">Number of Orders</span><span class="rv">0</span></div>
+            <div class="report-row"><span class="rl">Avg. Order Value</span><span class="rv">—</span></div>
+            <div class="report-row"><span class="rl">Kickback / Rebate</span><span class="rv">None</span></div>
+          </div>
+          <div class="report-footer"><p>CPIA is an industry visibility partner. No financial obligation.</p></div>
+        </div>
+
+        <!-- BPN -->
+        <div class="program-report">
+          <div class="report-header">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <h3>BPN Buying Group</h3>
+              <span class="report-badge badge-bpn">Rebate Program — visible to members</span>
+            </div>
+            <button class="btn btn--ghost" style="padding:8px 16px;font-size:13px;" onclick="alert('Export available once orders are placed.')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="report-body">
+            <div class="report-row"><span class="rl">Gross Sales (BPN members)</span><span class="rv">$0.00</span></div>
+            <div class="report-row"><span class="rl">Number of Orders</span><span class="rv">0</span></div>
+            <div class="report-row"><span class="rl">Avg. Order Value</span><span class="rv">—</span></div>
+            <div class="report-row"><span class="rl">Rebate Rate</span><span class="rv">5%</span></div>
+            <div class="report-row"><span class="rl">Rebate Payable to BPN</span><span class="rv hl">$0.00</span></div>
+          </div>
+          <div class="report-footer"><p>BPN distributes rebate among members. Members see their group total in the portal.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <footer>
     <div class="container footer-inner">
-      <img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Gold" />
+      <img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." />
       <ul class="footer-links">
         <li><a href="index.html#features">Features</a></li>
         <li><a href="index.html#products">Products</a></li>
@@ -394,67 +519,99 @@
 
   <script src="shared.js"></script>
   <script>
-    // Demo access codes — in production these live server-side
-    const PARTNER_CODES = {
-      'T1P2026':  { type: 'T1P Franchise',  name: 'T1P Partner',  discount: 20 },
-      'CPIA2026': { type: 'CPIA Member',     name: 'CPIA Member',  discount: 15 },
-      'BPN2026':  { type: 'BPN Buying Group',name: 'BPN Member',   discount: 18 },
+    const PARTNERS = {
+      'CPIA2026':  { dash: 'cpia',  discount: 30 },
+      'T1P2026':   { dash: 't1p',   discount: 30 },
+      'BPN2026':   { dash: 'bpn',   discount: 30 },
+      'MATAADMIN': { dash: 'admin', discount: 0  },
     };
 
-    const MSRP = { small: 12.99, medium: 14.99, large: 17.99 };
+    // Retail prices per roll, per size
+    const PRODUCTS = [
+      { id: 'small',  name: 'Mata Gold – Small',  size: '24mm / 0.94 in', rolls: 36, msrp: 4.63, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
+      { id: 'medium', name: 'Mata Gold – Medium', size: '36mm / 1.41 in', rolls: 24, msrp: 6.88, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
+      { id: 'large',  name: 'Mata Gold – Large',  size: '48mm / 1.88 in', rolls: 20, msrp: 9.25, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
+    ];
 
-    function checkCode() {
-      const raw   = document.getElementById('access-code-input').value.trim().toUpperCase();
-      const error = document.getElementById('gate-error');
-      const match = PARTNER_CODES[raw];
+    function renderProducts(containerId, discount) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = PRODUCTS.map(p => {
+        const partnerPrice = (p.msrp * (1 - discount / 100)).toFixed(2);
+        const boxMsrp     = (p.msrp * p.rolls).toFixed(2);
+        const boxPartner  = (partnerPrice * p.rolls).toFixed(2);
+        return `
+          <div class="order-card">
+            <div class="order-card-img">
+              <img src="${p.img}" alt="${p.name}" />
+            </div>
+            <div class="order-card-body">
+              <span class="size-pill">${p.size}</span>
+              <h3>${p.name}</h3>
+              <div class="price-row">
+                <span class="price-partner">$${partnerPrice}/roll</span>
+                <span class="price-msrp">$${p.msrp.toFixed(2)}</span>
+                <span class="price-saving">${discount}% off</span>
+              </div>
+              <p class="price-note">$${boxPartner} per box (${p.rolls} rolls)</p>
+              <div class="qty-row">
+                <span class="qty-label">Boxes:</span>
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty('${containerId}-${p.id}', -1)">−</button>
+                  <input class="qty-input" id="${containerId}-${p.id}" type="number" value="1" min="1" />
+                  <button class="qty-btn" onclick="changeQty('${containerId}-${p.id}', 1)">+</button>
+                </div>
+              </div>
+              <button class="order-btn" onclick="addToCart('${p.name}', '${containerId}-${p.id}', ${partnerPrice}, ${p.rolls})">
+                Add to Order →
+              </button>
+            </div>
+          </div>`;
+      }).join('');
+    }
 
+    function changeQty(id, delta) {
+      const input = document.getElementById(id);
+      input.value = Math.max(1, parseInt(input.value || 1) + delta);
+    }
+
+    function addToCart(name, inputId, pricePerRoll, rolls) {
+      const qty   = parseInt(document.getElementById(inputId).value) || 1;
+      const total = (pricePerRoll * rolls * qty).toFixed(2);
+      alert(`Added to order:\n${qty} box(es) of ${name}\n${qty * rolls} rolls · $${total} total\n\nStripe checkout will be connected when the shop goes live.`);
+    }
+
+    function unlock() {
+      const code  = document.getElementById('code-input').value.trim().toUpperCase();
+      const match = PARTNERS[code];
       if (!match) {
-        error.style.display = 'block';
-        document.getElementById('access-code-input').style.borderColor = '#e74c3c';
+        document.getElementById('gate-error').style.display = 'block';
+        document.getElementById('code-input').style.borderColor = '#e74c3c';
         return;
       }
-
-      // Show dashboard
       document.getElementById('access-gate').style.display = 'none';
-      document.getElementById('partner-info').style.display = 'none';
-      document.getElementById('partner-dashboard').style.display = 'block';
-      document.getElementById('partner-type-label').textContent = match.type;
-      document.getElementById('partner-name').textContent = match.name;
-
-      // Build pricing table
-      const d = match.discount;
-      const rows = [
-        ['Mata Gold – Small',  '24mm / 0.94in', MSRP.small],
-        ['Mata Gold – Medium', '36mm / 1.41in', MSRP.medium],
-        ['Mata Gold – Large',  '48mm / 1.88in', MSRP.large],
-      ];
-      const tbody = document.getElementById('pricing-body');
-      tbody.innerHTML = rows.map(([name, size, msrp]) => {
-        const partner = (msrp * (1 - d / 100)).toFixed(2);
-        return `<tr>
-          <td>${name}</td>
-          <td>${size}</td>
-          <td>$${msrp.toFixed(2)}</td>
-          <td class="price">$${partner}</td>
-          <td class="saving">${d}% off</td>
-        </tr>`;
-      }).join('');
-
+      if (match.dash !== 'admin') renderProducts(`${match.dash}-products`, match.discount);
+      document.getElementById(`dash-${match.dash}`).style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function signOut() {
+      document.querySelectorAll('.dashboard').forEach(d => d.style.display = 'none');
       document.getElementById('access-gate').style.display = 'block';
-      document.getElementById('partner-info').style.display = 'block';
-      document.getElementById('partner-dashboard').style.display = 'none';
-      document.getElementById('access-code-input').value = '';
+      document.getElementById('code-input').value = '';
       document.getElementById('gate-error').style.display = 'none';
-      document.getElementById('access-code-input').style.borderColor = '';
+      document.getElementById('code-input').style.borderColor = '';
     }
 
-    // Allow Enter key in code input
-    document.getElementById('access-code-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') checkCode();
+    document.getElementById('code-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') unlock();
+    });
+
+    document.querySelectorAll('.period-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        this.closest('.period-tabs').querySelectorAll('.period-tab')
+          .forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+      });
     });
   </script>
 </body>
