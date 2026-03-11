@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mata Gold – Stick With The Best</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── HERO ──────────────────────── */
+    .hero {
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 68px;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center; padding: 60px 0;
+    }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(44px, 6vw, 76px); font-weight: 900;
+      line-height: 1.08; color: var(--navy); margin-bottom: 24px;
+    }
+    .hero h1 em { color: var(--gold); font-style: italic; }
+    .hero-desc {
+      font-size: 17px; line-height: 1.75;
+      color: var(--muted); margin-bottom: 36px; max-width: 440px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+    .hero-trust {
+      display: flex; gap: 28px; flex-wrap: wrap;
+      border-top: 1px solid rgba(0,32,91,.12); padding-top: 28px;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+    }
+    .trust-item svg { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; }
+    .hero-visual { position: relative; }
+    .hero-card {
+      background: var(--white); border-radius: 28px;
+      padding: 48px 40px 40px;
+      box-shadow: 0 24px 80px rgba(0,32,91,.12);
+    }
+    .hero-card img { width: 100%; max-width: 380px; margin: 0 auto; }
+    .hero-badge {
+      position: absolute; bottom: -18px; left: 40px;
+      background: var(--navy); color: var(--white);
+      font-size: 14px; font-weight: 700;
+      padding: 14px 28px; border-radius: 50px;
+      letter-spacing: .5px; box-shadow: 0 8px 28px rgba(0,32,91,.3);
+      white-space: nowrap;
+    }
+
+    /* ── TRUST BAR ─────────────────── */
+    .trust-bar { background: var(--navy); padding: 18px 0; }
+    .trust-bar-inner {
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+    }
+    .trust-bar-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,.8);
+    }
+    .trust-bar-item span.dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+
+    /* ── FEATURES ──────────────────── */
+    .features-header { margin-bottom: 60px; }
+    .icons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .icon-card {
+      background: var(--cream); border-radius: var(--radius);
+      padding: 36px 28px; transition: transform .25s, box-shadow .25s;
+    }
+    .icon-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,32,91,.1); }
+    .icon-card img { width: 72px; margin-bottom: 20px; }
+    .icon-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .icon-card p  { font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+    /* ── PRODUCTS ──────────────────── */
+    .products-header { text-align: center; max-width: 560px; margin: 0 auto 60px; }
+    .products-header p.section-sub { margin: 0 auto; }
+
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+
+    .product-card {
+      background: var(--white); border-radius: var(--radius); overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,32,91,.07);
+      transition: transform .25s, box-shadow .25s;
+      display: flex; flex-direction: column;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,32,91,.13); }
+
+    .product-card-img {
+      background: var(--cream2); padding: 40px 32px 32px;
+      display: flex; align-items: center; justify-content: center; min-height: 220px;
+    }
+    .product-card-img img { max-width: 180px; }
+
+    .product-card-body { padding: 24px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+
+    .size-pill {
+      display: inline-block; background: var(--cream); color: var(--gold);
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 50px; margin-bottom: 12px;
+    }
+    .product-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 6px;
+    }
+    .product-card-body .product-desc {
+      font-size: 14px; line-height: 1.65; color: var(--muted); margin-bottom: 20px;
+    }
+
+    /* Spec table inside product card */
+    .spec-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .spec-table tr { border-top: 1px solid rgba(0,32,91,.07); }
+    .spec-table td {
+      padding: 8px 4px; font-size: 13px; line-height: 1.4;
+    }
+    .spec-table td:first-child { color: var(--muted); width: 52%; }
+    .spec-table td:last-child  { font-weight: 600; color: var(--navy); text-align: right; }
+
+    /* Video placeholder inside product card */
+    .video-placeholder {
+      background: var(--cream); border-radius: 12px;
+      aspect-ratio: 16/9; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      cursor: pointer; border: 2px dashed rgba(0,32,91,.15);
+      color: var(--muted); font-size: 13px; font-weight: 600;
+      transition: border-color .2s, background .2s;
+      margin-bottom: 20px;
+    }
+    .video-placeholder:hover { border-color: var(--gold); background: var(--cream2); }
+    .video-placeholder svg { width: 36px; height: 36px; color: var(--gold); }
+
+    .product-card-body .btn { margin-top: auto; width: 100%; text-align: center; justify-content: center; }
+
+    /* Bulk pricing note */
+    .bulk-note {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--gold); font-weight: 600;
+      margin-top: 12px;
+    }
+    .bulk-note svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── ABOUT ─────────────────────── */
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img-wrap img { width: 100%; border-radius: var(--radius); }
+    .about-img-badge {
+      position: absolute; bottom: 24px; right: -20px;
+      background: var(--gold); color: var(--white);
+      font-size: 13px; font-weight: 700; padding: 12px 22px;
+      border-radius: 50px; box-shadow: 0 8px 24px rgba(204,153,51,.4);
+    }
+    .steps { margin-top: 32px; display: flex; flex-direction: column; gap: 28px; }
+    .step { display: flex; gap: 18px; align-items: flex-start; }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--cream); border: 2px solid var(--gold);
+      color: var(--gold); font-size: 15px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-body h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .step-body p  { font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+    /* ── REVIEWS ───────────────────── */
+    .reviews-header { text-align: center; max-width: 560px; margin: 0 auto 60px; }
+    .reviews-header p.section-sub { margin: 0 auto; }
+
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+
+    .review-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 32px 28px;
+      box-shadow: 0 4px 20px rgba(0,32,91,.06);
+    }
+    .review-stars { display: flex; gap: 4px; margin-bottom: 16px; }
+    .review-stars svg { width: 18px; height: 18px; fill: var(--gold); }
+    .review-text {
+      font-size: 15px; line-height: 1.7; color: #444;
+      margin-bottom: 20px; font-style: italic;
+    }
+    .review-author { display: flex; align-items: center; gap: 12px; }
+    .review-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--cream); display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; color: var(--navy); flex-shrink: 0;
+    }
+    .review-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+    .review-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── COMPARISON ────────────────── */
+    .compare-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .compare-img img { width: 100%; border-radius: var(--radius); }
+    .compare-list { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+    .compare-list li {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 15px; font-weight: 500; color: var(--muted);
+    }
+    .compare-list li::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+
+    /* ── CTA ───────────────────────── */
+    .cta-section {
+      background: var(--cream2);
+      border-top: 1px solid rgba(0,32,91,.08);
+      padding: 88px 0; text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 52px); font-weight: 800;
+      color: var(--navy); margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 17px; color: var(--muted);
+      margin: 0 auto 40px; max-width: 480px; line-height: 1.7;
+    }
+
+    /* ── RESPONSIVE ────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner, .about-inner, .compare-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { order: -1; }
+      .icons-grid, .products-grid, .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-img-badge { right: 12px; }
+    }
+    @media (max-width: 560px) {
+      .icons-grid, .products-grid, .reviews-grid { grid-template-columns: 1fr; }
+      .trust-bar-inner { gap: 20px; }
+      .hero-trust { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Gold" /></a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="partners.html">Partners</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="partners.html" class="btn btn--ghost">Partner Login</a>
+        <a href="#sample" class="btn btn--gold">Get In Touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Premium Masking Tape</p>
+        <h1>The Gold<br /><em>Standard</em><br />in Masking</h1>
+        <p class="hero-desc">
+          Professional-grade masking tape engineered for razor-sharp paint lines,
+          extreme temperatures, and flawless results — every time.
+        </p>
+        <div class="hero-actions">
+          <a href="#products" class="btn btn--gold">Explore Products &nbsp;→</a>
+          <a href="about.html"  class="btn btn--ghost">Why Mata Gold</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            UV Resistant
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+            212°F Rated
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            6 Month Clean Removal
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <img src="Product Photos/MATA_GOLD_ROLLEN_MONTAGE_STAAND.jpg" alt="Mata Gold tape rolls" />
+        </div>
+        <div class="hero-badge">Stick With The Best</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="container trust-bar-inner">
+      <div class="trust-bar-item"><span class="dot"></span> Japanese Washi Paper</div>
+      <div class="trust-bar-item"><span class="dot"></span> Ultra-Sharp Paint Lines</div>
+      <div class="trust-bar-item"><span class="dot"></span> Indoor &amp; Outdoor Use</div>
+      <div class="trust-bar-item"><span class="dot"></span> All Paint Types</div>
+      <div class="trust-bar-item"><span class="dot"></span> No Residue Guaranteed</div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section section--white" id="features">
+    <div class="container">
+      <div class="features-header">
+        <span class="eyebrow">Why Mata Gold</span>
+        <h2 class="section-title">Superior Results<br />in Less Time</h2>
+        <p class="section-sub">Every feature is engineered to save you time, protect your surfaces, and deliver a finish that speaks for itself.</p>
+      </div>
+      <div class="icons-grid">
+        <div class="icon-card">
+          <img src="Icons/MATA_icon_sharp-line.png" alt="Sharp Line" />
+          <h3>Sharp Line</h3>
+          <p>Razor-precise edges every time — no bleed, no mess, just a flawless paint line.</p>
+        </div>
+        <div class="icon-card">
+          <img src="Icons/MATA_icon_6months.png" alt="6 Months" />
+          <h3>6-Month Removal</h3>
+          <p>Leave it in place for up to six months and peel away cleanly without any residue.</p>
+        </div>
+        <div class="icon-card">
+          <img src="Icons/MATA_icon_UV.png" alt="UV Resistant" />
+          <h3>UV Resistant</h3>
+          <p>Withstands direct sunlight and outdoor conditions without losing grip or integrity.</p>
+        </div>
+        <div class="icon-card">
+          <img src="Icons/MATA_icon_indoor-outdoor.png" alt="Indoor/Outdoor" />
+          <h3>Indoor &amp; Outdoor</h3>
+          <p>Performs flawlessly whether you're painting inside a home or on an exterior wall.</p>
+        </div>
+        <div class="icon-card">
+          <img src="Icons/MATA_icon_water-solvent.png" alt="All Paints" />
+          <h3>All Paint Types</h3>
+          <p>Compatible with water-based and solvent-based paints, varnishes, and coatings.</p>
+        </div>
+        <div class="icon-card">
+          <img src="Icons/MATA_icon_fahrenheit.png" alt="Heat Resistant" />
+          <h3>Heat Resistant</h3>
+          <p>Rated up to 212°F — safe for high-temperature and spray paint environments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="section" id="products">
+    <div class="container">
+      <div class="products-header">
+        <span class="eyebrow">Mata Gold – Available Sizes</span>
+        <h2 class="section-title">Choose Your Width</h2>
+        <p class="section-sub">All rolls are 55 yards long. Same premium washi paper, same performance — pick the width that fits your project.</p>
+      </div>
+      <div class="products-grid">
+
+        <!-- 0.94" -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="Product Photos/MATA_GOLD_ROL_24MM.jpg" alt="0.94 inch roll" />
+          </div>
+          <div class="product-card-body">
+            <span class="size-pill">24 mm / 0.94 in</span>
+            <h3>Mata Gold – Small</h3>
+            <p class="product-desc">Ideal for intricate trim work, window frames, moldings, and any fine detail masking where precision matters most.</p>
+            <table class="spec-table">
+              <tr><td>Width</td><td>24 mm / 0.94 in</td></tr>
+              <tr><td>Length</td><td>55 yd / 50 m</td></tr>
+              <tr><td>Rolls per box</td><td>36 rolls</td></tr>
+              <tr><td>Backing</td><td>Japanese Washi Paper</td></tr>
+              <tr><td>Adhesion</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
+              <tr><td>Tensile Strength</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
+              <tr><td>Temp. Resistance</td><td>Up to 212°F / 100°C</td></tr>
+              <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
+              <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
+            </table>
+            <div class="video-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+              Add product video
+            </div>
+            <a href="#sample" class="btn btn--gold">Order Now</a>
+            <div class="bulk-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>
+              Bulk discounts available
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.41" -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="Product Photos/MATA_GOLD_ROL_36MM.jpg" alt="1.41 inch roll" />
+          </div>
+          <div class="product-card-body">
+            <span class="size-pill">36 mm / 1.41 in</span>
+            <h3>Mata Gold – Medium</h3>
+            <p class="product-desc">Our most popular size. Perfect for walls, doors, baseboards, and general interior and exterior painting tasks.</p>
+            <table class="spec-table">
+              <tr><td>Width</td><td>36 mm / 1.41 in</td></tr>
+              <tr><td>Length</td><td>55 yd / 50 m</td></tr>
+              <tr><td>Rolls per box</td><td>24 rolls</td></tr>
+              <tr><td>Backing</td><td>Japanese Washi Paper</td></tr>
+              <tr><td>Adhesion</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
+              <tr><td>Tensile Strength</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
+              <tr><td>Temp. Resistance</td><td>Up to 212°F / 100°C</td></tr>
+              <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
+              <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
+            </table>
+            <div class="video-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+              Add product video
+            </div>
+            <a href="#sample" class="btn btn--gold">Order Now</a>
+            <div class="bulk-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>
+              Bulk discounts available
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.88" -->
+        <div class="product-card">
+          <div class="product-card-img">
+            <img src="Product Photos/MATA_GOLD_ROL_48MM.jpg" alt="1.88 inch roll" />
+          </div>
+          <div class="product-card-body">
+            <span class="size-pill">48 mm / 1.88 in</span>
+            <h3>Mata Gold – Large</h3>
+            <p class="product-desc">Maximum coverage for broad surfaces, spray paint applications, and large masking areas where speed matters.</p>
+            <table class="spec-table">
+              <tr><td>Width</td><td>48 mm / 1.88 in</td></tr>
+              <tr><td>Length</td><td>55 yd / 50 m</td></tr>
+              <tr><td>Rolls per box</td><td>20 rolls</td></tr>
+              <tr><td>Backing</td><td>Japanese Washi Paper</td></tr>
+              <tr><td>Adhesion</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
+              <tr><td>Tensile Strength</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
+              <tr><td>Temp. Resistance</td><td>Up to 212°F / 100°C</td></tr>
+              <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
+              <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
+            </table>
+            <div class="video-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+              Add product video
+            </div>
+            <a href="#sample" class="btn btn--gold">Order Now</a>
+            <div class="bulk-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>
+              Bulk discounts available
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bulk pricing callout -->
+      <div style="margin-top:48px; background:var(--navy); border-radius:var(--radius); padding:36px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Volume Pricing</div>
+          <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:6px;">The more you buy, the more you save.</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.65);">Discounts applied automatically at checkout. Need a custom quote? Contact us.</div>
+        </div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:var(--gold);">10%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">2+ boxes</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:var(--gold);">20%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">5+ boxes</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:var(--gold);">25%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">10+ boxes</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:var(--gold);">Custom</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;">Large orders</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT TEASER -->
+  <section class="section section--white" id="about-teaser">
+    <div class="container about-inner">
+      <div class="about-img-wrap">
+        <img src="Product Photos/MATA_GOLD_ROLLEN_MONTAGE_LIGGEND.jpg" alt="Mata Gold rolls" />
+        <div class="about-img-badge">Part Art. Part Innovation.</div>
+      </div>
+      <div>
+        <span class="eyebrow">Our Technology</span>
+        <h2 class="section-title">A Revolution in<br />Painter's Tape</h2>
+        <p class="section-sub">Mata Gold isn't just tape — it's a precision tool trusted by professionals and discerning DIYers alike.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>Premium Washi Paper</h4>
+              <p>Made from authentic Japanese washi paper with a high-quality adhesive layer for unbeatable performance.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>Thin, Strong &amp; Flexible</h4>
+              <p>Extremely thin yet strong — conforms to edges and curves to ensure razor-sharp paint lines every time.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>No Residue Guaranteed</h4>
+              <p>Applied to any surface and removed up to six months later without leaving a single trace behind.</p>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:32px;">
+          <a href="about.html" class="btn btn--navy">Our Full Story →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="reviews-header">
+        <span class="eyebrow">Customer Reviews</span>
+        <h2 class="section-title">What Professionals Say</h2>
+        <p class="section-sub">Trusted by painters, contractors, and DIY enthusiasts across the country.</p>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="review-text">"Cleanest lines I've ever gotten on a trim job. I've tried every tape on the market and nothing comes close to Mata Gold. My clients always ask what I use."</p>
+          <div class="review-author">
+            <div class="review-avatar">MR</div>
+            <div>
+              <div class="review-name">Mike R.</div>
+              <div class="review-role">Professional Painter, Chicago IL</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="review-text">"Used it on an exterior job in full sun for three weeks. Peeled off perfectly — zero residue, zero damage. This is now the only tape I recommend to my crew."</p>
+          <div class="review-author">
+            <div class="review-avatar">SC</div>
+            <div>
+              <div class="review-name">Sarah C.</div>
+              <div class="review-role">Painting Contractor, Austin TX</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="review-text">"I was skeptical about the price vs. regular tape. After one job I was converted. The time saved on touch-ups alone more than pays for the difference."</p>
+          <div class="review-author">
+            <div class="review-avatar">JT</div>
+            <div>
+              <div class="review-name">James T.</div>
+              <div class="review-role">DIY Homeowner, Denver CO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="section section--white">
+    <div class="container compare-inner">
+      <div class="compare-img">
+        <img src="Icons/Mata gold tape strak-ruw.jpg" alt="Mata Gold vs standard tape" />
+      </div>
+      <div>
+        <span class="eyebrow">Mata Gold vs The Rest</span>
+        <h2 class="section-title">See the Difference</h2>
+        <p class="section-sub">Standard crepe tape leaves rough edges and residue. Mata Gold delivers a professional result every single time.</p>
+        <ul class="compare-list">
+          <li>Stronger, thinner, and flatter than crepe tape</li>
+          <li>Ensures ultra-sharp, clean paint lines</li>
+          <li>Ideal for spray paint applications</li>
+          <li>No residue — ever</li>
+          <li>Works on all surface types and materials</li>
+          <li>Saves time and reduces material waste</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="sample">
+    <div class="container">
+      <h2>Try Mata Gold — Free</h2>
+      <p>Experience the difference for yourself. Request a free sample and see why professionals always stick with Mata Gold.</p>
+      <a href="https://mata-tape.com" target="_blank" rel="noopener noreferrer" class="btn btn--navy">
+        Request Your Free Sample
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Gold" />
+      <ul class="footer-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="partners.html">Partners</a></li>
+        <li><a href="legal.html">Legal</a></li>
+      </ul>
+      <p>&copy; 2026 Mata Tape, Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>

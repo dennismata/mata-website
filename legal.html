@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Legal – Mata Tape, Inc.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .legal-body { max-width: 760px; margin: 0 auto; }
+
+    .legal-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 48px; border-bottom: 1px solid rgba(0,32,91,.1);
+      padding-bottom: 0;
+    }
+    .legal-tab {
+      padding: 12px 20px; font-size: 14px; font-weight: 600;
+      color: var(--muted); cursor: pointer; border: none;
+      background: none; border-bottom: 3px solid transparent;
+      margin-bottom: -1px; transition: color .2s, border-color .2s;
+    }
+    .legal-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+    .legal-tab:hover  { color: var(--navy); }
+
+    .legal-panel { display: none; }
+    .legal-panel.active { display: block; }
+
+    .legal-panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 800;
+      color: var(--navy); margin-bottom: 8px;
+    }
+    .legal-panel .last-updated {
+      font-size: 13px; color: var(--muted); margin-bottom: 36px;
+    }
+    .legal-panel h3 {
+      font-size: 16px; font-weight: 700;
+      color: var(--navy); margin: 32px 0 10px;
+    }
+    .legal-panel p {
+      font-size: 15px; line-height: 1.8;
+      color: #555; margin-bottom: 16px;
+    }
+    .legal-panel ul {
+      padding-left: 20px; margin-bottom: 16px;
+    }
+    .legal-panel ul li {
+      font-size: 15px; line-height: 1.8; color: #555; margin-bottom: 6px;
+    }
+
+    .placeholder-banner {
+      background: #FFF3CD; border: 2px dashed var(--gold);
+      border-radius: 12px; padding: 16px 24px;
+      display: flex; align-items: center; gap: 14px; margin-bottom: 32px;
+    }
+    .placeholder-banner svg { width: 20px; height: 20px; color: var(--gold); flex-shrink: 0; }
+    .placeholder-banner p  { font-size: 13px; color: #7a5c00; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape" /></a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="partners.html">Partners</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="partners.html" class="btn btn--ghost">Partner Login</a>
+        <a href="index.html#sample" class="btn btn--gold">Get In Touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <span class="eyebrow">Mata Tape, Inc.</span>
+    <h1>Legal</h1>
+    <p>Terms of Service, Privacy Policy, and Returns &amp; Refunds information.</p>
+  </div>
+
+  <section class="section section--white">
+    <div class="container legal-body">
+
+      <div class="placeholder-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p><strong>Placeholder content.</strong> Have your attorney review and replace these sections before going live.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="legal-tabs">
+        <button class="legal-tab active" onclick="showTab('terms', this)">Terms of Service</button>
+        <button class="legal-tab" onclick="showTab('privacy', this)">Privacy Policy</button>
+        <button class="legal-tab" onclick="showTab('returns', this)">Returns &amp; Refunds</button>
+      </div>
+
+      <!-- Terms of Service -->
+      <div id="tab-terms" class="legal-panel active">
+        <h2>Terms of Service</h2>
+        <p class="last-updated">Last updated: March 2026</p>
+
+        <h3>1. Acceptance of Terms</h3>
+        <p>By accessing or using the Mata Tape, Inc. website and purchasing our products, you agree to be bound by these Terms of Service. If you do not agree, please do not use our site.</p>
+
+        <h3>2. Products &amp; Orders</h3>
+        <p>All orders are subject to product availability. We reserve the right to limit quantities or refuse orders at our discretion. Prices are subject to change without notice.</p>
+
+        <h3>3. Net-15 Payment Terms</h3>
+        <p>Customers who qualify for Net-15 payment terms agree to pay invoices in full within 15 days of the invoice date. Late payments may be subject to a [X]% monthly interest charge. Mata Tape, Inc. reserves the right to suspend Net-15 privileges for accounts with outstanding balances.</p>
+
+        <h3>4. Intellectual Property</h3>
+        <p>All content on this website, including logos, images, and text, is the property of Mata Tape, Inc. and may not be reproduced without written permission.</p>
+
+        <h3>5. Limitation of Liability</h3>
+        <p>Mata Tape, Inc. shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or website beyond the value of the order placed.</p>
+
+        <h3>6. Governing Law</h3>
+        <p>These terms are governed by the laws of the State of [Your State], without regard to conflict of law principles.</p>
+
+        <h3>7. Contact</h3>
+        <p>Questions regarding these terms? Contact us at <a href="mailto:legal@mata-tape.com" style="color:var(--gold);font-weight:600;">legal@mata-tape.com</a>.</p>
+      </div>
+
+      <!-- Privacy Policy -->
+      <div id="tab-privacy" class="legal-panel">
+        <h2>Privacy Policy</h2>
+        <p class="last-updated">Last updated: March 2026</p>
+
+        <h3>1. Information We Collect</h3>
+        <p>We collect information you provide directly, including name, email address, shipping address, and order details. We do not store payment card information — all payments are processed securely by Stripe.</p>
+
+        <h3>2. How We Use Your Information</h3>
+        <ul>
+          <li>To process and fulfill your orders</li>
+          <li>To send order confirmations and invoices</li>
+          <li>To communicate about your account or inquiries</li>
+          <li>To improve our website and products</li>
+        </ul>
+
+        <h3>3. Payment Processing</h3>
+        <p>All payment transactions are processed by Stripe, Inc. Mata Tape, Inc. never stores your credit card or banking details. Stripe's privacy policy governs the handling of your payment information.</p>
+
+        <h3>4. Data Sharing</h3>
+        <p>We do not sell or rent your personal information to third parties. We may share data with service providers (e.g., shipping carriers) solely to fulfill your order.</p>
+
+        <h3>5. Cookies</h3>
+        <p>Our website uses cookies to improve your browsing experience and analyze site traffic. You may disable cookies in your browser settings, though some features may not function correctly.</p>
+
+        <h3>6. Your Rights</h3>
+        <p>You have the right to access, correct, or delete your personal data at any time. Contact us at <a href="mailto:privacy@mata-tape.com" style="color:var(--gold);font-weight:600;">privacy@mata-tape.com</a> to make a request.</p>
+      </div>
+
+      <!-- Returns & Refunds -->
+      <div id="tab-returns" class="legal-panel">
+        <h2>Returns &amp; Refunds</h2>
+        <p class="last-updated">Last updated: March 2026</p>
+
+        <h3>Return Window</h3>
+        <p>We accept returns of unopened, undamaged product within [X] days of delivery. To initiate a return, contact us at <a href="mailto:support@mata-tape.com" style="color:var(--gold);font-weight:600;">support@mata-tape.com</a> with your order number.</p>
+
+        <h3>Condition of Returns</h3>
+        <p>Products must be returned in their original, unopened packaging. Opened or used rolls are not eligible for return unless the product is defective.</p>
+
+        <h3>Defective Products</h3>
+        <p>If you receive a defective or incorrect product, contact us within [X] days of delivery. We will arrange a replacement or full refund at no cost to you.</p>
+
+        <h3>Refund Process</h3>
+        <p>Approved refunds are issued to the original payment method within [X] business days. For Net-15 invoiced orders, a credit note will be applied to your account.</p>
+
+        <h3>Shipping Costs</h3>
+        <p>Return shipping costs are the responsibility of the customer unless the return is due to our error or a defective product.</p>
+
+        <h3>Partner Orders</h3>
+        <p>Returns for partner program orders (T1P, CPIA, BPN) are subject to the terms outlined in your partner agreement. Contact your partner representative for assistance.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape" />
+      <ul class="footer-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="partners.html">Partners</a></li>
+        <li><a href="legal.html">Legal</a></li>
+      </ul>
+      <p>&copy; 2026 Mata Tape, Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+    function showTab(name, btn) {
+      document.querySelectorAll('.legal-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.legal-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>
