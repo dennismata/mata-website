@@ -269,10 +269,21 @@
   <!-- ── ACCESS GATE ─────────────────────────────── -->
   <div id="access-gate">
     <div class="gate-wrap">
-      <div class="gate-card">
+
+      <!-- State A: not signed in -->
+      <div id="gate-signin-prompt" class="gate-card" style="display:none;">
         <img class="gate-logo" src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." />
         <h1>Partner Portal</h1>
-        <p>Enter your activation code to access partner pricing and place orders with your discount automatically applied.</p>
+        <p>Sign in to your Mata Tape account to access your partner dashboard and pricing. If you don't have an account yet, you can create one for free.</p>
+        <a href="account.html" class="gate-submit" style="display:block;text-decoration:none;text-align:center;line-height:1.4;padding:15px;">Sign In / Create Account</a>
+        <p class="gate-help" style="margin-top:20px;">Already have a partner code? <a href="#" onclick="showCodeEntry();return false;">Enter it here</a></p>
+      </div>
+
+      <!-- State B: signed in, no partner code yet (or manual code entry) -->
+      <div id="gate-code-card" class="gate-card" style="display:none;">
+        <img class="gate-logo" src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." />
+        <h1>Partner Portal</h1>
+        <p id="gate-code-subtitle">Enter your activation code to access partner pricing and place orders with your discount automatically applied.</p>
         <input id="code-input" class="gate-input" type="text" placeholder="Enter activation code" maxlength="16" autocomplete="off" />
         <button class="gate-submit" onclick="unlock()">Access Portal</button>
         <p class="gate-error" id="gate-error">Invalid code. Please try again or contact us.</p>
@@ -581,6 +592,18 @@
       alert(`Added to order:\n${qty} box(es) of ${name}\n${qty * rolls} rolls · $${total} total\n\nStripe checkout will be connected when the shop goes live.`);
     }
 
+    function showCodeEntry() {
+      document.getElementById('gate-signin-prompt').style.display = 'none';
+      document.getElementById('gate-code-card').style.display = 'block';
+    }
+
+    function openDash(dash, discount) {
+      document.getElementById('access-gate').style.display = 'none';
+      if (dash !== 'admin') renderProducts(`${dash}-products`, discount);
+      document.getElementById(`dash-${dash}`).style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function unlock() {
       const code  = document.getElementById('code-input').value.trim().toUpperCase();
       const match = PARTNERS[code];
@@ -589,23 +612,61 @@
         document.getElementById('code-input').style.borderColor = '#e74c3c';
         return;
       }
-      document.getElementById('access-gate').style.display = 'none';
-      if (match.dash !== 'admin') renderProducts(`${match.dash}-products`, match.discount);
-      document.getElementById(`dash-${match.dash}`).style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Save partner code to session if signed in
+      const raw = sessionStorage.getItem('mata_session');
+      if (raw) {
+        try {
+          const sess = JSON.parse(raw);
+          sess.partnerCode = code;
+          sess.partnerInfo = { program: match.dash, discount: match.discount };
+          sessionStorage.setItem('mata_session', JSON.stringify(sess));
+        } catch(e) {}
+      }
+      openDash(match.dash, match.discount);
     }
 
     function signOut() {
       document.querySelectorAll('.dashboard').forEach(d => d.style.display = 'none');
       document.getElementById('access-gate').style.display = 'block';
-      document.getElementById('code-input').value = '';
-      document.getElementById('gate-error').style.display = 'none';
-      document.getElementById('code-input').style.borderColor = '';
+      // Re-evaluate which gate state to show
+      initGate();
+    }
+
+    function initGate() {
+      const raw = sessionStorage.getItem('mata_session');
+      let sess = null;
+      try { sess = raw ? JSON.parse(raw) : null; } catch(e) {}
+
+      if (sess && sess.partnerInfo) {
+        // Signed in with a partner code already linked → go straight to dashboard
+        const { program, discount } = sess.partnerInfo;
+        const match = Object.values(PARTNERS).find(p => p.dash === program);
+        if (match) {
+          openDash(program, discount);
+          return;
+        }
+      }
+
+      // Show gate
+      document.getElementById('access-gate').style.display = 'block';
+      if (sess) {
+        // Signed in but no partner code → show code entry with personalised note
+        document.getElementById('gate-signin-prompt').style.display = 'none';
+        document.getElementById('gate-code-card').style.display = 'block';
+        document.getElementById('gate-code-subtitle').textContent =
+          `Welcome back, ${sess.firstName || sess.email}. Enter your partner activation code to link it to your account.`;
+      } else {
+        // Not signed in → show sign-in prompt
+        document.getElementById('gate-signin-prompt').style.display = 'block';
+        document.getElementById('gate-code-card').style.display = 'none';
+      }
     }
 
     document.getElementById('code-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') unlock();
     });
+
+    initGate();
 
     document.querySelectorAll('.period-tab').forEach(tab => {
       tab.addEventListener('click', function() {
