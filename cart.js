@@ -199,9 +199,39 @@ function showInvoiceForm() {
   const form = document.getElementById('invoice-form');
   const btn  = document.getElementById('invoice-btn');
   if (!form) return;
+
   const visible = form.style.display !== 'none';
-  form.style.display = visible ? 'none' : 'block';
-  btn.textContent = visible ? 'Request Invoice (Net-15)' : 'Cancel';
+  if (visible) {
+    form.style.display = 'none';
+    btn.textContent = 'Request Invoice (Net-15)';
+    return;
+  }
+
+  // Require account
+  let sess = null;
+  try { sess = JSON.parse(sessionStorage.getItem('mata_session')); } catch {}
+
+  if (!sess) {
+    form.innerHTML = `
+      <div class="invoice-signin-required">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <div>
+          <strong>Account required</strong>
+          <p>Please <a href="account.html">sign in or create a free account</a> to request a Net-15 invoice. Your cart will be saved.</p>
+        </div>
+      </div>`;
+    form.style.display = 'block';
+    btn.textContent = 'Cancel';
+    return;
+  }
+
+  // Pre-fill email from account session
+  form.innerHTML = `
+    <input id="invoice-email" type="email" placeholder="Email address for invoice" class="invoice-input" value="${sess.email || ''}" />
+    <input id="invoice-company" type="text" placeholder="Company name (optional)" class="invoice-input" />
+    <button id="invoice-submit-btn" onclick="requestInvoice()">Send Invoice →</button>`;
+  form.style.display = 'block';
+  btn.textContent = 'Cancel';
 }
 
 async function requestInvoice() {

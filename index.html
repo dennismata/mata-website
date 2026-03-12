@@ -146,6 +146,22 @@
 
     .product-card-body .btn { margin-top: auto; width: 100%; text-align: center; justify-content: center; }
 
+    .product-price {
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 20px; padding: 14px 16px;
+      background: var(--cream); border-radius: 12px;
+    }
+    .product-price .price-roll {
+      font-size: 22px; font-weight: 800; color: var(--navy);
+    }
+    .product-price .price-roll span {
+      font-size: 13px; font-weight: 500; color: var(--muted);
+    }
+    .product-price .price-box {
+      font-size: 13px; color: var(--muted);
+      border-left: 1px solid rgba(0,32,91,.15); padding-left: 10px;
+    }
+
     /* Bulk pricing note */
     .bulk-note {
       display: flex; align-items: center; gap: 8px;
@@ -416,6 +432,10 @@
             <span class="size-pill">24 mm / 0.94 in</span>
             <h3>Mata Gold – Small</h3>
             <p class="product-desc">Ideal for intricate trim work, window frames, moldings, and any fine detail masking where precision matters most.</p>
+            <div class="product-price">
+              <div class="price-roll">$4.58<span>/roll</span></div>
+              <div class="price-box">$165/box · 36 rolls</div>
+            </div>
             <table class="spec-table">
               <tr><td>Width</td><td>24 mm / 0.94 in</td></tr>
               <tr><td>Length</td><td>55 yd / 50 m</td></tr>
@@ -444,6 +464,10 @@
             <span class="size-pill">36 mm / 1.41 in</span>
             <h3>Mata Gold – Medium</h3>
             <p class="product-desc">Our most popular size. Perfect for walls, doors, baseboards, and general interior and exterior painting tasks.</p>
+            <div class="product-price">
+              <div class="price-roll">$6.88<span>/roll</span></div>
+              <div class="price-box">$165/box · 24 rolls</div>
+            </div>
             <table class="spec-table">
               <tr><td>Width</td><td>36 mm / 1.41 in</td></tr>
               <tr><td>Length</td><td>55 yd / 50 m</td></tr>
@@ -472,6 +496,10 @@
             <span class="size-pill">48 mm / 1.88 in</span>
             <h3>Mata Gold – Large</h3>
             <p class="product-desc">Maximum coverage for broad surfaces, spray paint applications, and large masking areas where speed matters.</p>
+            <div class="product-price">
+              <div class="price-roll">$9.25<span>/roll</span></div>
+              <div class="price-box">$185/box · 20 rolls</div>
+            </div>
             <table class="spec-table">
               <tr><td>Width</td><td>48 mm / 1.88 in</td></tr>
               <tr><td>Length</td><td>55 yd / 50 m</td></tr>

@@ -350,6 +350,16 @@ footer p { font-size: 13px; }
 #invoice-submit-btn:hover    { background: #001845; }
 #invoice-submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
 
+.invoice-signin-required {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--cream); border-radius: 12px; padding: 16px;
+  margin-bottom: 12px;
+}
+.invoice-signin-required svg { width: 20px; height: 20px; color: var(--navy); flex-shrink: 0; margin-top: 2px; }
+.invoice-signin-required strong { font-size: 13px; font-weight: 700; color: var(--navy); display: block; margin-bottom: 4px; }
+.invoice-signin-required p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+.invoice-signin-required a { color: var(--gold); font-weight: 600; }
+
 .invoice-success {
   display: flex; align-items: flex-start; gap: 14px;
   background: #e8f5e9; border-radius: 12px; padding: 18px;
