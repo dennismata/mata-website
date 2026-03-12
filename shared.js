@@ -6,6 +6,25 @@ if (navbar) {
   });
 }
 
+// Mobile hamburger menu
+const hamburger = document.getElementById('nav-hamburger');
+const mobileDrawer = document.getElementById('nav-mobile-drawer');
+if (hamburger && mobileDrawer) {
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileDrawer.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  // Close on link click
+  mobileDrawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileDrawer.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
 // Fade-in on scroll
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
