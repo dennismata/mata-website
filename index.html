@@ -6,12 +6,12 @@
   <title>Mata Gold – Stick With The Best</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="shared.css" />
   <style>
     /* ── HERO ──────────────────────── */
     .hero {
-      background: var(--cream);
+      background: radial-gradient(ellipse 55% 85% at 78% 55%, rgba(204,153,51,.09) 0%, transparent 65%), var(--cream);
       min-height: 100vh;
       display: flex; align-items: center;
       padding-top: 68px;
@@ -154,6 +154,21 @@
     }
     .bulk-note svg { width: 14px; height: 14px; flex-shrink: 0; }
 
+    /* ── FEATURES DIAGONAL DIVIDER ─── */
+    #features {
+      position: relative;
+      padding-bottom: 140px;
+    }
+    #features::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 70px;
+      background: var(--cream);
+      clip-path: polygon(0 100%, 100% 0, 100% 100%);
+      pointer-events: none;
+    }
+
     /* ── ABOUT ─────────────────────── */
     .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
     .about-img-wrap { position: relative; }
@@ -216,9 +231,17 @@
 
     /* ── CTA ───────────────────────── */
     .cta-section {
-      background: var(--cream2);
+      background:
+        repeating-linear-gradient(
+          -48deg,
+          transparent,
+          transparent 28px,
+          rgba(0,32,91,.022) 28px,
+          rgba(0,32,91,.022) 29px
+        ),
+        var(--cream2);
       border-top: 1px solid rgba(0,32,91,.08);
-      padding: 88px 0; text-align: center;
+      padding: 100px 0; text-align: center;
     }
     .cta-section h2 {
       font-family: 'Playfair Display', serif;
@@ -400,10 +423,6 @@
               <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
               <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
             </table>
-            <div class="video-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-              Add product video
-            </div>
             <a href="#sample" class="btn btn--gold">Order Now</a>
             <div class="bulk-note">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>
@@ -432,10 +451,6 @@
               <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
               <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
             </table>
-            <div class="video-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-              Add product video
-            </div>
             <a href="#sample" class="btn btn--gold">Order Now</a>
             <div class="bulk-note">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>
@@ -464,10 +479,6 @@
               <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
               <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
             </table>
-            <div class="video-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-              Add product video
-            </div>
             <a href="#sample" class="btn btn--gold">Order Now</a>
             <div class="bulk-note">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>

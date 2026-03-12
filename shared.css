@@ -14,7 +14,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   color: var(--text);
   background: var(--cream);
   overflow-x: hidden;
@@ -41,7 +41,10 @@ a   { text-decoration: none; color: inherit; }
 .eyebrow {
   font-size: 11px; font-weight: 700;
   letter-spacing: 3px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 16px; display: block;
+  background: linear-gradient(90deg, #CC9933 0%, #E8B84B 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px; display: inline-block;
 }
 
 h2.section-title {
@@ -61,7 +64,7 @@ p.section-sub {
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 14px 28px; border-radius: 50px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 14px; font-weight: 600;
   cursor: pointer; transition: transform .2s, box-shadow .2s;
   border: none;
@@ -121,7 +124,7 @@ footer p { font-size: 13px; }
   padding: 140px 0 80px;
   text-align: center;
 }
-.page-hero .eyebrow { color: var(--gold); }
+.page-hero .eyebrow { background: linear-gradient(90deg, #CC9933 0%, #E8B84B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .page-hero h1 {
   font-family: 'Playfair Display', serif;
   font-size: clamp(36px, 5vw, 64px); font-weight: 900;
