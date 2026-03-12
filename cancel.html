@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Cancelled – Mata Tape, Inc.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .cancel-wrap {
+      min-height: calc(100vh - 68px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 32px 80px;
+    }
+    .cancel-card {
+      background: var(--white); border-radius: 28px;
+      padding: 64px 56px; max-width: 520px; width: 100%;
+      box-shadow: 0 24px 80px rgba(0,32,91,.1); text-align: center;
+    }
+    .cancel-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--cream); display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 28px;
+    }
+    .cancel-icon svg { width: 36px; height: 36px; color: var(--muted); }
+    .cancel-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; font-weight: 800; color: var(--navy); margin-bottom: 12px;
+    }
+    .cancel-card p {
+      font-size: 16px; line-height: 1.7; color: var(--muted); margin-bottom: 32px;
+    }
+    .cancel-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="partners.html">Partners</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="nav-cart" id="nav-cart" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="nav-cart-badge" id="nav-cart-badge">0</span>
+        </button>
+        <a href="account.html" class="btn btn--ghost">Sign In</a>
+        <a href="index.html#sample" class="btn btn--gold">Get In Touch</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-mobile-drawer" id="nav-mobile-drawer">
+    <ul>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#products">Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="partners.html">Partners</a></li>
+    </ul>
+    <div class="nav-mobile-actions">
+      <a href="account.html" class="btn btn--ghost">Sign In</a>
+      <a href="index.html#sample" class="btn btn--gold">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="cancel-wrap">
+    <div class="cancel-card">
+      <div class="cancel-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <h1>Payment Cancelled</h1>
+      <p>No worries — your cart is still saved. Head back to complete your order whenever you're ready.</p>
+      <div class="cancel-actions">
+        <a href="index.html#products" class="btn btn--gold">Back to Products</a>
+        <a href="index.html" class="btn btn--ghost">Home</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="cart.js"></script>
+</body>
+</html>

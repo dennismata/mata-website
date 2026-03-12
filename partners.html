@@ -550,6 +550,7 @@
   </footer>
 
   <script src="shared.js"></script>
+  <script src="cart.js"></script>
   <script>
     const PARTNERS = {
       'CPIA2026':  { dash: 'cpia',  discount: 30 },
@@ -593,7 +594,7 @@
                   <button class="qty-btn" onclick="changeQty('${containerId}-${p.id}', 1)">+</button>
                 </div>
               </div>
-              <button class="order-btn" onclick="addToCart('${p.name}', '${containerId}-${p.id}', ${partnerPrice}, ${p.rolls})">
+              <button class="order-btn" onclick="addToCart('${p.id}', parseInt(document.getElementById('${containerId}-${p.id}').value) || 1)">
                 Add to Order →
               </button>
             </div>
@@ -606,11 +607,6 @@
       input.value = Math.max(1, parseInt(input.value || 1) + delta);
     }
 
-    function addToCart(name, inputId, pricePerRoll, rolls) {
-      const qty   = parseInt(document.getElementById(inputId).value) || 1;
-      const total = (pricePerRoll * rolls * qty).toFixed(2);
-      alert(`Added to order:\n${qty} box(es) of ${name}\n${qty * rolls} rolls · $${total} total\n\nStripe checkout will be connected when the shop goes live.`);
-    }
 
     function showCodeEntry() {
       document.getElementById('gate-signin-prompt').style.display = 'none';
