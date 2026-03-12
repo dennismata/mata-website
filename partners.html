@@ -561,17 +561,16 @@
 
     // Retail prices per roll, per size
     const PRODUCTS = [
-      { id: 'small',  name: 'Mata Gold – Small',  size: '24mm / 0.94 in', rolls: 36, msrp: 4.63, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
-      { id: 'medium', name: 'Mata Gold – Medium', size: '36mm / 1.41 in', rolls: 24, msrp: 6.88, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
-      { id: 'large',  name: 'Mata Gold – Large',  size: '48mm / 1.88 in', rolls: 20, msrp: 9.25, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
+      { id: 'small',  name: 'Mata Gold – Small',  size: '24mm / 0.94 in', rolls: 36, boxPrice: 165, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
+      { id: 'medium', name: 'Mata Gold – Medium', size: '36mm / 1.41 in', rolls: 24, boxPrice: 165, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
+      { id: 'large',  name: 'Mata Gold – Large',  size: '48mm / 1.88 in', rolls: 20, boxPrice: 185, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
     ];
 
     function renderProducts(containerId, discount) {
       const container = document.getElementById(containerId);
       container.innerHTML = PRODUCTS.map(p => {
-        const partnerPrice = (p.msrp * (1 - discount / 100)).toFixed(2);
-        const boxMsrp     = (p.msrp * p.rolls).toFixed(2);
-        const boxPartner  = (partnerPrice * p.rolls).toFixed(2);
+        const boxPartner  = (p.boxPrice * (1 - discount / 100)).toFixed(2);
+        const rollPartner = (boxPartner / p.rolls).toFixed(2);
         return `
           <div class="order-card">
             <div class="order-card-img">
@@ -581,8 +580,8 @@
               <span class="size-pill">${p.size}</span>
               <h3>${p.name}</h3>
               <div class="price-row">
-                <span class="price-partner">$${partnerPrice}/roll</span>
-                <span class="price-msrp">$${p.msrp.toFixed(2)}</span>
+                <span class="price-partner">$${rollPartner}/roll</span>
+                <span class="price-msrp">$${(p.boxPrice / p.rolls).toFixed(2)}</span>
                 <span class="price-saving">${discount}% off</span>
               </div>
               <p class="price-note">$${boxPartner} per box (${p.rolls} rolls)</p>

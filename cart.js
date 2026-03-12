@@ -2,9 +2,9 @@
 const CART_KEY = 'mata_cart';
 
 const PRODUCTS = {
-  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '24mm / 0.94"', msrp: 4.63, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
-  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '36mm / 1.41"', msrp: 6.88, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
-  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '48mm / 1.88"', msrp: 9.25, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
+  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '24mm / 0.94"', boxPrice: 165, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
+  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '36mm / 1.41"', boxPrice: 165, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
+  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '48mm / 1.88"', boxPrice: 185, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
 };
 
 // ── Cart state ──────────────────────────────────────────────────────────────
@@ -73,8 +73,8 @@ function getPartnerCode() {
   } catch { return null; }
 }
 
-function calcPricePerRoll(msrp, partnerDiscount, bulkDiscount) {
-  let price = msrp;
+function calcBoxPrice(boxPrice, partnerDiscount, bulkDiscount) {
+  let price = boxPrice;
   if (partnerDiscount > 0) price *= (1 - partnerDiscount / 100);
   if (bulkDiscount > 0)    price *= (1 - bulkDiscount / 100);
   return price;
@@ -134,17 +134,16 @@ function renderCartDrawer() {
   }
 
   body.innerHTML = entries.map(([id, qty]) => {
-    const p = PRODUCTS[id];
-    const pricePerRoll = calcPricePerRoll(p.msrp, partnerD, bulkD);
-    const boxPrice     = (pricePerRoll * p.rolls).toFixed(2);
-    const lineTotal    = (pricePerRoll * p.rolls * qty).toFixed(2);
+    const p         = PRODUCTS[id];
+    const boxP      = calcBoxPrice(p.boxPrice, partnerD, bulkD);
+    const lineTotal = (boxP * qty).toFixed(2);
     return `
       <div class="cart-item">
         <img src="${p.img}" alt="${p.name}" />
         <div class="cart-item-info">
           <div class="cart-item-name">${p.name}</div>
           <div class="cart-item-meta">${p.size} · ${p.rolls} rolls/box</div>
-          <div class="cart-item-price">$${boxPrice}/box · $${lineTotal}</div>
+          <div class="cart-item-price">$${boxP.toFixed(2)}/box · $${lineTotal}</div>
           <div class="cart-item-qty">
             <button onclick="updateCartQty('${id}', ${qty - 1})">−</button>
             <span>${qty}</span>
@@ -158,7 +157,7 @@ function renderCartDrawer() {
   let subtotal = 0;
   entries.forEach(([id, qty]) => {
     const p = PRODUCTS[id];
-    subtotal += calcPricePerRoll(p.msrp, partnerD, bulkD) * p.rolls * qty;
+    subtotal += calcBoxPrice(p.boxPrice, partnerD, bulkD) * qty;
   });
 
   let discountHTML = '';
@@ -169,10 +168,16 @@ function renderCartDrawer() {
   footer.innerHTML = `
     ${discountHTML}
     <div class="cart-total"><span>Total</span><span>$${subtotal.toFixed(2)}</span></div>
-    <button id="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout →</button>
+    <button id="checkout-btn" onclick="proceedToCheckout()">Pay Now →</button>
+    <button id="invoice-btn" onclick="showInvoiceForm()">Request Invoice (Net-15)</button>
+    <div id="invoice-form" style="display:none;">
+      <input id="invoice-email" type="email" placeholder="Email address for invoice" class="invoice-input" />
+      <input id="invoice-company" type="text" placeholder="Company name (optional)" class="invoice-input" />
+      <button id="invoice-submit-btn" onclick="requestInvoice()">Send Invoice →</button>
+    </div>
     <p class="cart-stripe-note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Secure checkout via Stripe
+      Secure payments via Stripe
     </p>`;
 }
 
@@ -186,6 +191,59 @@ function openCartDrawer() {
 function closeCartDrawer() {
   document.getElementById('cart-drawer')?.classList.remove('open');
   document.body.style.overflow = '';
+}
+
+// ── Invoice ─────────────────────────────────────────────────────────────────
+
+function showInvoiceForm() {
+  const form = document.getElementById('invoice-form');
+  const btn  = document.getElementById('invoice-btn');
+  if (!form) return;
+  const visible = form.style.display !== 'none';
+  form.style.display = visible ? 'none' : 'block';
+  btn.textContent = visible ? 'Request Invoice (Net-15)' : 'Cancel';
+}
+
+async function requestInvoice() {
+  const email   = document.getElementById('invoice-email')?.value.trim();
+  const company = document.getElementById('invoice-company')?.value.trim();
+  if (!email) {
+    document.getElementById('invoice-email').focus();
+    return;
+  }
+
+  const cart  = getCart();
+  const items = Object.entries(cart).filter(([, q]) => q > 0).map(([id, boxes]) => ({ id, boxes }));
+  if (!items.length) return;
+
+  const btn = document.getElementById('invoice-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  try {
+    const res  = await fetch('/api/invoice', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), email, companyName: company }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('cart-footer').innerHTML = `
+        <div class="invoice-success">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <div>
+            <strong>Invoice sent!</strong>
+            <p>Check ${email} for your Net-15 invoice. Payment is due within 15 days.</p>
+          </div>
+        </div>`;
+      clearCart();
+    } else {
+      alert('Invoice error: ' + (data.error || 'Please try again.'));
+      if (btn) { btn.disabled = false; btn.textContent = 'Send Invoice →'; }
+    }
+  } catch (err) {
+    alert('Network error. Please try again.');
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Invoice →'; }
+  }
 }
 
 // ── Checkout ────────────────────────────────────────────────────────────────

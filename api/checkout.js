@@ -1,9 +1,9 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const PRODUCTS = {
-  small:  { name: 'Mata Gold – Small (24mm)',  msrp: 4.63, rolls: 36 },
-  medium: { name: 'Mata Gold – Medium (36mm)', msrp: 6.88, rolls: 24 },
-  large:  { name: 'Mata Gold – Large (48mm)',  msrp: 9.25, rolls: 20 },
+  small:  { name: 'Mata Gold – Small (24mm)',  boxPrice: 165, rolls: 36 },
+  medium: { name: 'Mata Gold – Medium (36mm)', boxPrice: 165, rolls: 24 },
+  large:  { name: 'Mata Gold – Large (48mm)',  boxPrice: 185, rolls: 20 },
 };
 
 const PARTNER_DISCOUNTS = {
@@ -45,11 +45,11 @@ module.exports = async function handler(req, res) {
       const product = PRODUCTS[item.id];
       if (!product) throw new Error(`Unknown product: ${item.id}`);
 
-      let pricePerRoll = product.msrp;
-      if (partnerDiscount > 0) pricePerRoll *= (1 - partnerDiscount / 100);
-      if (bulkDiscount > 0)    pricePerRoll *= (1 - bulkDiscount / 100);
+      let boxPrice = product.boxPrice;
+      if (partnerDiscount > 0) boxPrice *= (1 - partnerDiscount / 100);
+      if (bulkDiscount > 0)    boxPrice *= (1 - bulkDiscount / 100);
 
-      const unitAmountCents = Math.round(pricePerRoll * product.rolls * 100);
+      const unitAmountCents = Math.round(boxPrice * 100);
 
       return {
         price_data: {
