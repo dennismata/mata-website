@@ -322,7 +322,7 @@
           <div id="partner-code-wrap" style="display:none;">
             <div class="partner-code-field">
               <p>Enter your partner code to automatically link your account to your program. You can also add this later in your account settings.</p>
-              <input type="text" id="reg-partner-code" placeholder="e.g. CPIA2026" maxlength="16" />
+              <input type="text" id="reg-partner-code" placeholder="Enter your code" maxlength="16" />
             </div>
           </div>
 
@@ -500,12 +500,16 @@
 
   <script src="shared.js"></script>
   <script>
-    // Mock partner codes
-    const PARTNER_CODES = {
-      'CPIA2026':  { label: 'CPIA Member',       name: 'CPIA Member Program',      discount: 30 },
-      'T1P2026':   { label: 'T1P Franchise',      name: 'T1P Franchise Program',    discount: 30 },
-      'BPN2026':   { label: 'BPN Buying Group',   name: 'BPN Buying Group Program', discount: 30 },
-    };
+    async function validatePartnerCode(code) {
+      try {
+        const res  = await fetch('/api/validate-code', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code }) });
+        const data = await res.json();
+        if (!data.valid) return null;
+        const PROGRAM_LABELS = { cpia: { label: 'CPIA Member', name: 'CPIA Member Program' }, t1p: { label: 'T1P Franchise', name: 'T1P Franchise Program' }, bpn: { label: 'BPN Buying Group', name: 'BPN Buying Group Program' }, admin: { label: 'Admin', name: 'Admin Program' } };
+        const meta = PROGRAM_LABELS[data.program] || { label: data.program.toUpperCase(), name: data.program.toUpperCase() + ' Program' };
+        return { label: meta.label, name: meta.name, discount: data.discount };
+      } catch { return null; }
+    }
 
     // Mock session (in production: real auth backend)
     let session = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
@@ -542,7 +546,7 @@
     }
 
     // ── Register ─────────────────────────────────────
-    function register() {
+    async function register() {
       const first = document.getElementById('reg-first').value.trim();
       const last  = document.getElementById('reg-last').value.trim();
       const email = document.getElementById('reg-email').value.trim();
@@ -551,7 +555,7 @@
 
       let partnerInfo = null;
       if (code) {
-        partnerInfo = PARTNER_CODES[code] || null;
+        partnerInfo = await validatePartnerCode(code);
         if (!partnerInfo) { alert('Invalid partner code — your account will be created without partner linking. You can add a code later in account settings.'); }
       }
 
@@ -600,10 +604,10 @@
     }
 
     // ── Link code from account settings ─────────────
-    function linkCode() {
+    async function linkCode() {
       const code  = document.getElementById('link-code-input').value.trim().toUpperCase();
-      const match = PARTNER_CODES[code];
       const error = document.getElementById('partner-link-error');
+      const match = await validatePartnerCode(code);
       if (!match) {
         error.style.display = 'block';
         return;
