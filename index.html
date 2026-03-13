@@ -433,8 +433,8 @@
             <h3>Mata Gold – Small</h3>
             <p class="product-desc">Ideal for intricate trim work, window frames, moldings, and any fine detail masking where precision matters most.</p>
             <div class="product-price">
-              <div class="price-roll">$4.58<span>/roll</span></div>
-              <div class="price-box">$165/box · 36 rolls</div>
+              <div class="price-roll" id="price-roll-small">$4.58<span>/roll</span></div>
+              <div class="price-box" id="price-box-small">$165/box · 36 rolls</div>
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>24 mm / 0.94 in</td></tr>
@@ -465,8 +465,8 @@
             <h3>Mata Gold – Medium</h3>
             <p class="product-desc">Our most popular size. Perfect for walls, doors, baseboards, and general interior and exterior painting tasks.</p>
             <div class="product-price">
-              <div class="price-roll">$6.88<span>/roll</span></div>
-              <div class="price-box">$165/box · 24 rolls</div>
+              <div class="price-roll" id="price-roll-medium">$6.88<span>/roll</span></div>
+              <div class="price-box" id="price-box-medium">$165/box · 24 rolls</div>
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>36 mm / 1.41 in</td></tr>
@@ -497,8 +497,8 @@
             <h3>Mata Gold – Large</h3>
             <p class="product-desc">Maximum coverage for broad surfaces, spray paint applications, and large masking areas where speed matters.</p>
             <div class="product-price">
-              <div class="price-roll">$9.25<span>/roll</span></div>
-              <div class="price-box">$185/box · 20 rolls</div>
+              <div class="price-roll" id="price-roll-large">$9.25<span>/roll</span></div>
+              <div class="price-box" id="price-box-large">$185/box · 20 rolls</div>
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>48 mm / 1.88 in</td></tr>
@@ -705,5 +705,28 @@
 
   <script src="shared.js"></script>
   <script src="cart.js"></script>
+  <script>
+    (function () {
+      const PRODUCTS = {
+        small:  { boxPrice: 165, rolls: 36 },
+        medium: { boxPrice: 165, rolls: 24 },
+        large:  { boxPrice: 185, rolls: 20 },
+      };
+      try {
+        const sess = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
+        const discount = sess?.partnerInfo?.discount || 0;
+        if (discount > 0) {
+          Object.entries(PRODUCTS).forEach(([id, p]) => {
+            const discountedBox  = p.boxPrice * (1 - discount / 100);
+            const discountedRoll = discountedBox / p.rolls;
+            const rollEl = document.getElementById('price-roll-' + id);
+            const boxEl  = document.getElementById('price-box-' + id);
+            if (rollEl) rollEl.innerHTML = `$${discountedRoll.toFixed(2)}<span>/roll</span>`;
+            if (boxEl)  boxEl.textContent = `$${discountedBox.toFixed(2)}/box · ${p.rolls} rolls`;
+          });
+        }
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>
