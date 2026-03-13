@@ -6,11 +6,16 @@ const PRODUCTS = {
   large:  { name: 'Mata Gold – Large (48mm)',  boxPrice: 185, rolls: 20 },
 };
 
-const PARTNER_DISCOUNTS = {
-  'CPIA2026': 30,
-  'T1P2026':  30,
-  'BPN2026':  30,
-};
+const PROGRAM_DISCOUNTS = { cpia: 30, t1p: 30, bpn: 30, admin: 0 };
+
+function getPartnerDiscount(partnerCode) {
+  if (!partnerCode) return 0;
+  try {
+    const codes = JSON.parse(process.env.PARTNER_CODES || '{}');
+    const program = codes[partnerCode.trim().toUpperCase()];
+    return program ? (PROGRAM_DISCOUNTS[program] ?? 0) : 0;
+  } catch { return 0; }
+}
 
 function getBulkDiscount(totalBoxes) {
   if (totalBoxes >= 10) return 25;
@@ -34,9 +39,7 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'No items in cart' });
     }
 
-    const partnerDiscount = partnerCode
-      ? (PARTNER_DISCOUNTS[partnerCode.toUpperCase()] || 0)
-      : 0;
+    const partnerDiscount = getPartnerDiscount(partnerCode);
 
     const totalBoxes = items.reduce((sum, item) => sum + (item.boxes || 0), 0);
     const bulkDiscount = getBulkDiscount(totalBoxes);

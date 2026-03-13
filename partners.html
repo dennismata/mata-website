@@ -552,13 +552,6 @@
   <script src="shared.js"></script>
   <script src="cart.js"></script>
   <script>
-    const PARTNERS = {
-      'CPIA2026':  { dash: 'cpia',  discount: 30 },
-      'T1P2026':   { dash: 't1p',   discount: 30 },
-      'BPN2026':   { dash: 'bpn',   discount: 30 },
-      'MATAADMIN': { dash: 'admin', discount: 0  },
-    };
-
     // Retail prices per roll, per size
     const PRODUCTS = [
       { id: 'small',  name: 'Mata Gold – Small',  size: '24mm / 0.94 in', rolls: 36, boxPrice: 165, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
@@ -619,25 +612,44 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function unlock() {
-      const code  = document.getElementById('code-input').value.trim().toUpperCase();
-      const match = PARTNERS[code];
-      if (!match) {
-        document.getElementById('gate-error').style.display = 'block';
-        document.getElementById('code-input').style.borderColor = '#e74c3c';
-        return;
+    async function unlock() {
+      const code = document.getElementById('code-input').value.trim().toUpperCase();
+      if (!code) return;
+
+      const submitBtn = document.querySelector('.gate-submit');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Checking…'; }
+
+      try {
+        const res  = await fetch('/api/validate-code', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ code }),
+        });
+        const data = await res.json();
+
+        if (!data.valid) {
+          document.getElementById('gate-error').style.display = 'block';
+          document.getElementById('code-input').style.borderColor = '#e74c3c';
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Access Portal'; }
+          return;
+        }
+
+        // Save partner code to session if signed in
+        const raw = sessionStorage.getItem('mata_session');
+        if (raw) {
+          try {
+            const sess = JSON.parse(raw);
+            sess.partnerCode = code;
+            sess.partnerInfo = { program: data.program, discount: data.discount };
+            sessionStorage.setItem('mata_session', JSON.stringify(sess));
+          } catch(e) {}
+        }
+
+        openDash(data.program, data.discount);
+      } catch(err) {
+        alert('Network error. Please try again.');
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Access Portal'; }
       }
-      // Save partner code to session if signed in
-      const raw = sessionStorage.getItem('mata_session');
-      if (raw) {
-        try {
-          const sess = JSON.parse(raw);
-          sess.partnerCode = code;
-          sess.partnerInfo = { program: match.dash, discount: match.discount };
-          sessionStorage.setItem('mata_session', JSON.stringify(sess));
-        } catch(e) {}
-      }
-      openDash(match.dash, match.discount);
     }
 
     function signOut() {
@@ -655,11 +667,8 @@
       if (sess && sess.partnerInfo) {
         // Signed in with a partner code already linked → go straight to dashboard
         const { program, discount } = sess.partnerInfo;
-        const match = Object.values(PARTNERS).find(p => p.dash === program);
-        if (match) {
-          openDash(program, discount);
-          return;
-        }
+        openDash(program, discount);
+        return;
       }
 
       // Show gate
