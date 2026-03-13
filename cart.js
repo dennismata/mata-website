@@ -170,7 +170,7 @@ function renderCartDrawer() {
     ${discountHTML}
     <div class="cart-total"><span>Total</span><span>$${subtotal.toFixed(2)}</span></div>
     <button id="checkout-btn" onclick="proceedToCheckout()">Pay Now →</button>
-    <button id="invoice-btn" onclick="showInvoiceForm()">Request Invoice (Net-15)</button>
+    ${partnerD > 0 ? `<button id="invoice-btn" onclick="showInvoiceForm()">Request Invoice (Net-15)</button>` : ''}
     <div id="invoice-form" style="display:none;">
       <input id="invoice-email" type="email" placeholder="Email address for invoice" class="invoice-input" />
       <input id="invoice-company" type="text" placeholder="Company name (optional)" class="invoice-input" />
