@@ -287,7 +287,7 @@
           </div>
           <button class="submit-btn" onclick="signIn()">Sign In</button>
           <p class="auth-footer-text" style="margin-top:16px;">
-            <a onclick="switchAuthTab('register', document.querySelectorAll('.auth-tab')[1])">Forgot your password?</a>
+            <a onclick="forgotPassword()" style="cursor:pointer;">Forgot your password?</a>
           </p>
         </div>
 
@@ -304,6 +304,10 @@
               <label>Last name</label>
               <input type="text" id="reg-last" placeholder="Smith" />
             </div>
+          </div>
+          <div class="field">
+            <label>Company name</label>
+            <input type="text" id="reg-company" placeholder="ABC Painting Co." />
           </div>
           <div class="field">
             <label>Email address</label>
@@ -328,6 +332,14 @@
 
           <button class="submit-btn" onclick="register()">Create Account</button>
           <p class="auth-footer-text">Already have an account? <a onclick="switchAuthTab('signin', document.querySelectorAll('.auth-tab')[0])">Sign in</a></p>
+        </div>
+
+        <!-- Email confirmation state -->
+        <div id="auth-confirm" style="display:none; text-align:center; padding: 20px 0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#CC9933" stroke-width="1.5" style="width:48px;height:48px;margin-bottom:20px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+          <h1 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin-bottom:10px;">Check your email</h1>
+          <p style="color:var(--muted);font-size:14px;line-height:1.6;">We sent a confirmation link to<br><strong id="confirm-email" style="color:var(--navy);"></strong><br><br>Click the link to activate your account, then come back to sign in.</p>
+          <button class="submit-btn" style="margin-top:24px;" onclick="switchAuthTab('signin', document.querySelectorAll('.auth-tab')[0]); document.querySelector('.auth-tabs').style.display='flex'; document.getElementById('auth-confirm').style.display='none';">Back to Sign In</button>
         </div>
 
       </div>
@@ -498,32 +510,64 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
   <script src="shared.js"></script>
   <script>
+    // ── Supabase session reference ───────────────────
+    let supaSession = null;
+    let session = null;
+
+    // ── Helper: validate partner code via API ────────
     async function validatePartnerCode(code) {
       try {
         const res  = await fetch('/api/validate-code', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code }) });
         const data = await res.json();
         if (!data.valid) return null;
-        const PROGRAM_LABELS = { cpia: { label: 'CPIA Member', name: 'CPIA Member Program' }, t1p: { label: 'T1P Franchise', name: 'T1P Franchise Program' }, bpn: { label: 'BPN Buying Group', name: 'BPN Buying Group Program' }, admin: { label: 'Admin', name: 'Admin Program' } };
-        const meta = PROGRAM_LABELS[data.program] || { label: data.program.toUpperCase(), name: data.program.toUpperCase() + ' Program' };
-        return { label: meta.label, name: meta.name, discount: data.discount };
+        return { label: programLabel(data.program), name: programName(data.program), discount: data.discount, program: data.program };
       } catch { return null; }
     }
 
-    // Mock session (in production: real auth backend)
-    let session = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
-
-    function saveProfile(data) {
-      try { localStorage.setItem('mata_profile_' + data.email.toLowerCase(), JSON.stringify(data)); } catch(e) {}
+    // ── Helper: human-readable program labels ────────
+    function programLabel(p) {
+      const map = { cpia: 'CPIA Member', t1p: 'T1P Franchise', bpn: 'BPN Buying Group', admin: 'Admin' };
+      return map[p] || (p ? p.toUpperCase() : '');
     }
 
-    function loadProfile(email) {
-      try { return JSON.parse(localStorage.getItem('mata_profile_' + email.toLowerCase()) || 'null'); } catch(e) { return null; }
+    function programName(p) {
+      const map = { cpia: 'CPIA Member Program', t1p: 'T1P Franchise Program', bpn: 'BPN Buying Group Program', admin: 'Admin Program' };
+      return map[p] || (p ? p.toUpperCase() + ' Program' : '');
     }
 
+    // ── Helper: sync Supabase session → sessionStorage ──
+    async function syncSession(sup) {
+      supaSession = sup;
+      try {
+        const { data: profile } = await window.sb.from('profiles').select('*').eq('id', sup.user.id).single();
+        const firstName   = profile?.first_name  || sup.user.user_metadata?.first_name || sup.user.email.split('@')[0];
+        const lastName    = profile?.last_name   || sup.user.user_metadata?.last_name  || '';
+        const companyName = profile?.company_name || '';
+        const partnerCode = profile?.partner_code || null;
+        // Always derive discount/rebate live from API — never read from DB
+        const partnerInfo = partnerCode ? await validatePartnerCode(partnerCode) : null;
+        session = { email: sup.user.email, firstName, lastName, companyName, partnerCode, partnerInfo };
+      } catch {
+        const firstName = sup.user.user_metadata?.first_name || sup.user.email.split('@')[0];
+        session = { email: sup.user.email, firstName, lastName: '', companyName: '', partnerCode: null, partnerInfo: null };
+      }
+      sessionStorage.setItem('mata_session', JSON.stringify(session));
+      return session;
+    }
+
+    // ── Init: listen for auth state changes ──────────
     function init() {
-      if (session) showDashboard();
+      if (!window.sb) return;
+      window.sb.auth.onAuthStateChange(async (event, sup) => {
+        if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && sup) {
+          await syncSession(sup);
+          showDashboard();
+        }
+      });
     }
 
     // ── Auth tab switching ───────────────────────────
@@ -544,33 +588,92 @@
     }
 
     // ── Sign in ──────────────────────────────────────
-    function signIn() {
-      const email = document.getElementById('signin-email').value.trim();
-      if (!email) { alert('Please enter your email.'); return; }
-      const saved = loadProfile(email);
-      session = saved || { email, firstName: email.split('@')[0], partnerCode: null, partnerInfo: null };
-      sessionStorage.setItem('mata_session', JSON.stringify(session));
-      showDashboard();
+    async function signIn() {
+      const email    = document.getElementById('signin-email').value.trim();
+      const password = document.getElementById('signin-password').value;
+      if (!email || !password) { alert('Please enter your email and password.'); return; }
+      const btn = document.querySelector('#auth-signin .submit-btn');
+      btn.textContent = 'Signing in…';
+      btn.disabled = true;
+      try {
+        const { data, error } = await window.sb.auth.signInWithPassword({ email, password });
+        if (error) { alert(error.message); return; }
+        await syncSession(data.session);
+        showDashboard();
+      } catch(e) {
+        alert('An unexpected error occurred. Please try again.');
+      } finally {
+        btn.textContent = 'Sign In';
+        btn.disabled = false;
+      }
     }
 
     // ── Register ─────────────────────────────────────
     async function register() {
-      const first = document.getElementById('reg-first').value.trim();
-      const last  = document.getElementById('reg-last').value.trim();
-      const email = document.getElementById('reg-email').value.trim();
-      const code  = document.getElementById('reg-partner-code').value.trim().toUpperCase();
-      if (!first || !email) { alert('Please fill in your name and email.'); return; }
+      const first    = document.getElementById('reg-first').value.trim();
+      const last     = document.getElementById('reg-last').value.trim();
+      const company  = document.getElementById('reg-company').value.trim();
+      const email    = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const code     = document.getElementById('reg-partner-code').value.trim().toUpperCase();
+      if (!first || !email || !password) { alert('Please fill in all required fields.'); return; }
+      if (password.length < 8) { alert('Password must be at least 8 characters.'); return; }
 
       let partnerInfo = null;
+      let partnerProgram = null;
       if (code) {
-        partnerInfo = await validatePartnerCode(code);
-        if (!partnerInfo) { alert('Invalid partner code — your account will be created without partner linking. You can add a code later in account settings.'); }
+        const result = await validatePartnerCode(code);
+        if (!result) {
+          alert('Invalid partner code — your account will be created without partner linking. You can add a code later in account settings.');
+        } else {
+          partnerInfo    = result;
+          partnerProgram = result.program;
+        }
       }
 
-      session = { email, firstName: first, lastName: last, partnerCode: code || null, partnerInfo };
-      sessionStorage.setItem('mata_session', JSON.stringify(session));
-      saveProfile(session);
-      showDashboard();
+      const btn = document.querySelector('#auth-register .submit-btn');
+      btn.textContent = 'Creating account…';
+      btn.disabled = true;
+      try {
+        const { data, error } = await window.sb.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: window.location.origin + '/account.html',
+            data: { first_name: first, last_name: last }
+          }
+        });
+        if (error) { alert(error.message); return; }
+
+        // Upsert profile row
+        try {
+          await window.sb.from('profiles').upsert({
+            id:              data.user.id,
+            email:           email,
+            first_name:      first,
+            last_name:       last,
+            company_name:    company || null,
+            partner_code:    code || null,
+            partner_program: partnerProgram,
+          });
+        } catch(e) {}
+
+        showEmailConfirmation(email);
+      } catch(e) {
+        alert('An unexpected error occurred. Please try again.');
+      } finally {
+        btn.textContent = 'Create Account';
+        btn.disabled = false;
+      }
+    }
+
+    // ── Email confirmation screen ────────────────────
+    function showEmailConfirmation(email) {
+      document.querySelector('.auth-tabs').style.display = 'none';
+      document.getElementById('auth-signin').style.display   = 'none';
+      document.getElementById('auth-register').style.display = 'none';
+      document.getElementById('confirm-email').textContent   = email;
+      document.getElementById('auth-confirm').style.display  = 'block';
     }
 
     // ── Show dashboard ───────────────────────────────
@@ -578,14 +681,16 @@
       document.getElementById('auth-screen').style.display      = 'none';
       document.getElementById('account-dashboard').style.display = 'block';
 
-      document.getElementById('dash-greeting').textContent    = `Welcome back, ${session.firstName}.`;
+      document.getElementById('dash-greeting').textContent      = `Welcome back, ${session.firstName}.`;
       document.getElementById('dash-email-display').textContent = session.email;
 
       // Partner badge in header
+      const badge = document.getElementById('dash-partner-badge');
       if (session.partnerInfo) {
-        const badge = document.getElementById('dash-partner-badge');
-        badge.textContent = session.partnerInfo.label;
-        badge.style.display = 'inline-flex';
+        badge.textContent    = session.partnerInfo.label;
+        badge.style.display  = 'inline-flex';
+      } else {
+        badge.style.display  = 'none';
       }
 
       // Pre-fill profile fields
@@ -595,9 +700,13 @@
 
       // Overview partner card
       if (session.partnerInfo) {
-        document.getElementById('overview-partner-val').textContent  = session.partnerInfo.label;
-        document.getElementById('overview-partner-sub').innerHTML    =
+        document.getElementById('overview-partner-val').textContent = session.partnerInfo.label;
+        document.getElementById('overview-partner-sub').innerHTML   =
           `<a href="partners.html" style="color:var(--gold);font-weight:600;">Go to partner portal →</a>`;
+      } else {
+        document.getElementById('overview-partner-val').textContent = 'None';
+        document.getElementById('overview-partner-sub').innerHTML   =
+          `<a onclick="showPanel('partner', document.querySelectorAll('.account-nav-tab')[3])" style="color:var(--gold);font-weight:600;cursor:pointer;">Link a partner code →</a>`;
       }
 
       // Partner panel
@@ -622,10 +731,13 @@
         return;
       }
       error.style.display = 'none';
-      session.partnerCode = code;
-      session.partnerInfo = match;
-      sessionStorage.setItem('mata_session', JSON.stringify(session));
-      saveProfile(session);
+      try {
+        await window.sb.from('profiles').update({
+          partner_code:    code,
+          partner_program: match.program,
+        }).eq('id', supaSession.user.id);
+      } catch(e) {}
+      await syncSession(supaSession);
       showDashboard();
       showPanel('partner', document.querySelectorAll('.account-nav-tab')[3]);
     }
@@ -639,11 +751,34 @@
     }
 
     // ── Sign out ─────────────────────────────────────
-    function signOutAccount() {
-      session = null;
+    async function signOutAccount() {
+      await window.sb.auth.signOut();
+      session     = null;
+      supaSession = null;
       sessionStorage.removeItem('mata_session');
       document.getElementById('account-dashboard').style.display = 'none';
       document.getElementById('auth-screen').style.display       = 'block';
+      // Reset to sign-in tab state
+      document.querySelector('.auth-tabs').style.display         = 'flex';
+      document.getElementById('auth-signin').style.display       = 'block';
+      document.getElementById('auth-register').style.display     = 'none';
+      document.getElementById('auth-confirm').style.display      = 'none';
+      document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+    }
+
+    // ── Forgot password ──────────────────────────────
+    async function forgotPassword() {
+      const email = document.getElementById('signin-email').value.trim();
+      if (!email) { alert('Please enter your email address first.'); return; }
+      try {
+        const { error } = await window.sb.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin + '/account.html'
+        });
+        if (error) { alert(error.message); return; }
+        alert('Password reset email sent! Check your inbox.');
+      } catch(e) {
+        alert('An unexpected error occurred. Please try again.');
+      }
     }
 
     init();

@@ -1,4 +1,5 @@
 const PROGRAM_DISCOUNTS = { cpia: 30, t1p: 20, bpn: 30, admin: 0 };
+const PROGRAM_REBATES   = { cpia: 0,  t1p: 0,  bpn: 5,  admin: 0 };
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,5 +26,6 @@ module.exports = async function handler(req, res) {
     valid: true,
     program,
     discount: PROGRAM_DISCOUNTS[program] ?? 0,
+    rebate:   PROGRAM_REBATES[program]   ?? 0,
   });
 };

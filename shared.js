@@ -1,12 +1,16 @@
-// Auth nav button: Sign In / Sign Out
-(function () {
-  const sess = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
-  document.querySelectorAll('.nav-auth-btn').forEach(btn => {
-    if (sess) {
-      btn.textContent = 'My Account';
-      btn.href = 'account.html';
+// Auth nav button: Sign In / My Account
+(async function () {
+  try {
+    if (window.sb) {
+      const { data: { session } } = await window.sb.auth.getSession();
+      if (session) {
+        document.querySelectorAll('.nav-auth-btn').forEach(btn => {
+          btn.textContent = 'My Account';
+          btn.href = 'account.html';
+        });
+      }
     }
-  });
+  } catch(e) {}
 })();
 
 // Navbar scroll shadow
