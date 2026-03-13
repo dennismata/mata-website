@@ -74,10 +74,8 @@ function getPartnerCode() {
 }
 
 function calcBoxPrice(boxPrice, partnerDiscount, bulkDiscount) {
-  let price = boxPrice;
-  if (partnerDiscount > 0) price *= (1 - partnerDiscount / 100);
-  if (bulkDiscount > 0)    price *= (1 - bulkDiscount / 100);
-  return price;
+  const discount = Math.max(partnerDiscount, bulkDiscount);
+  return discount > 0 ? boxPrice * (1 - discount / 100) : boxPrice;
 }
 
 // ── Badge ───────────────────────────────────────────────────────────────────

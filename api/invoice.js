@@ -68,8 +68,8 @@ module.exports = async function handler(req, res) {
       if (!product) throw new Error(`Unknown product: ${item.id}`);
 
       let boxPrice = product.boxPrice;
-      if (partnerDiscount > 0) boxPrice *= (1 - partnerDiscount / 100);
-      if (bulkDiscount > 0)    boxPrice *= (1 - bulkDiscount / 100);
+      const discount = Math.max(partnerDiscount, bulkDiscount);
+      if (discount > 0) boxPrice *= (1 - discount / 100);
 
       await stripe.invoiceItems.create({
         customer: customer.id,
