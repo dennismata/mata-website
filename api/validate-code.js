@@ -1,4 +1,4 @@
-const PROGRAM_DISCOUNTS = { cpia: 30, t1p: 30, bpn: 30, admin: 0 };
+const PROGRAM_DISCOUNTS = { cpia: 30, t1p: 20, bpn: 30, admin: 0 };
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

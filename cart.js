@@ -164,7 +164,7 @@ function renderCartDrawer() {
     const label = partnerD >= bulkD ? 'Partner discount' : `Bulk discount (${totalB} boxes)`;
     discountHTML += `<div class="cart-discount-row"><span>${label}</span><span>−${appliedD}%</span></div>`;
   }
-  if (!bulkD && totalB === 1) discountHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
+  if (!partnerD && !bulkD && totalB === 1) discountHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
 
   footer.innerHTML = `
     ${discountHTML}
