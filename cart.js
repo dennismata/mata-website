@@ -159,8 +159,11 @@ function renderCartDrawer() {
   });
 
   let discountHTML = '';
-  if (partnerD > 0) discountHTML += `<div class="cart-discount-row"><span>Partner discount</span><span>−${partnerD}%</span></div>`;
-  if (bulkD > 0)    discountHTML += `<div class="cart-discount-row"><span>Bulk discount (${totalB} boxes)</span><span>−${bulkD}%</span></div>`;
+  const appliedD = Math.max(partnerD, bulkD);
+  if (appliedD > 0) {
+    const label = partnerD >= bulkD ? 'Partner discount' : `Bulk discount (${totalB} boxes)`;
+    discountHTML += `<div class="cart-discount-row"><span>${label}</span><span>−${appliedD}%</span></div>`;
+  }
   if (!bulkD && totalB === 1) discountHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
 
   footer.innerHTML = `
