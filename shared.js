@@ -3,13 +3,8 @@
   const sess = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
   document.querySelectorAll('.nav-auth-btn').forEach(btn => {
     if (sess) {
-      btn.textContent = 'Sign Out';
-      btn.href = '#';
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        sessionStorage.removeItem('mata_session');
-        window.location.href = 'account.html';
-      });
+      btn.textContent = 'My Account';
+      btn.href = 'account.html';
     }
   });
 })();
