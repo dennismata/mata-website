@@ -514,6 +514,14 @@
     // Mock session (in production: real auth backend)
     let session = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
 
+    function saveProfile(data) {
+      try { localStorage.setItem('mata_profile_' + data.email.toLowerCase(), JSON.stringify(data)); } catch(e) {}
+    }
+
+    function loadProfile(email) {
+      try { return JSON.parse(localStorage.getItem('mata_profile_' + email.toLowerCase()) || 'null'); } catch(e) { return null; }
+    }
+
     function init() {
       if (session) showDashboard();
     }
@@ -539,8 +547,8 @@
     function signIn() {
       const email = document.getElementById('signin-email').value.trim();
       if (!email) { alert('Please enter your email.'); return; }
-      // Mock: accept any email/password
-      session = { email, firstName: email.split('@')[0], partnerCode: null, partnerInfo: null };
+      const saved = loadProfile(email);
+      session = saved || { email, firstName: email.split('@')[0], partnerCode: null, partnerInfo: null };
       sessionStorage.setItem('mata_session', JSON.stringify(session));
       showDashboard();
     }
@@ -561,6 +569,7 @@
 
       session = { email, firstName: first, lastName: last, partnerCode: code || null, partnerInfo };
       sessionStorage.setItem('mata_session', JSON.stringify(session));
+      saveProfile(session);
       showDashboard();
     }
 
@@ -616,6 +625,7 @@
       session.partnerCode = code;
       session.partnerInfo = match;
       sessionStorage.setItem('mata_session', JSON.stringify(session));
+      saveProfile(session);
       showDashboard();
       showPanel('partner', document.querySelectorAll('.account-nav-tab')[3]);
     }
