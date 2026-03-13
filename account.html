@@ -90,6 +90,29 @@
     .partner-toggle svg { width: 14px; height: 14px; transition: transform .2s; }
     .partner-toggle.open svg { transform: rotate(90deg); }
 
+    /* ── CONFIRMATION MODAL ────────── */
+    .confirm-modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,20,60,.55); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2000; padding: 20px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .confirm-modal-overlay.open { opacity: 1; pointer-events: all; }
+    .confirm-modal-card {
+      background: var(--white); border-radius: 24px;
+      padding: 48px 40px; max-width: 440px; width: 100%;
+      text-align: center; box-shadow: 0 32px 80px rgba(0,32,91,.25);
+      transform: translateY(16px); transition: transform .25s;
+    }
+    .confirm-modal-overlay.open .confirm-modal-card { transform: translateY(0); }
+    .confirm-modal-icon { margin-bottom: 20px; }
+    .confirm-modal-card h2 {
+      font-family: 'Playfair Display', serif; font-size: 26px;
+      color: var(--navy); margin-bottom: 12px;
+    }
+    .confirm-modal-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+
     /* ── DASHBOARD ─────────────────── */
     #account-dashboard { display: none; }
 
@@ -510,6 +533,18 @@
     </div>
   </footer>
 
+  <!-- ── EMAIL CONFIRMATION MODAL ──────────────────── -->
+  <div id="confirm-modal" class="confirm-modal-overlay">
+    <div class="confirm-modal-card">
+      <div class="confirm-modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#CC9933" stroke-width="1.5" style="width:52px;height:52px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <h2>Check your inbox</h2>
+      <p>We sent a confirmation link to<br><strong id="confirm-modal-email" style="color:var(--navy);"></strong><br><br>Click the link in the email to activate your account, then come back here to sign in.</p>
+      <button class="submit-btn" onclick="closeConfirmModal()">Back to Sign In</button>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-client.js"></script>
   <script src="shared.js"></script>
@@ -544,16 +579,30 @@
       supaSession = sup;
       try {
         const { data: profile } = await window.sb.from('profiles').select('*').eq('id', sup.user.id).single();
-        const firstName   = profile?.first_name  || sup.user.user_metadata?.first_name || sup.user.email.split('@')[0];
-        const lastName    = profile?.last_name   || sup.user.user_metadata?.last_name  || '';
-        const companyName = profile?.company_name || '';
-        const partnerCode = profile?.partner_code || null;
-        // Always derive discount/rebate live from API — never read from DB
+        const meta = sup.user.user_metadata || {};
+
+        const firstName    = profile?.first_name    || meta.first_name    || sup.user.email.split('@')[0];
+        const lastName     = profile?.last_name     || meta.last_name     || '';
+        const companyName  = profile?.company_name  || meta.company_name  || '';
+        const partnerCode  = profile?.partner_code  || meta.partner_code  || null;
+        const partnerProg  = profile?.partner_program || meta.partner_program || null;
+
+        // On first sign-in after confirmation, sync metadata into the profile row
+        if (!profile?.first_name || (!profile?.partner_code && partnerCode)) {
+          await window.sb.from('profiles').update({
+            first_name:      firstName,
+            last_name:       lastName,
+            company_name:    companyName || null,
+            partner_code:    partnerCode,
+            partner_program: partnerProg,
+          }).eq('id', sup.user.id);
+        }
+
         const partnerInfo = partnerCode ? await validatePartnerCode(partnerCode) : null;
         session = { email: sup.user.email, firstName, lastName, companyName, partnerCode, partnerInfo };
       } catch {
-        const firstName = sup.user.user_metadata?.first_name || sup.user.email.split('@')[0];
-        session = { email: sup.user.email, firstName, lastName: '', companyName: '', partnerCode: null, partnerInfo: null };
+        const meta = sup.user.user_metadata || {};
+        session = { email: sup.user.email, firstName: meta.first_name || sup.user.email.split('@')[0], lastName: meta.last_name || '', companyName: '', partnerCode: null, partnerInfo: null };
       }
       sessionStorage.setItem('mata_session', JSON.stringify(session));
       return session;
@@ -640,23 +689,16 @@
           password,
           options: {
             emailRedirectTo: window.location.origin + '/account.html',
-            data: { first_name: first, last_name: last }
+            data: {
+              first_name:      first,
+              last_name:       last,
+              company_name:    company || null,
+              partner_code:    code || null,
+              partner_program: partnerProgram || null,
+            }
           }
         });
         if (error) { alert(error.message); return; }
-
-        // Upsert profile row
-        try {
-          await window.sb.from('profiles').upsert({
-            id:              data.user.id,
-            email:           email,
-            first_name:      first,
-            last_name:       last,
-            company_name:    company || null,
-            partner_code:    code || null,
-            partner_program: partnerProgram,
-          });
-        } catch(e) {}
 
         showEmailConfirmation(email);
       } catch(e) {
@@ -669,11 +711,13 @@
 
     // ── Email confirmation screen ────────────────────
     function showEmailConfirmation(email) {
-      document.querySelector('.auth-tabs').style.display = 'none';
-      document.getElementById('auth-signin').style.display   = 'none';
-      document.getElementById('auth-register').style.display = 'none';
-      document.getElementById('confirm-email').textContent   = email;
-      document.getElementById('auth-confirm').style.display  = 'block';
+      document.getElementById('confirm-modal-email').textContent = email;
+      document.getElementById('confirm-modal').classList.add('open');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirm-modal').classList.remove('open');
+      switchAuthTab('signin', document.querySelectorAll('.auth-tab')[0]);
     }
 
     // ── Show dashboard ───────────────────────────────
