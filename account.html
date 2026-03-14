@@ -608,11 +608,21 @@
       return session;
     }
 
-    // ── Init: listen for auth state changes ──────────
-    function init() {
+    // ── Init ─────────────────────────────────────────
+    async function init() {
       if (!window.sb) return;
+
+      // Check for an existing session immediately on load
+      const { data: { session: existing } } = await window.sb.auth.getSession();
+      if (existing) {
+        await syncSession(existing);
+        showDashboard();
+        return;
+      }
+
+      // No existing session — listen for SIGNED_IN (e.g. after email confirmation redirect)
       window.sb.auth.onAuthStateChange(async (event, sup) => {
-        if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && sup) {
+        if (event === 'SIGNED_IN' && sup) {
           await syncSession(sup);
           showDashboard();
         }
