@@ -506,7 +506,7 @@
         <!-- Unlinked state -->
         <div id="partner-unlinked-view" class="partner-status">
           <h3>Link a Partner Code</h3>
-          <p>If you're a member of CPIA, a T1P franchisee, or a BPN buying group member, enter your activation code below. Once linked, your discount is applied automatically on every order.</p>
+          <p>If you're a member of CPIA, a Resibrands member, or a BPN buying group member, enter your activation code below. Once linked, your discount is applied automatically on every order.</p>
           <div class="code-input-row">
             <input type="text" id="link-code-input" placeholder="Enter activation code" maxlength="16" />
             <button onclick="linkCode()">Link Code</button>
@@ -566,12 +566,12 @@
 
     // ── Helper: human-readable program labels ────────
     function programLabel(p) {
-      const map = { cpia: 'CPIA Member', t1p: 'T1P Franchise', bpn: 'BPN Buying Group', admin: 'Admin' };
+      const map = { cpia: 'CPIA Member', resi: 'Resibrands', bpn: 'BPN Buying Group', admin: 'Admin' };
       return map[p] || (p ? p.toUpperCase() : '');
     }
 
     function programName(p) {
-      const map = { cpia: 'CPIA Member Program', t1p: 'T1P Franchise Program', bpn: 'BPN Buying Group Program', admin: 'Admin Program' };
+      const map = { cpia: 'CPIA Member Program', resi: 'Resibrands Program', bpn: 'BPN Buying Group Program', admin: 'Admin Program' };
       return map[p] || (p ? p.toUpperCase() + ' Program' : '');
     }
 
