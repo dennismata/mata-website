@@ -192,15 +192,15 @@ if (hamburger && mobileDrawer) {
         <div class="size-options">
           <div class="size-option">
             <input type="checkbox" id="sz-24" name="sizes" value="24mm x 50m" />
-            <label for="sz-24">24mm × 50m <span>/ 0.94 in × 55 yd</span></label>
+            <label for="sz-24">0.94 in × 55 yd <span>/ 24mm × 50m</span></label>
           </div>
           <div class="size-option">
             <input type="checkbox" id="sz-36" name="sizes" value="36mm x 50m" />
-            <label for="sz-36">36mm × 50m <span>/ 1.41 in × 55 yd</span></label>
+            <label for="sz-36">1.41 in × 55 yd <span>/ 36mm × 50m</span></label>
           </div>
           <div class="size-option">
             <input type="checkbox" id="sz-48" name="sizes" value="48mm x 50m" />
-            <label for="sz-48">48mm × 50m <span>/ 1.88 in × 55 yd</span></label>
+            <label for="sz-48">1.88 in × 55 yd <span>/ 48mm × 50m</span></label>
           </div>
         </div>
 

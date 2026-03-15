@@ -2,9 +2,9 @@
 const CART_KEY = 'mata_cart';
 
 const PRODUCTS = {
-  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '24mm / 0.94"', boxPrice: 165, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
-  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '36mm / 1.41"', boxPrice: 165, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
-  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '48mm / 1.88"', boxPrice: 185, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
+  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '0.94" / 24mm', boxPrice: 165, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
+  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '1.41" / 36mm', boxPrice: 165, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
+  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '1.88" / 48mm', boxPrice: 185, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
 };
 
 // ── Cart state ──────────────────────────────────────────────────────────────
