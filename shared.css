@@ -123,7 +123,7 @@ nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
 
 /* Footer */
 footer {
-  background: var(--cream2);
+  background: var(--cream);
   border-top: 1px solid rgba(0,32,91,.1);
   color: var(--muted);
   padding: 48px 0;
