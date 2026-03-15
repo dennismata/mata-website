@@ -502,6 +502,7 @@
             <p class="product-desc">Ideal for intricate trim work, window frames, moldings, and any fine detail masking where precision matters most.</p>
             <div class="product-price">
               <div class="price-roll" id="price-roll-small">$4.58<span>/roll</span></div>
+              <div class="price-box" id="price-box-small">36 rolls/box</div>
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>0.94 in / 24 mm</td></tr>
@@ -530,6 +531,7 @@
             <p class="product-desc">Our most popular size. Perfect for walls, doors, baseboards, and general interior and exterior painting tasks.</p>
             <div class="product-price">
               <div class="price-roll" id="price-roll-medium">$6.88<span>/roll</span></div>
+              <div class="price-box" id="price-box-medium">24 rolls/box</div>
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>1.41 in / 36 mm</td></tr>
@@ -558,6 +560,7 @@
             <p class="product-desc">Maximum coverage for broad surfaces, spray paint applications, and large masking areas where speed matters.</p>
             <div class="product-price">
               <div class="price-roll" id="price-roll-large">$9.25<span>/roll</span></div>
+              <div class="price-box" id="price-box-large">20 rolls/box</div>
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>1.88 in / 48 mm</td></tr>
@@ -719,7 +722,7 @@
             const rollEl = document.getElementById('price-roll-' + id);
             const boxEl  = document.getElementById('price-box-' + id);
             if (rollEl) rollEl.innerHTML = `<s>$${origRoll}</s> $${discountedRoll.toFixed(2)}<span>/roll</span>`;
-            if (boxEl)  boxEl.innerHTML  = `<s>$${p.boxPrice}</s> $${discountedBox.toFixed(2)}/box · ${p.rolls} rolls`;
+            if (boxEl)  boxEl.textContent = `${p.rolls} rolls/box`;
           });
         }
       } catch (e) {}
