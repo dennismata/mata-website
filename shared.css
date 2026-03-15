@@ -373,3 +373,9 @@ footer p { font-size: 13px; }
   font-size: 12px; color: var(--muted);
 }
 .cart-stripe-note svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+.cart-continue-link {
+  display: block; text-align: center; font-size: 13px; color: var(--muted);
+  text-decoration: none; margin-top: 8px;
+}
+.cart-continue-link:hover { color: var(--navy); }
