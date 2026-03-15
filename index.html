@@ -301,7 +301,7 @@
         <span class="nav-cart-badge" id="nav-cart-badge">0</span>
       </button>
         <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
-        <a href="#sample" class="btn btn--gold">Get In Touch</a>
+        <a href="#" onclick="openSampleModal();return false;" class="btn btn--gold">Get In Touch</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -317,7 +317,7 @@
     </ul>
     <div class="nav-mobile-actions">
       <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
-      <a href="#sample" class="btn btn--gold">Get In Touch</a>
+      <a href="#" onclick="openSampleModal();return false;" class="btn btn--gold">Get In Touch</a>
     </div>
   </div>
 
@@ -341,7 +341,7 @@
           </div>
           <div class="trust-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
-            212°F Rated
+            100°C / 212°F Rated
           </div>
           <div class="trust-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -406,7 +406,7 @@
         <div class="icon-card">
           <img src="Icons/MATA_icon_fahrenheit.png" alt="Heat Resistant" />
           <h3>Heat Resistant</h3>
-          <p>Rated up to 212°F — safe for high-temperature and spray paint environments.</p>
+          <p>Rated up to 100°C / 212°F — safe for high-temperature and spray paint environments.</p>
         </div>
       </div>
     </div>
@@ -437,12 +437,12 @@
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>24 mm / 0.94 in</td></tr>
-              <tr><td>Length</td><td>55 yd / 50 m</td></tr>
+              <tr><td>Length</td><td>50 m / 55 yd</td></tr>
               <tr><td>Rolls per box</td><td>36 rolls</td></tr>
               <tr><td>Backing</td><td>Japanese Washi Paper</td></tr>
               <tr><td>Adhesion</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
               <tr><td>Tensile Strength</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
-              <tr><td>Temp. Resistance</td><td>Up to 212°F / 100°C</td></tr>
+              <tr><td>Temp. Resistance</td><td>Up to 100°C / 212°F</td></tr>
               <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
               <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
             </table>
@@ -469,12 +469,12 @@
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>36 mm / 1.41 in</td></tr>
-              <tr><td>Length</td><td>55 yd / 50 m</td></tr>
+              <tr><td>Length</td><td>50 m / 55 yd</td></tr>
               <tr><td>Rolls per box</td><td>24 rolls</td></tr>
               <tr><td>Backing</td><td>Japanese Washi Paper</td></tr>
               <tr><td>Adhesion</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
               <tr><td>Tensile Strength</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
-              <tr><td>Temp. Resistance</td><td>Up to 212°F / 100°C</td></tr>
+              <tr><td>Temp. Resistance</td><td>Up to 100°C / 212°F</td></tr>
               <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
               <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
             </table>
@@ -501,12 +501,12 @@
             </div>
             <table class="spec-table">
               <tr><td>Width</td><td>48 mm / 1.88 in</td></tr>
-              <tr><td>Length</td><td>55 yd / 50 m</td></tr>
+              <tr><td>Length</td><td>50 m / 55 yd</td></tr>
               <tr><td>Rolls per box</td><td>20 rolls</td></tr>
               <tr><td>Backing</td><td>Japanese Washi Paper</td></tr>
               <tr><td>Adhesion</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
               <tr><td>Tensile Strength</td><td>— <em style="font-size:11px;color:var(--muted)">(spec TBD)</em></td></tr>
-              <tr><td>Temp. Resistance</td><td>Up to 212°F / 100°C</td></tr>
+              <tr><td>Temp. Resistance</td><td>Up to 100°C / 212°F</td></tr>
               <tr><td>UV Resistance</td><td>Up to 6 months</td></tr>
               <tr><td>Clean Removal</td><td>Up to 6 months</td></tr>
             </table>
@@ -521,11 +521,12 @@
       </div>
 
       <!-- Bulk pricing callout -->
-      <div style="margin-top:48px; background:var(--navy); border-radius:var(--radius); padding:36px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;">
+      <div style="margin-top:48px; background:var(--navy); border-radius:var(--radius); padding:40px 48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:32px;">
         <div>
           <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Volume Pricing</div>
-          <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:6px;">The more you buy, the more you save.</div>
-          <div style="font-size:14px;color:rgba(255,255,255,.65);">Discounts applied automatically at checkout. Need a custom quote? Contact us.</div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--white);margin-bottom:8px;">The more you buy, the more you save.</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.65);">Discounts applied automatically at checkout.</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.65);margin-top:4px;">Need a custom quote? Email us at <a href="mailto:sales@mata-tape.com" style="color:var(--gold);text-decoration:none;font-weight:600;">sales@mata-tape.com</a></div>
         </div>
         <div style="display:flex;gap:24px;flex-wrap:wrap;">
           <div style="text-align:center;">
@@ -681,7 +682,7 @@
     <div class="container">
       <h2>Try Mata Gold — Free</h2>
       <p>Experience the difference for yourself. Request a free sample and see why professionals always stick with Mata Gold.</p>
-      <a href="https://mata-tape.com" target="_blank" rel="noopener noreferrer" class="btn btn--navy">
+      <a href="#" onclick="openSampleModal();return false;" class="btn btn--navy">
         Request Your Free Sample
       </a>
     </div>
