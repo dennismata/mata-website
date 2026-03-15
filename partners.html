@@ -149,24 +149,6 @@
     }
     .order-btn:hover { background: #b5841e; transform: translateY(-1px); }
 
-    /* ── REBATE TRACKER (BPN) ──────── */
-    .rebate-section { padding: 48px 0 0; }
-    .rebate-banner {
-      background: var(--navy); border-radius: 20px; padding: 36px 40px;
-      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
-    }
-    .rebate-banner h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 6px;
-    }
-    .rebate-banner p { font-size: 14px; color: rgba(255,255,255,.6); }
-    .rebate-stats { display: flex; gap: 40px; flex-wrap: wrap; }
-    .rebate-stat { text-align: center; }
-    .rebate-stat .val {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px; font-weight: 900; color: var(--gold);
-    }
-    .rebate-stat .lbl { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 4px; font-weight: 600; }
 
     .period-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
     .period-tab {
@@ -240,7 +222,6 @@
 
     @media (max-width: 900px) {
       .order-grid, .admin-grid, .program-cards { grid-template-columns: 1fr 1fr; }
-      .rebate-banner { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
       .order-grid, .admin-grid, .program-cards { grid-template-columns: 1fr; }
@@ -322,7 +303,7 @@
         <div class="program-card">
           <div class="icon">📦</div>
           <h4>BPN Buying Group</h4>
-          <p>Group pricing for BPN members with real-time rebate tracking for your group.</p>
+          <p>Group pricing for BPN members with dedicated supply and support.</p>
         </div>
       </div>
     </div>
@@ -377,37 +358,12 @@
         <div>
           <div class="partner-badge">BPN Buying Group</div>
           <h1>BPN Member Pricing</h1>
-          <p>Your 30% group discount is applied below. Track your group's earned rebate in real time.</p>
+          <p>Your 30% group discount is applied below. Check out securely via Stripe.</p>
         </div>
         <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
       </div>
     </div>
     <div class="container">
-      <div class="rebate-section">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px;">
-          <div>
-            <span class="eyebrow">Group Rebate Tracker</span>
-            <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--navy);margin:0;">BPN Group Earnings</h2>
-          </div>
-          <div class="period-tabs">
-            <button class="period-tab active">Q1 2026</button>
-            <button class="period-tab">YTD 2026</button>
-            <button class="period-tab">Full Year 2025</button>
-          </div>
-        </div>
-        <div class="rebate-banner">
-          <div>
-            <h3>Your group earns 5% back on every order.</h3>
-            <p>Group purchases are tracked at your discounted partner price. BPN distributes the 5% rebate among members at the end of each period.</p>
-          </div>
-          <div class="rebate-stats">
-            <div class="rebate-stat"><div class="val">$0</div><div class="lbl">Group Purchases</div></div>
-            <div class="rebate-stat"><div class="val">$0</div><div class="lbl">Discount Received</div></div>
-            <div class="rebate-stat"><div class="val">$0</div><div class="lbl">Rebate Earned (5%)</div></div>
-          </div>
-        </div>
-        <p style="font-size:13px;color:var(--muted);margin-top:12px;">Rebates are calculated on gross purchases and distributed by BPN at the end of each period.</p>
-      </div>
       <div class="order-section">
         <h2>Order Mata Gold</h2>
         <p class="sub">30% BPN group discount applied at checkout.</p>
@@ -422,7 +378,7 @@
       <div class="container dash-header-inner">
         <div>
           <div class="partner-badge" style="background:#e65100;">Admin View</div>
-          <h1>Sales &amp; Rebate Reports</h1>
+          <h1>Sales Reports</h1>
           <p>Internal reporting only — not visible to any partner.</p>
         </div>
         <button class="sign-out-btn" onclick="signOut()">Sign Out</button>
@@ -453,16 +409,6 @@
             <div class="val">$0</div>
             <div class="sub-val">Across all programs</div>
           </div>
-          <div class="admin-stat">
-            <div class="lbl">Resibrands Kickback Owed</div>
-            <div class="val">$0</div>
-            <div class="sub-val"><strong>5%</strong> of Resibrands gross sales</div>
-          </div>
-          <div class="admin-stat">
-            <div class="lbl">BPN Rebate Owed</div>
-            <div class="val">$0</div>
-            <div class="sub-val"><strong>5%</strong> of BPN gross sales</div>
-          </div>
         </div>
 
         <!-- Resibrands -->
@@ -470,7 +416,7 @@
           <div class="report-header">
             <div style="display:flex;align-items:center;gap:12px;">
               <h3>Resibrands</h3>
-              <span class="report-badge badge-resi">Kickback — not disclosed to franchisees</span>
+              <span class="report-badge badge-resi">Resibrands Partner</span>
             </div>
             <button class="btn btn--ghost" style="padding:8px 16px;font-size:13px;" onclick="alert('Export available once orders are placed.')">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -481,10 +427,8 @@
             <div class="report-row"><span class="rl">Gross Sales (Resibrands)</span><span class="rv">$0.00</span></div>
             <div class="report-row"><span class="rl">Number of Orders</span><span class="rv">0</span></div>
             <div class="report-row"><span class="rl">Avg. Order Value</span><span class="rv">—</span></div>
-            <div class="report-row"><span class="rl">Kickback Rate</span><span class="rv">5%</span></div>
-            <div class="report-row"><span class="rl">Kickback Payable to Resibrands</span><span class="rv hl">$0.00</span></div>
           </div>
-          <div class="report-footer"><p>Paid to Resibrands corporate. Members are not aware of this arrangement.</p></div>
+          <div class="report-footer"><p>Resibrands partner program — 30% discount applied at checkout.</p></div>
         </div>
 
         <!-- CPIA -->
@@ -492,7 +436,7 @@
           <div class="report-header">
             <div style="display:flex;align-items:center;gap:12px;">
               <h3>CPIA Members</h3>
-              <span class="report-badge badge-cpia">Member Benefit — no rebate obligation</span>
+              <span class="report-badge badge-cpia">CPIA Member</span>
             </div>
             <button class="btn btn--ghost" style="padding:8px 16px;font-size:13px;" onclick="alert('Export available once orders are placed.')">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -503,7 +447,6 @@
             <div class="report-row"><span class="rl">Gross Sales (CPIA members)</span><span class="rv">$0.00</span></div>
             <div class="report-row"><span class="rl">Number of Orders</span><span class="rv">0</span></div>
             <div class="report-row"><span class="rl">Avg. Order Value</span><span class="rv">—</span></div>
-            <div class="report-row"><span class="rl">Kickback / Rebate</span><span class="rv">None</span></div>
           </div>
           <div class="report-footer"><p>CPIA is an industry visibility partner. No financial obligation.</p></div>
         </div>
@@ -513,7 +456,7 @@
           <div class="report-header">
             <div style="display:flex;align-items:center;gap:12px;">
               <h3>BPN Buying Group</h3>
-              <span class="report-badge badge-bpn">Rebate Program — visible to members</span>
+              <span class="report-badge badge-bpn">BPN Buying Group</span>
             </div>
             <button class="btn btn--ghost" style="padding:8px 16px;font-size:13px;" onclick="alert('Export available once orders are placed.')">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -524,10 +467,8 @@
             <div class="report-row"><span class="rl">Gross Sales (BPN members)</span><span class="rv">$0.00</span></div>
             <div class="report-row"><span class="rl">Number of Orders</span><span class="rv">0</span></div>
             <div class="report-row"><span class="rl">Avg. Order Value</span><span class="rv">—</span></div>
-            <div class="report-row"><span class="rl">Rebate Rate</span><span class="rv">5%</span></div>
-            <div class="report-row"><span class="rl">Rebate Payable to BPN</span><span class="rv hl">$0.00</span></div>
           </div>
-          <div class="report-footer"><p>BPN distributes rebate among members. Members see their group total in the portal.</p></div>
+          <div class="report-footer"><p>BPN buying group — 30% discount applied at checkout.</p></div>
         </div>
 
       </div>

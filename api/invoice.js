@@ -6,7 +6,7 @@ const PRODUCTS = {
   large:  { name: 'Mata Gold – Large (48mm)',  boxPrice: 185, rolls: 20 },
 };
 
-const PROGRAM_DISCOUNTS = { cpia: 30, resi: 20, bpn: 30, admin: 0 };
+const PROGRAM_DISCOUNTS = { cpia: 30, resi: 30, bpn: 30, admin: 0 };
 
 function getPartnerDiscount(partnerCode) {
   if (!partnerCode) return 0;
