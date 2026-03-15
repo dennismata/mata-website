@@ -275,6 +275,7 @@ footer p { font-size: 13px; }
 .cart-item-name  { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
 .cart-item-meta  { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
 .cart-item-price { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.cart-item-price s { font-weight: 400; color: var(--muted); text-decoration: line-through; }
 .cart-item-qty   { display: flex; align-items: center; gap: 8px; }
 .cart-item-qty button {
   width: 26px; height: 26px;

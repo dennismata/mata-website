@@ -117,6 +117,7 @@ function renderCartDrawer() {
   const partnerD = getPartnerDiscount();
   const totalB   = getTotalBoxes(cart);
   const bulkD    = getBulkDiscount(totalB);
+  const appliedD = Math.max(partnerD, bulkD);
   const body     = document.getElementById('cart-body');
   const footer   = document.getElementById('cart-footer');
   if (!body || !footer) return;
@@ -142,7 +143,7 @@ function renderCartDrawer() {
         <div class="cart-item-info">
           <div class="cart-item-name">${p.name}</div>
           <div class="cart-item-meta">${p.size} · ${p.rolls} rolls/box</div>
-          <div class="cart-item-price">$${boxP.toFixed(2)}/box · $${lineTotal}</div>
+          <div class="cart-item-price">${appliedD > 0 ? `<s>$${p.boxPrice.toFixed(2)}</s> ` : ''}$${boxP.toFixed(2)}/box · $${lineTotal}</div>
           <div class="cart-item-qty">
             <button onclick="updateCartQty('${id}', ${qty - 1})">−</button>
             <span>${qty}</span>
@@ -160,7 +161,6 @@ function renderCartDrawer() {
   });
 
   let discountHTML = '';
-  const appliedD = Math.max(partnerD, bulkD);
   if (appliedD > 0) {
     const label = partnerD >= bulkD ? 'Partner discount' : `Bulk discount (${totalB} boxes)`;
     discountHTML += `<div class="cart-discount-row"><span>${label}</span><span>−${appliedD}%</span></div>`;

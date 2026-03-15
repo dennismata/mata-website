@@ -161,6 +161,12 @@
       font-size: 13px; color: var(--muted);
       border-left: 1px solid rgba(0,32,91,.15); padding-left: 10px;
     }
+    .product-price s { color: var(--muted); font-weight: 400; text-decoration: line-through; }
+    .price-roll s { font-size: 15px; }
+    .price-badge {
+      font-size: 11px; font-weight: 700; color: #2a7a2a;
+      background: #e8f5e9; padding: 3px 8px; border-radius: 50px;
+    }
 
     /* Bulk pricing note */
     .bulk-note {
@@ -712,10 +718,11 @@
           Object.entries(PRODUCTS).forEach(([id, p]) => {
             const discountedBox  = p.boxPrice * (1 - discount / 100);
             const discountedRoll = discountedBox / p.rolls;
+            const origRoll = (p.boxPrice / p.rolls).toFixed(2);
             const rollEl = document.getElementById('price-roll-' + id);
             const boxEl  = document.getElementById('price-box-' + id);
-            if (rollEl) rollEl.innerHTML = `$${discountedRoll.toFixed(2)}<span>/roll</span>`;
-            if (boxEl)  boxEl.textContent = `$${discountedBox.toFixed(2)}/box · ${p.rolls} rolls`;
+            if (rollEl) rollEl.innerHTML = `<s>$${origRoll}</s> $${discountedRoll.toFixed(2)}<span>/roll</span>`;
+            if (boxEl)  boxEl.innerHTML  = `<s>$${p.boxPrice}</s> $${discountedBox.toFixed(2)}/box · ${p.rolls} rolls`;
           });
         }
       } catch (e) {}
