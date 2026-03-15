@@ -298,6 +298,16 @@ footer p { font-size: 13px; }
   padding: 20px 28px 32px; border-top: 1px solid rgba(0,32,91,.08);
   background: var(--cream2); flex-shrink: 0;
 }
+.cart-subtotal-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: var(--muted); margin-bottom: 6px;
+}
+.cart-savings-row {
+  display: flex; justify-content: space-between;
+  font-size: 13px; font-weight: 700; color: #2a7a2a;
+  background: #e8f5e9; border-radius: 8px;
+  padding: 8px 10px; margin-bottom: 10px;
+}
 .cart-discount-row {
   display: flex; justify-content: space-between;
   font-size: 13px; color: var(--gold); font-weight: 700; margin-bottom: 8px;

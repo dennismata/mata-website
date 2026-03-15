@@ -154,16 +154,21 @@ function renderCartDrawer() {
       </div>`;
   }).join('');
 
+  let originalTotal = 0;
   let subtotal = 0;
   entries.forEach(([id, qty]) => {
     const p = PRODUCTS[id];
+    originalTotal += p.boxPrice * qty;
     subtotal += calcBoxPrice(p.boxPrice, partnerD, bulkD) * qty;
   });
+  const savings = originalTotal - subtotal;
 
   let discountHTML = '';
   if (appliedD > 0) {
     const label = partnerD >= bulkD ? 'Partner discount' : `Bulk discount (${totalB} boxes)`;
-    discountHTML += `<div class="cart-discount-row"><span>${label}</span><span>−${appliedD}%</span></div>`;
+    discountHTML = `
+      <div class="cart-subtotal-row"><span>Subtotal</span><span>$${originalTotal.toFixed(2)}</span></div>
+      <div class="cart-savings-row"><span>${label} (${appliedD}%)</span><span>−$${savings.toFixed(2)}</span></div>`;
   }
   if (!partnerD && !bulkD && totalB === 1) discountHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
 
