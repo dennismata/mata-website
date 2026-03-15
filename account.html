@@ -115,6 +115,7 @@
 
     /* ── DASHBOARD ─────────────────── */
     #account-dashboard { display: none; }
+    #auth-screen { display: none; }
 
     .dash-hero {
       background: var(--navy); padding: 110px 0 52px;
@@ -620,7 +621,8 @@
         return;
       }
 
-      // No existing session — listen for SIGNED_IN (e.g. after email confirmation redirect)
+      // No existing session — show login form and listen for SIGNED_IN (e.g. after email confirmation redirect)
+      document.getElementById('auth-screen').style.display = 'block';
       window.sb.auth.onAuthStateChange(async (event, sup) => {
         if (event === 'SIGNED_IN' && sup) {
           await syncSession(sup);
