@@ -52,9 +52,12 @@ module.exports = async function handler(req, res) {
     const bulkDiscount = getBulkDiscount(totalBoxes);
 
     // Find or create Stripe customer, always update address so automatic_tax works
-    const customerAddress = state
-      ? { state: state.toUpperCase(), country: 'US', ...(zip ? { postal_code: zip } : {}) }
-      : undefined;
+    // Use ZIP for tax (Stripe derives state from it); fall back to state-only if no ZIP
+    const customerAddress = zip
+      ? { postal_code: zip, country: 'US' }
+      : state
+        ? { state: state.toUpperCase(), country: 'US' }
+        : undefined;
 
     const existing = await stripe.customers.list({ email, limit: 1 });
     let customer;

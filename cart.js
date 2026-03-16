@@ -289,19 +289,13 @@ function showInvoiceForm() {
     return;
   }
 
-  const stateOpts = ['', ...US_STATES].map(s => {
-    const sel = s === getShipState() ? 'selected' : '';
-    return `<option value="${s}" ${sel}>${s || 'State (for shipping)…'}</option>`;
-  }).join('');
+  const savedZip = sessionStorage.getItem('mata_invoice_zip') || '';
 
   // Pre-fill email from account session
   form.innerHTML = `
     <input id="invoice-email" type="email" placeholder="Email address for invoice" class="invoice-input" value="${sess.email || ''}" />
     <input id="invoice-company" type="text" placeholder="Company name (optional)" class="invoice-input" />
-    <div style="display:flex;gap:8px;">
-      <select id="invoice-state" class="invoice-input" style="flex:1;">${stateOpts}</select>
-      <input id="invoice-zip" type="text" placeholder="ZIP code" class="invoice-input" maxlength="10" style="flex:1;" />
-    </div>
+    <input id="invoice-zip" type="text" placeholder="ZIP code" class="invoice-input" maxlength="10" value="${savedZip}" />
     <button id="invoice-submit-btn" onclick="requestInvoice()">Send Invoice →</button>`;
   form.style.display = 'block';
   btn.textContent = 'Cancel';
@@ -310,8 +304,9 @@ function showInvoiceForm() {
 async function requestInvoice() {
   const email   = document.getElementById('invoice-email')?.value.trim();
   const company = document.getElementById('invoice-company')?.value.trim();
-  const state   = document.getElementById('invoice-state')?.value || '';
+  const state   = getShipState(); // from cart state selector
   const zip     = document.getElementById('invoice-zip')?.value.trim() || '';
+  if (zip) sessionStorage.setItem('mata_invoice_zip', zip);
   if (!email) {
     document.getElementById('invoice-email').focus();
     return;
