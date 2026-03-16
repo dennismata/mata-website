@@ -53,7 +53,7 @@ module.exports = async function handler(req, res) {
 
     // Find or create Stripe customer, always update address so automatic_tax works
     const customerAddress = state
-      ? { line1: '', city: '', state: state.toUpperCase(), country: 'US', postal_code: '' }
+      ? { state: state.toUpperCase(), country: 'US' }
       : undefined;
 
     const existing = await stripe.customers.list({ email, limit: 1 });
