@@ -7,6 +7,8 @@ const PRODUCTS = {
   large:  { id: 'large',  name: 'Mata Gold – Large',  size: '1.88" / 48mm', boxPrice: 185, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
 };
 
+const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
+
 // ── Cart state ──────────────────────────────────────────────────────────────
 
 function getCart() {
@@ -76,6 +78,26 @@ function getPartnerCode() {
 function calcBoxPrice(boxPrice, partnerDiscount, bulkDiscount) {
   const discount = Math.max(partnerDiscount, bulkDiscount);
   return discount > 0 ? boxPrice * (1 - discount / 100) : boxPrice;
+}
+
+// ── Shipping helpers ────────────────────────────────────────────────────────
+
+function calcShipping(state, subtotal, totalBoxes) {
+  if (!state) return null; // unknown until state selected
+  if (['IL', 'IN'].includes(state)) {
+    return subtotal >= 250 ? 0 : 25;
+  }
+  if (subtotal >= 500) return 0;
+  return totalBoxes === 1 ? 25 : 40;
+}
+
+function getShipState() {
+  return sessionStorage.getItem('mata_ship_state') || '';
+}
+
+function saveShipState(state) {
+  sessionStorage.setItem('mata_ship_state', state);
+  renderCartDrawer();
 }
 
 // ── Badge ───────────────────────────────────────────────────────────────────
@@ -172,9 +194,47 @@ function renderCartDrawer() {
   }
   if (!partnerD && !bulkD && totalB === 1) discountHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
 
+  // Shipping
+  const state    = getShipState();
+  const shipping = calcShipping(state, subtotal, totalB);
+  const grandTotal = subtotal + (shipping || 0);
+
+  let freeShippingHint = '';
+  if (state && shipping > 0) {
+    const threshold = ['IL', 'IN'].includes(state) ? 250 : 500;
+    const remaining = threshold - subtotal;
+    if (remaining > 0) {
+      freeShippingHint = `<div class="cart-free-shipping-hint">Add $${remaining.toFixed(2)} more for free shipping</div>`;
+    }
+  }
+
+  const stateOpts = ['', ...US_STATES].map(s =>
+    `<option value="${s}" ${s === state ? 'selected' : ''}>${s || 'Select state…'}</option>`
+  ).join('');
+
+  const shippingAmountHTML = !state
+    ? '—'
+    : shipping === 0
+      ? '<span class="cart-shipping-free">Free</span>'
+      : `$${shipping.toFixed(2)}`;
+
+  const shippingHTML = `
+    <div class="cart-shipping-row">
+      <span>Shipping</span>
+      <div class="cart-shipping-right">
+        <select id="cart-state" onchange="saveShipState(this.value)">${stateOpts}</select>
+        <span class="cart-shipping-amount">${shippingAmountHTML}</span>
+      </div>
+    </div>
+    ${freeShippingHint}`;
+
+  const totalNote = !state ? `<div class="cart-total-note">Select state to include shipping</div>` : '';
+
   footer.innerHTML = `
     ${discountHTML}
-    <div class="cart-total"><span>Total</span><span>$${subtotal.toFixed(2)}</span></div>
+    ${shippingHTML}
+    <div class="cart-total"><span>Total</span><span>$${grandTotal.toFixed(2)}</span></div>
+    ${totalNote}
     <button id="checkout-btn" onclick="proceedToCheckout()">Pay Now →</button>
     ${partnerD > 0 ? `<button id="invoice-btn" onclick="showInvoiceForm()">Request Invoice (Net-15)</button>` : ''}
     <div id="invoice-form" style="display:none;">
@@ -233,10 +293,16 @@ function showInvoiceForm() {
     return;
   }
 
+  const stateOpts = ['', ...US_STATES].map(s => {
+    const sel = s === getShipState() ? 'selected' : '';
+    return `<option value="${s}" ${sel}>${s || 'State (for shipping)…'}</option>`;
+  }).join('');
+
   // Pre-fill email from account session
   form.innerHTML = `
     <input id="invoice-email" type="email" placeholder="Email address for invoice" class="invoice-input" value="${sess.email || ''}" />
     <input id="invoice-company" type="text" placeholder="Company name (optional)" class="invoice-input" />
+    <select id="invoice-state" class="invoice-input">${stateOpts}</select>
     <button id="invoice-submit-btn" onclick="requestInvoice()">Send Invoice →</button>`;
   form.style.display = 'block';
   btn.textContent = 'Cancel';
@@ -245,6 +311,7 @@ function showInvoiceForm() {
 async function requestInvoice() {
   const email   = document.getElementById('invoice-email')?.value.trim();
   const company = document.getElementById('invoice-company')?.value.trim();
+  const state   = document.getElementById('invoice-state')?.value || '';
   if (!email) {
     document.getElementById('invoice-email').focus();
     return;
@@ -261,7 +328,7 @@ async function requestInvoice() {
     const res  = await fetch('/api/invoice', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), email, companyName: company }),
+      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), email, companyName: company, state }),
     });
     const data = await res.json();
     if (data.success) {
@@ -301,7 +368,7 @@ async function proceedToCheckout() {
     const res  = await fetch('/api/checkout', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ items, partnerCode: getPartnerCode() }),
+      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), state: getShipState() }),
     });
     const data = await res.json();
     if (data.url) {

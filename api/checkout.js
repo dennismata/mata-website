@@ -24,6 +24,15 @@ function getBulkDiscount(totalBoxes) {
   return 0;
 }
 
+function calcShipping(state, subtotal, totalBoxes) {
+  if (!state) return 0;
+  if (['IL', 'IN'].includes(state.toUpperCase())) {
+    return subtotal >= 250 ? 0 : 25;
+  }
+  if (subtotal >= 500) return 0;
+  return totalBoxes === 1 ? 25 : 40;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -33,7 +42,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { items, partnerCode } = req.body;
+    const { items, partnerCode, state } = req.body;
 
     if (!items || !items.length) {
       return res.status(400).json({ error: 'No items in cart' });
@@ -44,7 +53,10 @@ module.exports = async function handler(req, res) {
     const totalBoxes = items.reduce((sum, item) => sum + (item.boxes || 0), 0);
     const bulkDiscount = getBulkDiscount(totalBoxes);
 
-    const lineItems = items.map(item => {
+    const lineItems = [];
+    let productSubtotal = 0;
+
+    for (const item of items) {
       const product = PRODUCTS[item.id];
       if (!product) throw new Error(`Unknown product: ${item.id}`);
 
@@ -53,8 +65,9 @@ module.exports = async function handler(req, res) {
       if (discount > 0) boxPrice *= (1 - discount / 100);
 
       const unitAmountCents = Math.round(boxPrice * 100);
+      productSubtotal += boxPrice * item.boxes;
 
-      return {
+      lineItems.push({
         price_data: {
           currency: 'usd',
           product_data: {
@@ -64,8 +77,20 @@ module.exports = async function handler(req, res) {
           unit_amount: unitAmountCents,
         },
         quantity: item.boxes,
-      };
-    });
+      });
+    }
+
+    const shippingCost = calcShipping(state, productSubtotal, totalBoxes);
+    if (shippingCost > 0) {
+      lineItems.push({
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Shipping' },
+          unit_amount: shippingCost * 100,
+        },
+        quantity: 1,
+      });
+    }
 
     const origin = req.headers.origin || `https://${req.headers.host}`;
 
@@ -74,6 +99,7 @@ module.exports = async function handler(req, res) {
       line_items: lineItems,
       mode: 'payment',
       automatic_tax: { enabled: true },
+      shipping_address_collection: { allowed_countries: ['US'] },
       success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel.html`,
       metadata: {

@@ -315,6 +315,31 @@ footer p { font-size: 13px; }
 .cart-upsell {
   font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 10px;
 }
+.cart-shipping-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: var(--navy); padding: 8px 0; margin-bottom: 4px;
+}
+.cart-shipping-right {
+  display: flex; align-items: center; gap: 10px;
+}
+#cart-state, #invoice-state {
+  font-size: 12px; font-family: 'DM Sans', sans-serif;
+  border: 1.5px solid rgba(0,32,91,.2); border-radius: 8px;
+  padding: 5px 8px; color: var(--navy); background: var(--white);
+  outline: none; cursor: pointer;
+}
+#cart-state:focus, #invoice-state:focus { border-color: var(--gold); }
+.cart-shipping-amount { font-weight: 600; min-width: 40px; text-align: right; }
+.cart-shipping-free { color: #16a34a; font-weight: 700; }
+.cart-free-shipping-hint {
+  font-size: 12px; color: #16a34a; font-weight: 600;
+  background: #f0fdf4; border-radius: 8px;
+  padding: 8px 12px; margin-bottom: 10px; text-align: center;
+}
+.cart-total-note {
+  font-size: 11px; color: var(--muted); text-align: center; margin-top: -10px; margin-bottom: 12px;
+}
+select.invoice-input { appearance: auto; cursor: pointer; }
 .cart-total {
   display: flex; justify-content: space-between;
   font-size: 17px; font-weight: 700; color: var(--navy);

@@ -24,6 +24,15 @@ function getBulkDiscount(totalBoxes) {
   return 0;
 }
 
+function calcShipping(state, subtotal, totalBoxes) {
+  if (!state) return 0;
+  if (['IL', 'IN'].includes(state.toUpperCase())) {
+    return subtotal >= 250 ? 0 : 25;
+  }
+  if (subtotal >= 500) return 0;
+  return totalBoxes === 1 ? 25 : 40;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -33,7 +42,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { items, partnerCode, email, companyName } = req.body;
+    const { items, partnerCode, email, companyName, state } = req.body;
 
     if (!items || !items.length) return res.status(400).json({ error: 'No items in cart' });
     if (!email) return res.status(400).json({ error: 'Email is required for invoicing' });
@@ -54,7 +63,6 @@ module.exports = async function handler(req, res) {
       collection_method: 'send_invoice',
       days_until_due: 15,
       auto_advance: false,
-      automatic_tax: { enabled: true },
       footer: 'Payment due within 15 days of invoice date. Thank you for your business — Mata Tape, Inc.',
       metadata: {
         partner_code: partnerCode || '',
@@ -63,7 +71,8 @@ module.exports = async function handler(req, res) {
       },
     });
 
-    // Add line items to invoice
+    // Add product line items to invoice
+    let productSubtotal = 0;
     for (const item of items) {
       const product = PRODUCTS[item.id];
       if (!product) throw new Error(`Unknown product: ${item.id}`);
@@ -72,6 +81,8 @@ module.exports = async function handler(req, res) {
       const discount = Math.max(partnerDiscount, bulkDiscount);
       if (discount > 0) boxPrice *= (1 - discount / 100);
 
+      productSubtotal += boxPrice * item.boxes;
+
       await stripe.invoiceItems.create({
         customer: customer.id,
         invoice: invoice.id,
@@ -79,6 +90,19 @@ module.exports = async function handler(req, res) {
         unit_amount: Math.round(boxPrice * 100),
         currency: 'usd',
         description: `${product.name} – ${product.rolls} rolls/box`,
+      });
+    }
+
+    // Add shipping line item if applicable
+    const shippingCost = calcShipping(state, productSubtotal, totalBoxes);
+    if (shippingCost > 0) {
+      await stripe.invoiceItems.create({
+        customer: customer.id,
+        invoice: invoice.id,
+        quantity: 1,
+        unit_amount: shippingCost * 100,
+        currency: 'usd',
+        description: 'Shipping',
       });
     }
 
