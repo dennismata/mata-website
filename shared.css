@@ -245,14 +245,10 @@ footer p { font-size: 13px; }
   font-family: 'Playfair Display', serif;
   font-size: 22px; font-weight: 800; color: var(--navy);
 }
-#cart-close {
-  width: 36px; height: 36px; border: none; background: none;
-  cursor: pointer; color: var(--muted); border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s;
+#cart-close-link {
+  font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s;
 }
-#cart-close:hover { background: var(--cream); color: var(--navy); }
-#cart-close svg { width: 20px; height: 20px; }
+#cart-close-link:hover { color: var(--navy); }
 
 #cart-body { flex: 1; overflow-y: auto; padding: 8px 28px; }
 
@@ -409,8 +405,3 @@ select.invoice-input { appearance: auto; cursor: pointer; }
 }
 .cart-stripe-note svg { width: 13px; height: 13px; flex-shrink: 0; }
 
-.cart-continue-link {
-  display: block; text-align: center; font-size: 13px; color: var(--muted);
-  text-decoration: none; margin-top: 8px;
-}
-.cart-continue-link:hover { color: var(--navy); }

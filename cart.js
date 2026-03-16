@@ -121,16 +121,14 @@ function injectCartDrawer() {
     <div id="cart-panel">
       <div id="cart-header">
         <h2>Your Order</h2>
-        <button id="cart-close" aria-label="Close">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+        <a href="index.html#products" id="cart-close-link" onclick="closeCartDrawer();return false;">← Continue shopping</a>
       </div>
       <div id="cart-body"></div>
       <div id="cart-footer"></div>
     </div>`;
   document.body.appendChild(el);
   document.getElementById('cart-overlay').addEventListener('click', closeCartDrawer);
-  document.getElementById('cart-close').addEventListener('click', closeCartDrawer);
+  document.getElementById('cart-close-link').addEventListener('click', closeCartDrawer);
 }
 
 function renderCartDrawer() {
@@ -185,20 +183,22 @@ function renderCartDrawer() {
   });
   const savings = originalTotal - subtotal;
 
-  let discountHTML = '';
-  if (appliedD > 0) {
-    const label = partnerD >= bulkD ? 'Partner discount' : `Bulk discount (${totalB} boxes)`;
-    discountHTML = `
-      <div class="cart-subtotal-row"><span>Subtotal</span><span>$${originalTotal.toFixed(2)}</span></div>
-      <div class="cart-savings-row"><span>${label} (${appliedD}%)</span><span>−$${savings.toFixed(2)}</span></div>`;
-  }
-  if (!partnerD && !bulkD && totalB === 1) discountHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
-
   // Shipping
-  const state    = getShipState();
-  const shipping = calcShipping(state, subtotal, totalB);
+  const state      = getShipState();
+  const shipping   = calcShipping(state, subtotal, totalB);
   const grandTotal = subtotal + (shipping || 0);
 
+  // Summary rows: Subtotal → Discount → Subtotal (after discount)
+  let summaryHTML = `<div class="cart-subtotal-row"><span>Subtotal</span><span>$${originalTotal.toFixed(2)}</span></div>`;
+  if (appliedD > 0) {
+    const label = partnerD >= bulkD ? 'Partner discount' : `Bulk discount (${totalB} boxes)`;
+    summaryHTML += `
+      <div class="cart-savings-row"><span>${label} (${appliedD}%)</span><span>−$${savings.toFixed(2)}</span></div>
+      <div class="cart-subtotal-row"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>`;
+  }
+  if (!partnerD && !bulkD && totalB === 1) summaryHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
+
+  // Free shipping hint
   let freeShippingHint = '';
   if (state && shipping > 0) {
     const threshold = ['IL', 'IN'].includes(state) ? 250 : 500;
@@ -218,7 +218,11 @@ function renderCartDrawer() {
       ? '<span class="cart-shipping-free">Free</span>'
       : `$${shipping.toFixed(2)}`;
 
-  const shippingHTML = `
+  const totalNote = !state ? `<div class="cart-total-note">Select state to include shipping</div>` : '';
+
+  footer.innerHTML = `
+    ${summaryHTML}
+    ${freeShippingHint}
     <div class="cart-shipping-row">
       <span>Shipping</span>
       <div class="cart-shipping-right">
@@ -226,13 +230,6 @@ function renderCartDrawer() {
         <span class="cart-shipping-amount">${shippingAmountHTML}</span>
       </div>
     </div>
-    ${freeShippingHint}`;
-
-  const totalNote = !state ? `<div class="cart-total-note">Select state to include shipping</div>` : '';
-
-  footer.innerHTML = `
-    ${discountHTML}
-    ${shippingHTML}
     <div class="cart-total"><span>Total</span><span>$${grandTotal.toFixed(2)}</span></div>
     ${totalNote}
     <button id="checkout-btn" onclick="proceedToCheckout()">Pay Now →</button>
@@ -245,8 +242,7 @@ function renderCartDrawer() {
     <p class="cart-stripe-note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       Secure payments via Stripe
-    </p>
-    <a href="index.html#products" onclick="closeCartDrawer()" class="cart-continue-link">← Continue shopping</a>`;
+    </p>`;
 }
 
 function openCartDrawer() {
