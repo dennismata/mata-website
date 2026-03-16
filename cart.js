@@ -92,7 +92,13 @@ function calcShipping(state, subtotal, totalBoxes) {
 }
 
 function getShipState() {
-  return sessionStorage.getItem('mata_ship_state') || '';
+  const stored = sessionStorage.getItem('mata_ship_state');
+  if (stored) return stored;
+  // Fall back to profile state if available
+  try {
+    const sess = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
+    return sess?.state || '';
+  } catch { return ''; }
 }
 
 function saveShipState(state) {
@@ -289,7 +295,8 @@ function showInvoiceForm() {
     return;
   }
 
-  const savedZip = sessionStorage.getItem('mata_invoice_zip') || '';
+  const profileZip = sess?.zip || '';
+  const savedZip = profileZip || sessionStorage.getItem('mata_invoice_zip') || '';
 
   // Pre-fill email from account session
   form.innerHTML = `

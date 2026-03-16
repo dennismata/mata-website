@@ -413,17 +413,17 @@
           </div>
 
           <p class="profile-section-title">Shipping Address</p>
-          <div class="field"><label>Address line 1</label><input type="text" placeholder="123 Main St" /></div>
-          <div class="field"><label>Address line 2</label><input type="text" placeholder="Suite, apt, etc." /></div>
+          <div class="field"><label>Address line 1</label><input type="text" id="profile-addr1" placeholder="123 Main St" /></div>
+          <div class="field"><label>Address line 2</label><input type="text" id="profile-addr2" placeholder="Suite, apt, etc." /></div>
           <div class="field-row">
-            <div class="field"><label>City</label><input type="text" placeholder="Chicago" /></div>
-            <div class="field"><label>State</label><input type="text" placeholder="IL" /></div>
+            <div class="field"><label>City</label><input type="text" id="profile-city" placeholder="Chicago" /></div>
+            <div class="field"><label>State</label><input type="text" id="profile-state" placeholder="IL" maxlength="2" /></div>
           </div>
           <div class="field-row">
-            <div class="field"><label>ZIP code</label><input type="text" placeholder="60601" /></div>
-            <div class="field"><label>Country</label><input type="text" value="United States" /></div>
+            <div class="field"><label>ZIP code</label><input type="text" id="profile-zip" placeholder="60601" maxlength="10" /></div>
+            <div class="field"><label>Country</label><input type="text" value="United States" readonly /></div>
           </div>
-          <button class="save-btn" onclick="alert('Address saved. (Connected to backend when live.)')">Save Address</button>
+          <button class="save-btn" id="save-address-btn" onclick="saveAddress()">Save Address</button>
 
           <div style="margin-top:48px;padding-top:32px;border-top:1px solid rgba(0,32,91,.08);">
             <p class="profile-section-title">Change Password</p>
@@ -549,7 +549,12 @@
         }
 
         const partnerInfo = partnerCode ? await validatePartnerCode(partnerCode) : null;
-        session = { email: sup.user.email, firstName, lastName, companyName, partnerCode, partnerInfo };
+        const addrLine1 = profile?.address_line1 || '';
+        const addrLine2 = profile?.address_line2 || '';
+        const city      = profile?.city           || '';
+        const state     = profile?.state          || '';
+        const zip       = profile?.zip            || '';
+        session = { email: sup.user.email, firstName, lastName, companyName, partnerCode, partnerInfo, addrLine1, addrLine2, city, state, zip };
       } catch {
         const meta = sup.user.user_metadata || {};
         session = { email: sup.user.email, firstName: meta.first_name || sup.user.email.split('@')[0], lastName: meta.last_name || '', companyName: '', partnerCode: null, partnerInfo: null };
@@ -703,6 +708,13 @@
       document.getElementById('profile-last').value  = session.lastName  || '';
       document.getElementById('profile-email').value = session.email     || '';
 
+      // Pre-fill address fields
+      document.getElementById('profile-addr1').value = session.addrLine1 || '';
+      document.getElementById('profile-addr2').value = session.addrLine2 || '';
+      document.getElementById('profile-city').value  = session.city      || '';
+      document.getElementById('profile-state').value = session.state     || '';
+      document.getElementById('profile-zip').value   = session.zip       || '';
+
       // Partner panel
       if (session.partnerInfo) {
         document.getElementById('partner-linked-view').style.display   = 'block';
@@ -742,6 +754,46 @@
       document.querySelectorAll('.account-nav-tab').forEach(t => t.classList.remove('active'));
       document.getElementById(`panel-${name}`).classList.add('active');
       btn.classList.add('active');
+    }
+
+    // ── Save address ─────────────────────────────────
+    async function saveAddress() {
+      const btn = document.getElementById('save-address-btn');
+      const addrLine1 = document.getElementById('profile-addr1').value.trim();
+      const addrLine2 = document.getElementById('profile-addr2').value.trim();
+      const city      = document.getElementById('profile-city').value.trim();
+      const state     = document.getElementById('profile-state').value.trim().toUpperCase();
+      const zip       = document.getElementById('profile-zip').value.trim();
+
+      btn.disabled = true; btn.textContent = 'Saving…';
+      try {
+        const { error } = await window.sb.from('profiles').update({
+          address_line1: addrLine1 || null,
+          address_line2: addrLine2 || null,
+          city:          city      || null,
+          state:         state     || null,
+          zip:           zip       || null,
+        }).eq('id', supaSession.user.id);
+
+        if (error) throw error;
+
+        // Update session
+        session.addrLine1 = addrLine1;
+        session.addrLine2 = addrLine2;
+        session.city      = city;
+        session.state     = state;
+        session.zip       = zip;
+        sessionStorage.setItem('mata_session', JSON.stringify(session));
+
+        // Also pre-fill cart shipping state if set
+        if (state) sessionStorage.setItem('mata_ship_state', state);
+
+        btn.textContent = 'Saved!';
+        setTimeout(() => { btn.disabled = false; btn.textContent = 'Save Address'; }, 2000);
+      } catch(e) {
+        alert('Error saving address. Please try again.');
+        btn.disabled = false; btn.textContent = 'Save Address';
+      }
     }
 
     // ── Sign out ─────────────────────────────────────
