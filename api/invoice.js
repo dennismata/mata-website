@@ -51,11 +51,25 @@ module.exports = async function handler(req, res) {
     const totalBoxes  = items.reduce((sum, item) => sum + (item.boxes || 0), 0);
     const bulkDiscount = getBulkDiscount(totalBoxes);
 
-    // Find or create Stripe customer
+    // Find or create Stripe customer, always update address so automatic_tax works
+    const customerAddress = state
+      ? { line1: '', city: '', state: state.toUpperCase(), country: 'US', postal_code: '' }
+      : undefined;
+
     const existing = await stripe.customers.list({ email, limit: 1 });
-    const customer = existing.data.length
-      ? existing.data[0]
-      : await stripe.customers.create({ email, name: companyName || email });
+    let customer;
+    if (existing.data.length) {
+      customer = existing.data[0];
+      if (customerAddress) {
+        await stripe.customers.update(customer.id, { address: customerAddress });
+      }
+    } else {
+      customer = await stripe.customers.create({
+        email,
+        name: companyName || email,
+        ...(customerAddress ? { address: customerAddress } : {}),
+      });
+    }
 
     // Create invoice with Net-15 terms
     const invoice = await stripe.invoices.create({
@@ -63,6 +77,7 @@ module.exports = async function handler(req, res) {
       collection_method: 'send_invoice',
       days_until_due: 15,
       auto_advance: false,
+      automatic_tax: { enabled: true },
       footer: 'Payment due within 15 days of invoice date. Thank you for your business — Mata Tape, Inc.',
       metadata: {
         partner_code: partnerCode || '',
