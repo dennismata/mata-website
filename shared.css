@@ -332,9 +332,8 @@ footer p { font-size: 13px; }
 .cart-shipping-amount { font-weight: 600; min-width: 40px; text-align: right; }
 .cart-shipping-free { color: #16a34a; font-weight: 700; }
 .cart-free-shipping-hint {
-  font-size: 12px; color: #16a34a; font-weight: 600;
-  background: #f0fdf4; border-radius: 8px;
-  padding: 8px 12px; margin-bottom: 10px; text-align: center;
+  font-size: 12px; color: var(--muted); font-weight: 400;
+  margin-bottom: 10px;
 }
 .cart-total-note {
   font-size: 11px; color: var(--muted); text-align: center; margin-top: -10px; margin-bottom: 12px;
