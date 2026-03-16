@@ -391,4 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.removeAttribute('onclick');
     btn.addEventListener('click', openCartDrawer);
   });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeCartDrawer();
+  });
 });
