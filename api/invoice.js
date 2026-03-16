@@ -54,6 +54,7 @@ module.exports = async function handler(req, res) {
       collection_method: 'send_invoice',
       days_until_due: 15,
       auto_advance: false,
+      automatic_tax: { enabled: true },
       footer: 'Payment due within 15 days of invoice date. Thank you for your business — Mata Tape, Inc.',
       metadata: {
         partner_code: partnerCode || '',
