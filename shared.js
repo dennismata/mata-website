@@ -8,6 +8,18 @@
           btn.textContent = 'My Account';
           btn.href = 'account.html';
         });
+        // Ensure mata_session matches the current Supabase user
+        try {
+          const stored = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
+          if (!stored || stored.email !== session.user.email) {
+            const updated = stored || {};
+            updated.email = session.user.email;
+            sessionStorage.setItem('mata_session', JSON.stringify(updated));
+          }
+        } catch {}
+      } else {
+        // No active session — clear any stale mata_session
+        sessionStorage.removeItem('mata_session');
       }
     }
   } catch(e) {}
