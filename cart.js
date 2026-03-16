@@ -298,7 +298,10 @@ function showInvoiceForm() {
   form.innerHTML = `
     <input id="invoice-email" type="email" placeholder="Email address for invoice" class="invoice-input" value="${sess.email || ''}" />
     <input id="invoice-company" type="text" placeholder="Company name (optional)" class="invoice-input" />
-    <select id="invoice-state" class="invoice-input">${stateOpts}</select>
+    <div style="display:flex;gap:8px;">
+      <select id="invoice-state" class="invoice-input" style="flex:1;">${stateOpts}</select>
+      <input id="invoice-zip" type="text" placeholder="ZIP code" class="invoice-input" maxlength="10" style="flex:1;" />
+    </div>
     <button id="invoice-submit-btn" onclick="requestInvoice()">Send Invoice →</button>`;
   form.style.display = 'block';
   btn.textContent = 'Cancel';
@@ -308,6 +311,7 @@ async function requestInvoice() {
   const email   = document.getElementById('invoice-email')?.value.trim();
   const company = document.getElementById('invoice-company')?.value.trim();
   const state   = document.getElementById('invoice-state')?.value || '';
+  const zip     = document.getElementById('invoice-zip')?.value.trim() || '';
   if (!email) {
     document.getElementById('invoice-email').focus();
     return;
@@ -324,7 +328,7 @@ async function requestInvoice() {
     const res  = await fetch('/api/invoice', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), email, companyName: company, state }),
+      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), email, companyName: company, state, zip }),
     });
     const data = await res.json();
     if (data.success) {

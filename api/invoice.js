@@ -42,7 +42,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { items, partnerCode, email, companyName, state } = req.body;
+    const { items, partnerCode, email, companyName, state, zip } = req.body;
 
     if (!items || !items.length) return res.status(400).json({ error: 'No items in cart' });
     if (!email) return res.status(400).json({ error: 'Email is required for invoicing' });
@@ -53,7 +53,7 @@ module.exports = async function handler(req, res) {
 
     // Find or create Stripe customer, always update address so automatic_tax works
     const customerAddress = state
-      ? { state: state.toUpperCase(), country: 'US' }
+      ? { state: state.toUpperCase(), country: 'US', ...(zip ? { postal_code: zip } : {}) }
       : undefined;
 
     const existing = await stripe.customers.list({ email, limit: 1 });
