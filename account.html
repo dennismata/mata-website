@@ -413,14 +413,14 @@
           </div>
 
           <p class="profile-section-title">Shipping Address</p>
-          <div class="field"><label>Address line 1</label><input type="text" id="profile-addr1" placeholder="123 Main St" /></div>
+          <div class="field"><label>Address line 1 <span style="color:var(--gold);">*</span></label><input type="text" id="profile-addr1" placeholder="123 Main St" /></div>
           <div class="field"><label>Address line 2</label><input type="text" id="profile-addr2" placeholder="Suite, apt, etc." /></div>
           <div class="field-row">
-            <div class="field"><label>City</label><input type="text" id="profile-city" placeholder="Chicago" /></div>
-            <div class="field"><label>State</label><input type="text" id="profile-state" placeholder="IL" maxlength="2" /></div>
+            <div class="field"><label>City <span style="color:var(--gold);">*</span></label><input type="text" id="profile-city" placeholder="Chicago" /></div>
+            <div class="field"><label>State <span style="color:var(--gold);">*</span></label><input type="text" id="profile-state" placeholder="IL" maxlength="2" /></div>
           </div>
           <div class="field-row">
-            <div class="field"><label>ZIP code</label><input type="text" id="profile-zip" placeholder="60601" maxlength="10" /></div>
+            <div class="field"><label>ZIP code <span style="color:var(--gold);">*</span></label><input type="text" id="profile-zip" placeholder="60601" maxlength="10" /></div>
             <div class="field"><label>Country</label><input type="text" value="United States" readonly /></div>
           </div>
           <button class="save-btn" id="save-address-btn" onclick="saveAddress()">Save Address</button>
