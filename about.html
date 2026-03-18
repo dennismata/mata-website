@@ -31,6 +31,10 @@
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 24px; margin-top: 16px;
     }
+    .values-grid .value-card:nth-child(4) { grid-column: 1; }
+    @media (min-width: 901px) {
+      .values-grid { grid-template-columns: repeat(5, 1fr); }
+    }
     .value-card {
       background: var(--cream); border-radius: var(--radius);
       padding: 28px 24px;
@@ -102,8 +106,8 @@
   <!-- PAGE HERO -->
   <div class="page-hero">
     <span class="eyebrow">Our Story</span>
-    <h1>Proven in Europe.<br />Built for America.</h1>
-    <p>Mata Tape brings high-performance masking technology from Europe's professional markets to the U.S. professional painting industry — closing a gap that's been open for decades.</p>
+    <h1>Made for Pros.<br />Built for the Real World.</h1>
+    <p>At Mata Tape, we build masking solutions that work as hard as you do. Razor-sharp lines, predictable adhesion, and clean removal — job after job.</p>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -113,9 +117,9 @@
       <div class="about-grid">
         <div class="about-block">
           <h3>How It Started</h3>
-          <p>Mata Tape is a specialist in high-performance masking for professional users. While the brand is new to the United States, the technology is not: our washi-based solutions originate from years of use and refinement within Europe's professional painting and industrial markets, where they have long been the standard for precision and reliability.</p>
-          <p>We bring this proven expertise to the U.S. — introducing innovations that are new to the American professional painting industry but have been trusted by European contractors and industrial applicators for years.</p>
-          <p>Our production and supply model is built for reliability and nationwide continuity, so contractors can standardize results across teams, regions, and project types without worrying about availability.</p>
+          <p>We started Mata Tape with a simple promise to professionals: your tape should work as hard as you do. The brand is new, but the know-how runs deep. Our founders bring years of hands-on tape expertise combined with real-world operations experience to solve a problem painters have faced for decades — masking that slows you down.</p>
+          <p>So we built something better. Sharp lines on the first pass, clean removal when you're done, and performance you can count on job after job. No gimmicks, no surprises. Just tape that helps your crew prep once, paint once, and move on.</p>
+          <p>And because reliability matters, our supply model is built for nationwide continuity — so you can standardize across teams and projects without worrying about availability.</p>
           <a href="#" onclick="openSampleModal();return false;" class="btn btn--gold" style="margin-top:8px;">Try a Free Sample</a>
         </div>
         <div class="about-img fade-in">
@@ -129,9 +133,17 @@
         </div>
         <div class="about-block">
           <h3>The Mata Gold Difference</h3>
-          <p>Commercial painting has advanced rapidly — coatings, spray systems, client expectations — yet the masking tape category has seen little meaningful innovation for decades. That gap impacts daily operations: edge quality, rework, variability across crews, and ultimately customer satisfaction.</p>
-          <p>Mata Gold is our answer. Engineered from authentic Japanese washi paper with a precision adhesive layer, it delivers ultra-sharp paint lines, residue-free removal for up to six months, and performance that holds up under UV exposure, spray applications, and both water and solvent-based coatings.</p>
-          <p>One tape handles most surfaces and applications — reducing the number of products your crew needs to carry, simplifying training, and delivering consistent results regardless of who is applying it.</p>
+          <p>Professional painting has advanced rapidly — coatings, spray systems, client expectations — yet the masking tape category has seen little meaningful innovation for decades. That gap affects daily operations: edge quality, rework, variability across crews, and ultimately your reputation.</p>
+          <p>Mata Gold is our answer. Engineered from authentic Japanese washi paper with a precision adhesive layer, it delivers:</p>
+          <ul style="margin:0 0 16px 0;padding-left:20px;color:var(--muted);font-size:16px;line-height:2;">
+            <li>Ultra-sharp lines — no bleed</li>
+            <li>Clean removal up to 6 months — no damage, no residue</li>
+            <li>Strong, thin, and flexible — no tearing, no lifting</li>
+            <li>UV-resistant — indoor and outdoor</li>
+            <li>Performs under spray — consistent coverage</li>
+            <li>Works on most surfaces</li>
+          </ul>
+          <p>One tape that replaces most of what you use today — fewer products to stock, simpler crew training, and consistent results regardless of who is applying it.</p>
         </div>
       </div>
 
@@ -145,22 +157,36 @@
           <div class="value-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
-          <h4>Quality First</h4>
-          <p>We never compromise on materials. Every roll of Mata Gold uses the same authentic Japanese washi paper and premium adhesive.</p>
+          <h4>Craftsmanship First</h4>
+          <p>Great paint deserves great prep. We build tools that elevate your finish, not hold it back.</p>
         </div>
         <div class="value-card fade-in">
           <div class="value-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
           </div>
-          <h4>Professionals First</h4>
-          <p>Built with feedback from working painters and contractors. If it doesn't pass the job site test, it doesn't ship.</p>
+          <h4>Consistency Over Luck</h4>
+          <p>Quality shouldn't depend on the day or the crew. We engineer for repeatable results at scale.</p>
+        </div>
+        <div class="value-card fade-in">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h4>Time Is Value</h4>
+          <p>No wasted steps. Less rework, faster cleanup, smoother handoffs — so jobs stay on schedule.</p>
+        </div>
+        <div class="value-card fade-in">
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h4>Innovation With Purpose</h4>
+          <p>Technology matters only if it makes your work easier, faster, and more reliable.</p>
         </div>
         <div class="value-card fade-in">
           <div class="value-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
-          <h4>Community</h4>
-          <p>We invest in the professional painting community through partnerships with leading trade associations and buying groups — supporting the standards, education, and operational excellence that professional contractors deserve.</p>
+          <h4>Respect for the Pro</h4>
+          <p>We listen, test in the field, and build with the painter in mind — always.</p>
         </div>
       </div>
 
