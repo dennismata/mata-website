@@ -2,9 +2,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const rateLimit = require('./_rateLimit');
 
 const PRODUCTS = {
-  small:  { name: 'Mata Gold – Small (24mm)',  boxPrice: 251.64, rolls: 36 },
-  medium: { name: 'Mata Gold – Medium (36mm)', boxPrice: 215.76, rolls: 24 },
-  large:  { name: 'Mata Gold – Large (48mm)',  boxPrice: 219.80, rolls: 20 },
+  small:  { name: 'Mata Gold – Small (24mm)',  boxPrice: 237.24, rolls: 36 },
+  medium: { name: 'Mata Gold – Medium (36mm)', boxPrice: 208.56, rolls: 24 },
+  large:  { name: 'Mata Gold – Large (48mm)',  boxPrice: 209.80, rolls: 20 },
 };
 
 const PROGRAM_DISCOUNTS = { cpia: 30, resi: 30, bpn: 30, admin: 99 };

@@ -2,9 +2,9 @@
 const CART_KEY = 'mata_cart';
 
 const PRODUCTS = {
-  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '0.94" / 24mm', boxPrice: 251.64, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
-  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '1.41" / 36mm', boxPrice: 215.76, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
-  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '1.88" / 48mm', boxPrice: 219.80, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
+  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '0.94" / 24mm', boxPrice: 237.24, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
+  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '1.41" / 36mm', boxPrice: 208.56, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
+  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '1.88" / 48mm', boxPrice: 209.80, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
 };
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];

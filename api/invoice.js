@@ -7,9 +7,9 @@ const SUPABASE_URL = 'https://nqlbagluwxotlxmcurru.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xbGJhZ2x1d3hvdGx4bWN1cnJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MDA3MzMsImV4cCI6MjA4ODk3NjczM30.9-zmqT-Wzt-OtQCQ4yeXGHecthS_FghVXglb0J1VNtY';
 
 const PRODUCTS = {
-  small:  { name: 'Mata Gold – Small (24mm)',  boxPrice: 165, rolls: 36 },
-  medium: { name: 'Mata Gold – Medium (36mm)', boxPrice: 165, rolls: 24 },
-  large:  { name: 'Mata Gold – Large (48mm)',  boxPrice: 185, rolls: 20 },
+  small:  { name: 'Mata Gold – Small (24mm)',  boxPrice: 237.24, rolls: 36 },
+  medium: { name: 'Mata Gold – Medium (36mm)', boxPrice: 208.56, rolls: 24 },
+  large:  { name: 'Mata Gold – Large (48mm)',  boxPrice: 209.80, rolls: 20 },
 };
 
 const PROGRAM_DISCOUNTS = { cpia: 30, resi: 30, bpn: 30, admin: 99 };
