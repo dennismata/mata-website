@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="Product Photos/MATA_GOLD_ROL_36MM.jpg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Partner Portal – Mata Tape, Inc.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -233,19 +234,19 @@
 
   <nav id="navbar">
     <div class="container nav-inner">
-      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
+      <a class="nav-logo" href="/"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
       <ul class="nav-links">
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#products">Products</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="partners.html">Partners</a></li>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#products">Products</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/partners">Partners</a></li>
       </ul>
       <div class="nav-right">
         <button class="nav-cart" id="nav-cart" aria-label="Cart" onclick="window.location.href='account.html'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         <span class="nav-cart-badge" id="nav-cart-badge">0</span>
       </button>
-        <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
+        <a href="/account" class="btn btn--ghost nav-auth-btn">Sign In</a>
         <a href="#" onclick="openSampleModal();return false;" class="btn btn--gold">Free Sample</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
@@ -255,13 +256,13 @@
   </nav>
   <div class="nav-mobile-drawer" id="nav-mobile-drawer">
     <ul>
-      <li><a href="index.html#features">Features</a></li>
-      <li><a href="index.html#products">Products</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="partners.html">Partners</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#products">Products</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/partners">Partners</a></li>
     </ul>
     <div class="nav-mobile-actions">
-      <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
+      <a href="/account" class="btn btn--ghost nav-auth-btn">Sign In</a>
       <a href="#" onclick="openSampleModal();return false;" class="btn btn--gold">Free Sample</a>
     </div>
   </div>
@@ -275,7 +276,7 @@
         <img class="gate-logo" src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." />
         <h1>Partner Portal</h1>
         <p>Sign in to your Mata Tape account to access your partner dashboard and pricing. If you don't have an account yet, you can create one for free.</p>
-        <a href="account.html" class="gate-submit" style="display:block;text-decoration:none;text-align:center;line-height:1.4;padding:15px;">Sign In / Create Account</a>
+        <a href="/account" class="gate-submit" style="display:block;text-decoration:none;text-align:center;line-height:1.4;padding:15px;">Sign In / Create Account</a>
         <p class="gate-help" style="margin-top:20px;">Already have a partner code? <a href="#" onclick="showCodeEntry();return false;">Enter it here</a></p>
       </div>
 
@@ -289,21 +290,11 @@
         <p class="gate-error" id="gate-error">Invalid code. Please try again or contact us.</p>
         <p class="gate-help">Don't have a code? <a href="mailto:partners@mata-tape.com">Contact our partner team</a></p>
       </div>
-      <div class="program-cards">
+      <div class="program-cards" style="grid-template-columns: 1fr; max-width: 360px;">
         <div class="program-card">
-          <div class="icon">🎨</div>
-          <h4>CPIA Members</h4>
-          <p>Exclusive member pricing as a benefit of your CPIA membership. Order directly with your discount at checkout.</p>
-        </div>
-        <div class="program-card">
-          <div class="icon">🏢</div>
-          <h4>Resibrands</h4>
-          <p>Preferred pricing for Resibrands partners with dedicated supply and support.</p>
-        </div>
-        <div class="program-card">
-          <div class="icon">📦</div>
-          <h4>BPN Buying Group</h4>
-          <p>Group pricing for BPN members with dedicated supply and support.</p>
+          <a href="https://bluepowernetwork.com/" target="_blank" rel="noopener"><img src="BPN/BPN_Logo.png" alt="Blue Power Network" style="height:52px;margin:0 auto 12px;display:block;object-fit:contain;" /></a>
+          <h4>Blue Power Network</h4>
+          <p>Stronger Together: Small Business Owners Uniting for Big Savings and Rebates</p>
         </div>
       </div>
     </div>
@@ -356,7 +347,8 @@
     <div class="dash-header">
       <div class="container dash-header-inner">
         <div>
-          <div class="partner-badge">BPN Buying Group</div>
+          <a href="https://bluepowernetwork.com/" target="_blank" rel="noopener"><img src="BPN/BPN_Logo.png" alt="BPN" style="height:40px;margin-bottom:16px;display:block;filter:brightness(0) invert(1);opacity:.9;" /></a>
+          <div class="partner-badge">Blue Power Network</div>
           <h1>BPN Member Pricing</h1>
           <p>Your 30% group discount is applied below. Check out securely via Stripe.</p>
         </div>
@@ -455,8 +447,8 @@
         <div class="program-report">
           <div class="report-header">
             <div style="display:flex;align-items:center;gap:12px;">
-              <h3>BPN Buying Group</h3>
-              <span class="report-badge badge-bpn">BPN Buying Group</span>
+              <h3>Blue Power Network</h3>
+              <span class="report-badge badge-bpn">Blue Power Network</span>
             </div>
             <button class="btn btn--ghost" style="padding:8px 16px;font-size:13px;" onclick="alert('Export available once orders are placed.')">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -479,11 +471,11 @@
     <div class="container footer-inner">
       <img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." />
       <ul class="footer-links">
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#products">Products</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="partners.html">Partners</a></li>
-        <li><a href="legal.html">Legal</a></li>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#products">Products</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/partners">Partners</a></li>
+        <li><a href="/legal">Legal</a></li>
       </ul>
       <p>&copy; 2026 Mata Tape, Inc. All rights reserved.</p>
     </div>
@@ -496,9 +488,9 @@
   <script>
     // Retail prices per roll, per size
     const PRODUCTS = [
-      { id: 'small',  name: 'Mata Gold – Small',  size: '0.94 in / 24mm', rolls: 36, boxPrice: 165, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
-      { id: 'medium', name: 'Mata Gold – Medium', size: '1.41 in / 36mm', rolls: 24, boxPrice: 165, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
-      { id: 'large',  name: 'Mata Gold – Large',  size: '1.88 in / 48mm', rolls: 20, boxPrice: 185, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
+      { id: 'small',  name: 'Mata Gold – Small',  size: '0.94 in / 24mm', rolls: 36, boxPrice: 251.64, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
+      { id: 'medium', name: 'Mata Gold – Medium', size: '1.41 in / 36mm', rolls: 24, boxPrice: 215.76, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
+      { id: 'large',  name: 'Mata Gold – Large',  size: '1.88 in / 48mm', rolls: 20, boxPrice: 219.80, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
     ];
 
     function renderProducts(containerId, discount) {

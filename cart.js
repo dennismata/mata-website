@@ -2,9 +2,9 @@
 const CART_KEY = 'mata_cart';
 
 const PRODUCTS = {
-  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '0.94" / 24mm', boxPrice: 165, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
-  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '1.41" / 36mm', boxPrice: 165, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
-  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '1.88" / 48mm', boxPrice: 185, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
+  small:  { id: 'small',  name: 'Mata Gold – Small',  size: '0.94" / 24mm', boxPrice: 251.64, rolls: 36, img: 'Product Photos/MATA_GOLD_ROL_24MM.jpg' },
+  medium: { id: 'medium', name: 'Mata Gold – Medium', size: '1.41" / 36mm', boxPrice: 215.76, rolls: 24, img: 'Product Photos/MATA_GOLD_ROL_36MM.jpg' },
+  large:  { id: 'large',  name: 'Mata Gold – Large',  size: '1.88" / 48mm', boxPrice: 219.80, rolls: 20, img: 'Product Photos/MATA_GOLD_ROL_48MM.jpg' },
 };
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
@@ -82,7 +82,8 @@ function calcBoxPrice(boxPrice, partnerDiscount, bulkDiscount) {
 
 // ── Shipping helpers ────────────────────────────────────────────────────────
 
-function calcShipping(state, subtotal, totalBoxes) {
+function calcShipping(state, subtotal, totalBoxes, discount) {
+  if ((discount || 0) >= 99) return 0; // admin: always free shipping
   if (!state) return null; // unknown until state selected
   if (['IL', 'IN'].includes(state)) {
     return subtotal >= 250 ? 0 : 25;
@@ -106,6 +107,33 @@ function saveShipState(state) {
   renderCartDrawer();
 }
 
+function updateShippingFromInvoice(state) {
+  sessionStorage.setItem('mata_ship_state', state);
+  // Update just the shipping display without re-rendering the whole cart
+  const cart     = getCart();
+  const entries  = Object.entries(cart).filter(([, q]) => q > 0);
+  const partnerD = getPartnerDiscount();
+  const totalB   = getTotalBoxes(cart);
+  const bulkD    = getBulkDiscount(totalB);
+  const appliedD = Math.max(partnerD, bulkD);
+  let subtotal = 0;
+  entries.forEach(([id, qty]) => { subtotal += calcBoxPrice(PRODUCTS[id].boxPrice, partnerD, bulkD) * qty; });
+  const shipping   = calcShipping(state, subtotal, totalB, appliedD);
+  const grandTotal = subtotal + (shipping || 0);
+
+  const shippingAmountEl = document.querySelector('.cart-shipping-amount');
+  const totalEl = document.querySelector('.cart-total span:last-child');
+  const cartStateEl = document.getElementById('cart-state');
+
+  if (shippingAmountEl) {
+    shippingAmountEl.innerHTML = !state ? '—' : shipping === 0
+      ? '<span class="cart-shipping-free">Free</span>'
+      : `$${shipping.toFixed(2)}`;
+  }
+  if (totalEl) totalEl.textContent = `$${grandTotal.toFixed(2)}`;
+  if (cartStateEl) cartStateEl.value = state;
+}
+
 // ── Badge ───────────────────────────────────────────────────────────────────
 
 function updateCartBadge() {
@@ -127,7 +155,7 @@ function injectCartDrawer() {
     <div id="cart-panel">
       <div id="cart-header">
         <h2>Your Order</h2>
-        <a href="index.html#products" id="cart-close-link" onclick="closeCartDrawer();return false;">← Continue shopping</a>
+        <a href="/#products" id="cart-close-link" onclick="closeCartDrawer();return false;">← Continue shopping</a>
       </div>
       <div id="cart-body"></div>
       <div id="cart-footer"></div>
@@ -153,7 +181,7 @@ function renderCartDrawer() {
       <div class="cart-empty">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         <p>Your cart is empty</p>
-        <a href="index.html#products" onclick="closeCartDrawer()" class="cart-continue-link">Browse products →</a>
+        <a href="/#products" onclick="closeCartDrawer()" class="cart-continue-link">Browse products →</a>
       </div>`;
     footer.innerHTML = '';
     return;
@@ -191,7 +219,7 @@ function renderCartDrawer() {
 
   // Shipping
   const state      = getShipState();
-  const shipping   = calcShipping(state, subtotal, totalB);
+  const shipping   = calcShipping(state, subtotal, totalB, partnerD);
   const grandTotal = subtotal + (shipping || 0);
 
   // Summary rows: Subtotal → Discount → Subtotal (after discount)
@@ -202,7 +230,12 @@ function renderCartDrawer() {
       <div class="cart-savings-row"><span>${label} (${appliedD}%)</span><span>−$${savings.toFixed(2)}</span></div>
       <div class="cart-subtotal-row"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>`;
   }
-  if (!partnerD && !bulkD && totalB === 1) summaryHTML += `<div class="cart-upsell">Add 1 more box for 10% off</div>`;
+  const brackets = [{ at: 2, pct: 10 }, { at: 5, pct: 20 }, { at: 10, pct: 25 }];
+  const next = brackets.find(b => b.at > totalB && b.pct > partnerD);
+  if (next) {
+    const needed = next.at - totalB;
+    if (needed <= 2) summaryHTML += `<div class="cart-upsell">Add ${needed} more box${needed > 1 ? 'es' : ''} for ${next.pct}% off</div>`;
+  }
 
   // Free shipping hint
   let freeShippingHint = '';
@@ -287,7 +320,7 @@ function showInvoiceForm() {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         <div>
           <strong>Account required</strong>
-          <p>Please <a href="account.html">sign in or create a free account</a> to request a Net-15 invoice. Your cart will be saved.</p>
+          <p>Please <a href="/account">sign in or create a free account</a> to request a Net-15 invoice. Your cart will be saved.</p>
         </div>
       </div>`;
     form.style.display = 'block';
@@ -295,14 +328,25 @@ function showInvoiceForm() {
     return;
   }
 
-  const profileZip = sess?.zip || '';
-  const savedZip = profileZip || sessionStorage.getItem('mata_invoice_zip') || '';
+  // Pre-fill state from profile, falling back to cart state (write directly, avoid renderCartDrawer)
+  const prefilledState = sess.state || getShipState();
+  if (prefilledState) sessionStorage.setItem('mata_ship_state', prefilledState);
 
-  // Pre-fill email from account session
+  const stateOpts = ['', ...US_STATES].map(s =>
+    `<option value="${s}" ${s === prefilledState ? 'selected' : ''}>${s || 'State *'}</option>`
+  ).join('');
+
+  // Pre-fill fields from account profile
   form.innerHTML = `
-    <input id="invoice-email" type="email" placeholder="Email address for invoice" class="invoice-input" value="${sess.email || ''}" />
-    <input id="invoice-company" type="text" placeholder="Company name (optional)" class="invoice-input" />
-    <input id="invoice-zip" type="text" placeholder="ZIP code" class="invoice-input" maxlength="10" value="${savedZip}" />
+    <input id="invoice-email"   type="email"  placeholder="Email address for invoice *" class="invoice-input" value="${sess.email || ''}" />
+    <input id="invoice-company" type="text"   placeholder="Company name (optional)"      class="invoice-input" value="${sess.companyName || ''}" />
+    <input id="invoice-addr1"   type="text"   placeholder="Address line 1 *"             class="invoice-input" value="${sess.addrLine1 || ''}" />
+    <input id="invoice-addr2"   type="text"   placeholder="Address line 2"               class="invoice-input" value="${sess.addrLine2 || ''}" />
+    <input id="invoice-city"    type="text"   placeholder="City *"                       class="invoice-input" value="${sess.city || ''}" />
+    <div style="display:flex;gap:8px;">
+      <select id="invoice-state" class="invoice-input" style="flex:1;" onchange="updateShippingFromInvoice(this.value)">${stateOpts}</select>
+      <input id="invoice-zip"   type="text"   placeholder="ZIP *"     class="invoice-input" style="flex:1;" maxlength="10" value="${sess.zip || ''}" />
+    </div>
     <button id="invoice-submit-btn" onclick="requestInvoice()">Send Invoice →</button>`;
   form.style.display = 'block';
   btn.textContent = 'Cancel';
@@ -311,13 +355,17 @@ function showInvoiceForm() {
 async function requestInvoice() {
   const email   = document.getElementById('invoice-email')?.value.trim();
   const company = document.getElementById('invoice-company')?.value.trim();
-  const state   = getShipState(); // from cart state selector
+  const addr1   = document.getElementById('invoice-addr1')?.value.trim();
+  const addr2   = document.getElementById('invoice-addr2')?.value.trim();
+  const city    = document.getElementById('invoice-city')?.value.trim();
+  const state   = document.getElementById('invoice-state')?.value || getShipState();
   const zip     = document.getElementById('invoice-zip')?.value.trim() || '';
-  if (zip) sessionStorage.setItem('mata_invoice_zip', zip);
-  if (!email) {
-    document.getElementById('invoice-email').focus();
-    return;
-  }
+
+  if (!email)  { showCartError('Email address is required.'); document.getElementById('invoice-email')?.focus(); return; }
+  if (!addr1)  { showCartError('Address line 1 is required.'); document.getElementById('invoice-addr1')?.focus(); return; }
+  if (!city)   { showCartError('City is required.'); document.getElementById('invoice-city')?.focus(); return; }
+  if (!state)  { showCartError('State is required.'); document.getElementById('invoice-state')?.focus(); return; }
+  if (!zip)    { showCartError('ZIP code is required.'); document.getElementById('invoice-zip')?.focus(); return; }
 
   const cart  = getCart();
   const items = Object.entries(cart).filter(([, q]) => q > 0).map(([id, boxes]) => ({ id, boxes }));
@@ -326,11 +374,17 @@ async function requestInvoice() {
   const btn = document.getElementById('invoice-submit-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
+  let accessToken = null;
+  try {
+    const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+    accessToken = raw ? JSON.parse(raw)?.access_token : null;
+  } catch {}
+
   try {
     const res  = await fetch('/api/invoice', {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), email, companyName: company, state, zip }),
+      headers: { 'Content-Type': 'application/json', ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {}) },
+      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), email, companyName: company, addrLine1: addr1, addrLine2: addr2, city, state, zip }),
     });
     const data = await res.json();
     if (data.success) {
@@ -344,13 +398,26 @@ async function requestInvoice() {
         </div>`;
       clearCart();
     } else {
-      alert('Invoice error: ' + (data.error || 'Please try again.'));
       if (btn) { btn.disabled = false; btn.textContent = 'Send Invoice →'; }
+      showCartError(data.error || 'Something went wrong. Please try again.');
     }
   } catch (err) {
-    alert('Network error. Please try again.');
+    showCartError('Network error. Please try again.');
     if (btn) { btn.disabled = false; btn.textContent = 'Send Invoice →'; }
   }
+}
+
+function showCartError(msg) {
+  const footer = document.getElementById('cart-footer');
+  if (!footer) return;
+  const existing = footer.querySelector('.cart-error-msg');
+  if (existing) { existing.textContent = msg; return; }
+  const el = document.createElement('p');
+  el.className = 'cart-error-msg';
+  el.style.cssText = 'color:#c0392b;font-size:13px;font-weight:600;text-align:center;margin-top:10px;';
+  el.textContent = msg;
+  footer.appendChild(el);
+  setTimeout(() => el.remove(), 5000);
 }
 
 // ── Checkout ────────────────────────────────────────────────────────────────
@@ -367,21 +434,28 @@ async function proceedToCheckout() {
   if (btn) { btn.disabled = true; btn.textContent = 'Redirecting to Stripe…'; }
 
   try {
+    // Pass account email if logged in so Stripe links the order to a customer
+    let accountEmail;
+    try {
+      const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+      accountEmail = raw ? JSON.parse(raw)?.user?.email : undefined;
+    } catch { /* ignore */ }
+
     const res  = await fetch('/api/checkout', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), state: getShipState() }),
+      body:    JSON.stringify({ items, partnerCode: getPartnerCode(), state: getShipState(), email: accountEmail }),
     });
     const data = await res.json();
     if (data.url) {
       window.location.href = data.url;
     } else {
-      alert('Checkout error: ' + (data.error || 'Please try again.'));
-      if (btn) { btn.disabled = false; btn.textContent = 'Proceed to Checkout →'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Pay Now →'; }
+      showCartError(data.error || 'Something went wrong. Please try again.');
     }
   } catch (err) {
-    alert('Network error. Please check your connection and try again.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Proceed to Checkout →'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Pay Now →'; }
+    showCartError('Network error. Please check your connection and try again.');
   }
 }
 
