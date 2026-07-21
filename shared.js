@@ -6,7 +6,7 @@
       if (session) {
         document.querySelectorAll('.nav-auth-btn').forEach(btn => {
           btn.textContent = 'My Account';
-          btn.href = 'account.html';
+          btn.href = '/account';
         });
         // Ensure mata_session matches the current Supabase user
         try {

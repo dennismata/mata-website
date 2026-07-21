@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="Product Photos/MATA_GOLD_ROL_36MM.jpg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Account – Mata Tape, Inc.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -90,6 +91,17 @@
     .partner-toggle svg { width: 14px; height: 14px; transition: transform .2s; }
     .partner-toggle.open svg { transform: rotate(90deg); }
 
+    /* Password visibility toggle */
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 44px; }
+    .pw-toggle {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; padding: 4px;
+      color: var(--muted); display: flex; align-items: center;
+    }
+    .pw-toggle:hover { color: var(--navy); }
+    .pw-toggle svg { width: 18px; height: 18px; }
+
     /* ── CONFIRMATION MODAL ────────── */
     .confirm-modal-overlay {
       position: fixed; inset: 0;
@@ -164,6 +176,34 @@
     .empty-state svg { width: 40px; height: 40px; color: rgba(0,32,91,.2); margin: 0 auto 16px; }
     .empty-state p { font-size: 15px; color: var(--muted); margin-bottom: 20px; }
 
+    /* Order history */
+    .order-card {
+      background: var(--white); border-radius: 16px; padding: 24px 28px;
+      margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,32,91,.06);
+    }
+    .order-card-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+    }
+    .order-date { font-size: 13px; color: var(--muted); }
+    .order-id { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .order-total { font-size: 18px; font-weight: 700; color: var(--navy); }
+    .order-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 50px;
+      font-size: 11px; font-weight: 600; background: #e8f5e9; color: #2e7d32;
+    }
+    .order-badge--open {
+      background: #fff8e1; color: #f57f17;
+    }
+    .order-items { border-top: 1px solid rgba(0,32,91,.06); padding-top: 14px; }
+    .order-item {
+      display: flex; justify-content: space-between;
+      font-size: 13px; color: var(--navy); padding: 4px 0;
+    }
+    .order-item-name { font-weight: 500; }
+    .order-item-price { color: var(--muted); }
+    .orders-loading { text-align: center; padding: 48px; color: var(--muted); font-size: 14px; }
+
     /* Panel: Profile */
     .profile-form { max-width: 540px; }
     .profile-section-title {
@@ -236,20 +276,20 @@
 
   <nav id="navbar">
     <div class="container nav-inner">
-      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
+      <a class="nav-logo" href="/"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
       <ul class="nav-links">
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#products">Products</a></li>
-        <li><a href="about.html">About</a></li>
-
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#products">Products</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/partners">Partners</a></li>
       </ul>
       <div class="nav-right" id="nav-account-area">
-        <button class="nav-cart" id="nav-cart" aria-label="Cart">
+        <button class="nav-cart" id="nav-cart" aria-label="Cart" onclick="openCartDrawer()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="nav-cart-badge" id="nav-cart-badge">0</span>
         </button>
-        <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
-        <a href="index.html#sample" class="btn btn--gold">Free Sample</a>
+        <a href="/account" class="btn btn--ghost nav-auth-btn">Sign In</a>
+        <a href="#" onclick="openSampleModal();return false;" class="btn btn--gold">Free Sample</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -258,15 +298,15 @@
   </nav>
   <div class="nav-mobile-drawer" id="nav-mobile-drawer">
     <ul>
-      <li><a href="index.html#features">Features</a></li>
-      <li><a href="index.html#products">Products</a></li>
-      <li><a href="about.html">About</a></li>
-
-      <li><a href="legal.html">Legal</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#products">Products</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/partners">Partners</a></li>
+      <li><a href="/legal">Legal</a></li>
     </ul>
     <div class="nav-mobile-actions">
-      <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
-      <a href="index.html#sample" class="btn btn--gold">Free Sample</a>
+      <a href="/account" class="btn btn--ghost nav-auth-btn">Sign In</a>
+      <a href="#" onclick="openSampleModal();return false;" class="btn btn--gold">Free Sample</a>
     </div>
   </div>
 
@@ -291,10 +331,17 @@
           </div>
           <div class="field">
             <label>Password</label>
-            <input type="password" id="signin-password" placeholder="••••••••" />
+            <div class="pw-wrap">
+              <input type="password" id="signin-password" placeholder="••••••••" />
+              <button type="button" class="pw-toggle" onclick="togglePw('signin-password', this)" aria-label="Show password" tabindex="-1">
+                <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
           </div>
           <button class="submit-btn" onclick="signIn()">Sign In</button>
-          <p class="auth-footer-text" style="margin-top:16px;">
+          <p id="signin-error" style="font-size:13px;color:#c0392b;text-align:center;margin-top:10px;min-height:18px;"></p>
+          <p class="auth-footer-text" style="margin-top:8px;">
             <a onclick="forgotPassword()" style="cursor:pointer;">Forgot your password?</a>
           </p>
         </div>
@@ -323,7 +370,13 @@
           </div>
           <div class="field">
             <label>Password</label>
-            <input type="password" id="reg-password" placeholder="Min. 8 characters" />
+            <div class="pw-wrap">
+              <input type="password" id="reg-password" placeholder="Min. 8 characters" />
+              <button type="button" class="pw-toggle" onclick="togglePw('reg-password', this)" aria-label="Show password" tabindex="-1">
+                <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
           </div>
 
           <!-- Optional partner code -->
@@ -339,7 +392,36 @@
           </div>
 
           <button class="submit-btn" onclick="register()">Create Account</button>
+          <p id="register-error" style="font-size:13px;color:#c0392b;text-align:center;margin-top:10px;min-height:18px;"></p>
           <p class="auth-footer-text">Already have an account? <a onclick="switchAuthTab('signin', document.querySelectorAll('.auth-tab')[0])">Sign in</a></p>
+        </div>
+
+        <!-- Set new password state (after clicking reset link in email) -->
+        <div id="auth-new-password" style="display:none;">
+          <h1>Set new password</h1>
+          <p class="auth-sub">Enter your new password below.</p>
+          <div class="field">
+            <label>New password</label>
+            <div class="pw-wrap">
+              <input type="password" id="new-password" placeholder="Min. 8 characters" />
+              <button type="button" class="pw-toggle" onclick="togglePw('new-password',this)" aria-label="Show password" tabindex="-1">
+                <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Confirm new password</label>
+            <div class="pw-wrap">
+              <input type="password" id="new-password-confirm" placeholder="Min. 8 characters" />
+              <button type="button" class="pw-toggle" onclick="togglePw('new-password-confirm',this)" aria-label="Show password" tabindex="-1">
+                <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <button class="submit-btn" onclick="setNewPassword()">Update Password</button>
+          <p id="new-password-msg" style="font-size:13px;text-align:center;margin-top:12px;min-height:20px;"></p>
         </div>
 
         <!-- Email confirmation state -->
@@ -379,11 +461,12 @@
     <!-- Orders -->
     <div id="panel-orders" class="account-panel active">
       <div class="container">
-        <h2 class="section-title" style="margin-bottom:32px;">Order History</h2>
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>
-          <p>No orders yet. Orders placed through the shop will appear here.</p>
-          <a href="index.html#products" class="btn btn--gold">Shop Mata Gold</a>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:32px;">
+          <h2 class="section-title" style="margin:0;">Order History</h2>
+          <a href="/#products" class="btn btn--gold" style="font-size:13px;padding:10px 20px;">Shop Mata Gold</a>
+        </div>
+        <div id="orders-content">
+          <p class="orders-loading">Loading orders…</p>
         </div>
       </div>
     </div>
@@ -407,17 +490,19 @@
           <div class="field">
             <label>Email address</label>
             <input type="email" id="profile-email" />
+            <p style="font-size:12px;color:var(--muted);margin-top:5px;">If you change your email, a confirmation link will be sent to the new address.</p>
           </div>
           <div style="margin-bottom:40px;">
-            <button class="save-btn" onclick="alert('Profile saved. (Connected to backend when live.)')">Save Changes</button>
+            <button class="save-btn" id="save-profile-btn" onclick="saveProfile()">Save Changes</button>
+            <p id="save-profile-msg" style="font-size:13px;margin-top:10px;min-height:18px;"></p>
           </div>
 
           <p class="profile-section-title">Shipping Address</p>
           <div class="field"><label>Address line 1 <span style="color:var(--gold);">*</span></label><input type="text" id="profile-addr1" placeholder="123 Main St" /></div>
           <div class="field"><label>Address line 2</label><input type="text" id="profile-addr2" placeholder="Suite, apt, etc." /></div>
           <div class="field-row">
-            <div class="field"><label>City <span style="color:var(--gold);">*</span></label><input type="text" id="profile-city" placeholder="Chicago" /></div>
-            <div class="field"><label>State <span style="color:var(--gold);">*</span></label><input type="text" id="profile-state" placeholder="IL" maxlength="2" /></div>
+            <div class="field"><label>City <span style="color:var(--gold);">*</span></label><input type="text" id="profile-city" placeholder="City" /></div>
+            <div class="field"><label>State <span style="color:var(--gold);">*</span></label><input type="text" id="profile-state" placeholder="State" maxlength="2" /></div>
           </div>
           <div class="field-row">
             <div class="field"><label>ZIP code <span style="color:var(--gold);">*</span></label><input type="text" id="profile-zip" placeholder="60601" maxlength="10" /></div>
@@ -427,10 +512,11 @@
 
           <div style="margin-top:48px;padding-top:32px;border-top:1px solid rgba(0,32,91,.08);">
             <p class="profile-section-title">Change Password</p>
-            <div class="field"><label>Current password</label><input type="password" placeholder="••••••••" /></div>
-            <div class="field"><label>New password</label><input type="password" placeholder="Min. 8 characters" /></div>
-            <div class="field"><label>Confirm new password</label><input type="password" placeholder="••••••••" /></div>
-            <button class="save-btn" onclick="alert('Password updated. (Connected to backend when live.)')">Update Password</button>
+            <div class="field"><label>Current password</label><div class="pw-wrap"><input type="password" id="change-current-pw" placeholder="••••••••" /><button type="button" class="pw-toggle" onclick="togglePw('change-current-pw',this)" aria-label="Show password" tabindex="-1"><svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div></div>
+            <div class="field"><label>New password</label><div class="pw-wrap"><input type="password" id="change-new-pw" placeholder="Min. 8 characters" /><button type="button" class="pw-toggle" onclick="togglePw('change-new-pw',this)" aria-label="Show password" tabindex="-1"><svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div></div>
+            <div class="field"><label>Confirm new password</label><div class="pw-wrap"><input type="password" id="change-confirm-pw" placeholder="Min. 8 characters" /><button type="button" class="pw-toggle" onclick="togglePw('change-confirm-pw',this)" aria-label="Show password" tabindex="-1"><svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></div></div>
+            <button class="save-btn" id="change-pw-btn" onclick="changePassword()">Update Password</button>
+            <p id="change-pw-msg" style="font-size:13px;margin-top:10px;min-height:18px;"></p>
           </div>
         </div>
       </div>
@@ -444,24 +530,21 @@
 
         <!-- Linked state -->
         <div id="partner-linked-view" class="partner-status" style="display:none;">
-          <div class="linked-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span id="linked-badge-label">Linked</span>
-          </div>
+          <img id="linked-partner-logo" src="" alt="" style="display:none;height:44px;margin-bottom:16px;object-fit:contain;" />
           <h3 id="linked-program-name">Partner Program</h3>
           <p>Your account is linked to this partner program. Your discount is applied automatically whenever you sign in and place an order — no code needed.</p>
         </div>
 
         <!-- Unlinked state -->
         <div id="partner-unlinked-view" class="partner-status">
+          <a href="https://bluepowernetwork.com/" target="_blank" rel="noopener"><img src="BPN/BPN_Logo.png" alt="Blue Power Network" style="height:44px;margin-bottom:16px;object-fit:contain;" /></a>
           <h3>Link a Partner Code</h3>
-          <p>If you're a member of CPIA, a Resibrands member, or a BPN buying group member, enter your activation code below. Once linked, your discount is applied automatically on every order.</p>
+          <p>If you're a Blue Power Network member, enter your activation code below. Once linked, your discount is applied automatically on every order.</p>
           <div class="code-input-row">
             <input type="text" id="link-code-input" placeholder="Enter activation code" maxlength="16" />
             <button onclick="linkCode()">Link Code</button>
           </div>
           <p class="partner-link-error" id="partner-link-error">Invalid code. Contact <a href="mailto:partners@mata-tape.com" style="color:var(--gold);">partners@mata-tape.com</a> if you need help.</p>
-          <p style="font-size:13px;color:var(--muted);margin-top:16px;">Don't have a code? <a href="mailto:partners@mata-tape.com" style="color:var(--gold);font-weight:600;">Contact our partner team</a></p>
         </div>
 
       </div>
@@ -473,15 +556,60 @@
     <div class="container footer-inner">
       <img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." />
       <ul class="footer-links">
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#products">Products</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#products">Products</a></li>
+        <li><a href="/about">About</a></li>
 
-        <li><a href="legal.html">Legal</a></li>
+        <li><a href="/legal">Legal</a></li>
       </ul>
       <p>&copy; 2026 Mata Tape, Inc. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- ── EMAIL CHANGE CONFIRMATION MODAL ─────────────── -->
+  <div id="email-change-modal" class="confirm-modal-overlay">
+    <div class="confirm-modal-card" style="text-align:center;">
+      <div class="confirm-modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#CC9933" stroke-width="2" width="40" height="40"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+      </div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:12px;">Check both inboxes</h2>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:8px;">
+        We've sent a confirmation link to your <strong style="color:var(--navy);">current email address</strong> and your <strong style="color:var(--navy);">new email address</strong>.
+      </p>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:28px;">
+        Both links must be confirmed before the change takes effect. The links expire in 24 hours.
+      </p>
+      <button class="submit-btn" onclick="document.getElementById('email-change-modal').classList.remove('open')" style="max-width:200px;margin:0 auto;">Got it</button>
+    </div>
+  </div>
+
+  <!-- ── FORGOT PASSWORD MODAL ─────────────────────── -->
+  <div id="forgot-modal" class="confirm-modal-overlay">
+    <div class="confirm-modal-card" style="text-align:left;">
+      <div id="forgot-modal-form">
+        <div class="confirm-modal-icon" style="text-align:center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#CC9933" stroke-width="1.5" style="width:48px;height:48px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h2 style="text-align:center;">Reset your password</h2>
+        <p style="text-align:center;">Enter your email address and we'll send you a link to reset your password.</p>
+        <div class="field" style="margin-bottom:20px;">
+          <label>Email address</label>
+          <input type="email" id="forgot-modal-email" placeholder="you@example.com" />
+        </div>
+        <button class="submit-btn" id="forgot-modal-btn" onclick="sendForgotEmail()">Send Reset Link</button>
+        <p id="forgot-modal-msg" style="font-size:13px;text-align:center;margin-top:10px;min-height:18px;color:#c0392b;"></p>
+        <p style="text-align:center;margin-top:16px;"><a onclick="closeForgotModal()" style="font-size:13px;color:var(--gold);font-weight:600;cursor:pointer;">Cancel</a></p>
+      </div>
+      <div id="forgot-modal-success" style="display:none;text-align:center;">
+        <div style="width:56px;height:56px;background:#EAE5DA;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#CC9933" stroke-width="2.5" width="26" height="26"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Check your inbox</h2>
+        <p>We sent a reset link to<br><strong id="forgot-modal-sent-email" style="color:var(--navy);"></strong><br><br>Click the link to set a new password.</p>
+        <button class="submit-btn" style="margin-top:8px;" onclick="closeForgotModal()">Done</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ── EMAIL CONFIRMATION MODAL ──────────────────── -->
   <div id="confirm-modal" class="confirm-modal-overlay">
@@ -497,11 +625,35 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="supabase-client.js"></script>
+  <script src="cart.js"></script>
   <script src="shared.js"></script>
   <script>
     // ── Supabase session reference ───────────────────
     let supaSession = null;
     let session = null;
+
+    // ── Helper: get access token from localStorage ───
+    function getAccessToken() {
+      try {
+        const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+        return raw ? JSON.parse(raw)?.access_token : null;
+      } catch { return null; }
+    }
+
+    // ── Helper: raw Supabase DB PATCH ────────────────
+    function dbPatch(table, id, data) {
+      const token = getAccessToken();
+      return fetch(`${window._supaUrl}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': window._supaKey,
+          'Authorization': token ? `Bearer ${token}` : '',
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify(data),
+      });
+    }
 
     // ── Helper: validate partner code via API ────────
     async function validatePartnerCode(code) {
@@ -515,20 +667,32 @@
 
     // ── Helper: human-readable program labels ────────
     function programLabel(p) {
-      const map = { cpia: 'CPIA Member', resi: 'Resibrands', bpn: 'BPN Buying Group', admin: 'Admin' };
+      const map = { cpia: 'CPIA Member', resi: 'Resibrands', bpn: 'Blue Power Network', admin: 'Admin' };
       return map[p] || (p ? p.toUpperCase() : '');
     }
 
     function programName(p) {
-      const map = { cpia: 'CPIA Member Program', resi: 'Resibrands Program', bpn: 'BPN Buying Group Program', admin: 'Admin Program' };
+      const map = { cpia: 'CPIA Member Program', resi: 'Resibrands Program', bpn: 'Blue Power Network Program', admin: 'Admin Program' };
       return map[p] || (p ? p.toUpperCase() + ' Program' : '');
     }
 
     // ── Helper: sync Supabase session → sessionStorage ──
     async function syncSession(sup) {
       supaSession = sup;
+      // Use the access token explicitly so DB queries work regardless of whether
+      // the Supabase SDK has updated its internal in-memory session yet.
+      const token = sup.access_token || sup.access_token;
+      const authHeaders = token
+        ? { 'apikey': window._supaKey, 'Authorization': `Bearer ${token}` }
+        : {};
+
       try {
-        const { data: profile } = await window.sb.from('profiles').select('*').eq('id', sup.user.id).single();
+        const profileRes = await fetch(
+          `${window._supaUrl}/rest/v1/profiles?id=eq.${encodeURIComponent(sup.user.id)}&select=*`,
+          { headers: authHeaders }
+        );
+        const profileArr = profileRes.ok ? await profileRes.json() : [];
+        const profile = Array.isArray(profileArr) ? profileArr[0] : null;
         const meta = sup.user.user_metadata || {};
 
         const firstName    = profile?.first_name    || meta.first_name    || sup.user.email.split('@')[0];
@@ -537,27 +701,40 @@
         const partnerCode  = profile?.partner_code  || meta.partner_code  || null;
         const partnerProg  = profile?.partner_program || meta.partner_program || null;
 
-        // On first sign-in after confirmation, sync metadata into the profile row
-        if (!profile?.first_name || (!profile?.partner_code && partnerCode)) {
-          await window.sb.from('profiles').update({
-            first_name:      firstName,
-            last_name:       lastName,
-            company_name:    companyName || null,
-            partner_code:    partnerCode,
-            partner_program: partnerProg,
-          }).eq('id', sup.user.id);
-        }
-
-        const partnerInfo = partnerCode ? await validatePartnerCode(partnerCode) : null;
+        // Run profile update and partner code validation in parallel
+        const [, partnerInfo] = await Promise.all([
+          (!profile?.first_name || (!profile?.partner_code && partnerCode))
+            ? fetch(`${window._supaUrl}/rest/v1/profiles?id=eq.${encodeURIComponent(sup.user.id)}`, {
+                method: 'PATCH',
+                headers: { ...authHeaders, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                body: JSON.stringify({ first_name: firstName, last_name: lastName, company_name: companyName || null, partner_code: partnerCode, partner_program: partnerProg }),
+              })
+            : Promise.resolve(),
+          partnerCode ? validatePartnerCode(partnerCode) : Promise.resolve(null),
+        ]);
         const addrLine1 = profile?.address_line1 || '';
         const addrLine2 = profile?.address_line2 || '';
         const city      = profile?.city           || '';
         const state     = profile?.state          || '';
         const zip       = profile?.zip            || '';
-        session = { email: sup.user.email, firstName, lastName, companyName, partnerCode, partnerInfo, addrLine1, addrLine2, city, state, zip };
+        session = { userId: sup.user.id, email: sup.user.email, firstName, lastName, companyName, partnerCode, partnerInfo, addrLine1, addrLine2, city, state, zip };
       } catch {
+        // Profile query failed — preserve any existing session data rather than wiping it
         const meta = sup.user.user_metadata || {};
-        session = { email: sup.user.email, firstName: meta.first_name || sup.user.email.split('@')[0], lastName: meta.last_name || '', companyName: '', partnerCode: null, partnerInfo: null };
+        session = {
+          userId:      sup.user.id,
+          email:       sup.user.email,
+          firstName:   session?.firstName  || meta.first_name || sup.user.email.split('@')[0],
+          lastName:    session?.lastName   || meta.last_name  || '',
+          companyName: session?.companyName || '',
+          partnerCode: session?.partnerCode || null,
+          partnerInfo: session?.partnerInfo || null,
+          addrLine1:   session?.addrLine1  || '',
+          addrLine2:   session?.addrLine2  || '',
+          city:        session?.city       || '',
+          state:       session?.state      || '',
+          zip:         session?.zip        || '',
+        };
       }
       sessionStorage.setItem('mata_session', JSON.stringify(session));
       return session;
@@ -567,22 +744,77 @@
     async function init() {
       if (!window.sb) return;
 
-      // Check for an existing session immediately on load
-      const { data: { session: existing } } = await window.sb.auth.getSession();
-      if (existing) {
-        await syncSession(existing);
-        showDashboard();
-        return;
+      // Handle Supabase #message= redirects (e.g. email change confirmation step 1)
+      if (window.location.hash.includes('message=')) {
+        const params = new URLSearchParams(window.location.hash.slice(1));
+        const msg = params.get('message');
+        if (msg) {
+          // Show a friendly banner instead of the raw URL hash
+          const banner = document.createElement('div');
+          banner.style.cssText = 'position:fixed;top:68px;left:0;right:0;z-index:999;background:#1a7a3a;color:#fff;text-align:center;padding:14px 24px;font-size:14px;font-weight:600;';
+          banner.textContent = msg.includes('proceed') ? 'Email confirmed — check your new email address for a second confirmation link.' : msg;
+          document.body.appendChild(banner);
+          setTimeout(() => banner.remove(), 6000);
+        }
+        history.replaceState(null, '', window.location.pathname);
       }
 
-      // No existing session — show login form and listen for SIGNED_IN (e.g. after email confirmation redirect)
-      document.getElementById('auth-screen').style.display = 'block';
+      // If the URL hash contains type=recovery, this is a password reset redirect.
+      // Skip getSession() → showDashboard() and wait for PASSWORD_RECOVERY event instead.
+      const isRecovery = window.location.hash.includes('type=recovery');
+
       window.sb.auth.onAuthStateChange(async (event, sup) => {
-        if (event === 'SIGNED_IN' && sup) {
+        if (event === 'PASSWORD_RECOVERY') {
+          if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+          document.getElementById('auth-screen').style.display = 'block';
+          document.getElementById('account-dashboard').style.display = 'none';
+          document.querySelector('.auth-tabs').style.display = 'none';
+          ['auth-signin','auth-register','auth-confirm','auth-forgot-success'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.style.display = 'none';
+          });
+          document.getElementById('auth-new-password').style.display = 'block';
+        } else if (event === 'USER_UPDATED' && sup) {
+          if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+          // Sync new email to profiles table
+          try { await dbPatch('profiles', sup.user.id, { email: sup.user.email }); } catch(e) {}
+          // Update session immediately so the dashboard reflects the new email without requiring re-login
+          if (session) {
+            session.email = sup.user.email;
+            sessionStorage.setItem('mata_session', JSON.stringify(session));
+          }
+          await syncSession(sup);
+          showDashboard();
+        } else if (event === 'SIGNED_IN' && sup && !isRecovery) {
+          // Clean up the Supabase hash fragment from the URL
+          if (window.location.hash) history.replaceState(null, '', window.location.pathname);
           await syncSession(sup);
           showDashboard();
         }
       });
+
+      if (isRecovery) {
+        document.getElementById('auth-screen').style.display = 'block';
+        return;
+      }
+
+      // Fast path: render immediately from cache, then sync in background
+      const cached = JSON.parse(sessionStorage.getItem('mata_session') || 'null');
+      if (cached) {
+        session = cached;
+        showDashboard();
+      }
+
+      const { data: { session: existing } } = await window.sb.auth.getSession();
+      if (existing) {
+        await syncSession(existing);
+        showDashboard(); // re-render with fresh data
+      } else {
+        // Session expired — flip to auth screen
+        session = null;
+        sessionStorage.removeItem('mata_session');
+        document.getElementById('account-dashboard').style.display = 'none';
+        document.getElementById('auth-screen').style.display = 'block';
+      }
     }
 
     // ── Auth tab switching ───────────────────────────
@@ -606,17 +838,27 @@
     async function signIn() {
       const email    = document.getElementById('signin-email').value.trim();
       const password = document.getElementById('signin-password').value;
-      if (!email || !password) { alert('Please enter your email and password.'); return; }
+      const errEl    = document.getElementById('signin-error');
+      errEl.textContent = '';
+      if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; return; }
       const btn = document.querySelector('#auth-signin .submit-btn');
       btn.textContent = 'Signing in…';
       btn.disabled = true;
       try {
-        const { data, error } = await window.sb.auth.signInWithPassword({ email, password });
-        if (error) { alert(error.message); return; }
-        await syncSession(data.session);
+        const signInRes = await fetch(`${window._supaUrl}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': window._supaKey },
+          body: JSON.stringify({ email, password }),
+        });
+        const signInData = await signInRes.json();
+        if (!signInRes.ok) { errEl.textContent = signInRes.status === 400 ? 'Incorrect email or password.' : (signInData.message || 'Sign in failed.'); return; }
+        // Store session in localStorage so Supabase SDK + subsequent queries use it
+        const sessionToStore = { ...signInData, expires_at: Math.floor(Date.now() / 1000) + (signInData.expires_in || 3600) };
+        localStorage.setItem('sb-nqlbagluwxotlxmcurru-auth-token', JSON.stringify(sessionToStore));
+        await syncSession(sessionToStore);
         showDashboard();
       } catch(e) {
-        alert('An unexpected error occurred. Please try again.');
+        errEl.textContent = 'An unexpected error occurred. Please try again.';
       } finally {
         btn.textContent = 'Sign In';
         btn.disabled = false;
@@ -631,19 +873,22 @@
       const email    = document.getElementById('reg-email').value.trim();
       const password = document.getElementById('reg-password').value;
       const code     = document.getElementById('reg-partner-code').value.trim().toUpperCase();
-      if (!first || !email || !password) { alert('Please fill in all required fields.'); return; }
-      if (password.length < 8) { alert('Password must be at least 8 characters.'); return; }
+      const errEl    = document.getElementById('register-error');
+      errEl.textContent = '';
+      if (!first || !email || !password) { errEl.textContent = 'Please fill in all required fields.'; return; }
+      if (password.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
 
       let partnerInfo = null;
       let partnerProgram = null;
       if (code) {
         const result = await validatePartnerCode(code);
         if (!result) {
-          alert('Invalid partner code — your account will be created without partner linking. You can add a code later in account settings.');
-        } else {
-          partnerInfo    = result;
-          partnerProgram = result.program;
+          errEl.textContent = 'Invalid partner code. Please check your code, or clear the field to continue without one.';
+          errEl.style.color = '#c0392b';
+          return;
         }
+        partnerInfo    = result;
+        partnerProgram = result.program;
       }
 
       const btn = document.querySelector('#auth-register .submit-btn');
@@ -654,7 +899,7 @@
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin + '/account.html',
+            emailRedirectTo: 'https://www.mata-tape.com/account',
             data: {
               first_name:      first,
               last_name:       last,
@@ -664,11 +909,12 @@
             }
           }
         });
-        if (error) { alert(error.message); return; }
+        if (error) { errEl.textContent = error.message; errEl.style.color = '#c0392b'; return; }
 
         showEmailConfirmation(email);
       } catch(e) {
-        alert('An unexpected error occurred. Please try again.');
+        errEl.textContent = 'An unexpected error occurred. Please try again.';
+        errEl.style.color = '#c0392b';
       } finally {
         btn.textContent = 'Create Account';
         btn.disabled = false;
@@ -691,7 +937,18 @@
       document.getElementById('auth-screen').style.display      = 'none';
       document.getElementById('account-dashboard').style.display = 'block';
 
-      document.getElementById('dash-greeting').textContent      = `Welcome back, ${session.firstName}.`;
+      // Reset sign-out button in case it was left in "Signing out…" state
+      const signOutBtn = document.querySelector('.sign-out-btn');
+      if (signOutBtn) { signOutBtn.disabled = false; signOutBtn.textContent = 'Sign Out'; }
+
+      // Update nav immediately — don't rely on shared.js winning the async race
+      document.querySelectorAll('.nav-auth-btn').forEach(btn => {
+        btn.textContent = 'My Account';
+        btn.href = '/account';
+      });
+
+      const displayName = session.firstName || session.email?.split('@')[0] || 'there';
+      document.getElementById('dash-greeting').textContent      = `Welcome back, ${displayName}.`;
       document.getElementById('dash-email-display').textContent = session.email;
 
       // Partner badge in header
@@ -719,12 +976,18 @@
       if (session.partnerInfo) {
         document.getElementById('partner-linked-view').style.display   = 'block';
         document.getElementById('partner-unlinked-view').style.display = 'none';
-        document.getElementById('linked-badge-label').textContent      = session.partnerInfo.label;
         document.getElementById('linked-program-name').textContent     = session.partnerInfo.name;
+        const logoEl = document.getElementById('linked-partner-logo');
+        if (session.partnerInfo.program === 'bpn') {
+          logoEl.src = 'BPN/BPN_Logo.png'; logoEl.alt = 'Blue Power Network'; logoEl.style.display = 'block';
+        } else { logoEl.style.display = 'none'; }
       } else {
         document.getElementById('partner-linked-view').style.display   = 'none';
         document.getElementById('partner-unlinked-view').style.display = 'block';
       }
+
+      // Load orders (non-blocking)
+      loadOrders();
     }
 
     // ── Link code from account settings ─────────────
@@ -737,13 +1000,23 @@
         return;
       }
       error.style.display = 'none';
+      const btn = document.querySelector('#partner-unlinked-view button');
+      if (btn) { btn.disabled = true; btn.textContent = 'Linking…'; }
       try {
-        await window.sb.from('profiles').update({
-          partner_code:    code,
-          partner_program: match.program,
-        }).eq('id', supaSession.user.id);
-      } catch(e) {}
-      await syncSession(supaSession);
+        const userId = session?.userId || supaSession?.user?.id;
+        if (!userId) throw new Error('Not authenticated');
+        const dbRes = await dbPatch('profiles', userId, { partner_code: code, partner_program: match.program });
+        if (!dbRes.ok) throw new Error('Failed to save');
+        // Update session directly — don't wait for a full syncSession round-trip
+        session.partnerCode = code;
+        session.partnerInfo = match;
+        sessionStorage.setItem('mata_session', JSON.stringify(session));
+      } catch(e) {
+        if (btn) { btn.disabled = false; btn.textContent = 'Link Code'; }
+        error.textContent = 'Something went wrong. Please try again.';
+        error.style.display = 'block';
+        return;
+      }
       showDashboard();
       showPanel('partner', document.querySelectorAll('.account-nav-tab')[2]);
     }
@@ -754,6 +1027,157 @@
       document.querySelectorAll('.account-nav-tab').forEach(t => t.classList.remove('active'));
       document.getElementById(`panel-${name}`).classList.add('active');
       btn.classList.add('active');
+    }
+
+    // ── Order history ─────────────────────────────────
+    async function loadOrders() {
+      const container = document.getElementById('orders-content');
+      if (!container) return;
+      container.innerHTML = '<p class="orders-loading">Loading orders…</p>';
+
+      const token = getAccessToken();
+      if (!token) {
+        container.innerHTML = renderEmptyOrders();
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/orders', {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        if (!res.ok) throw new Error('Failed to load');
+        const { orders } = await res.json();
+
+        if (!orders || !orders.length) {
+          container.innerHTML = renderEmptyOrders();
+          return;
+        }
+
+        container.innerHTML = orders.map(order => {
+          const date = new Date(order.created * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          const total = (order.amount_total / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          const isInvoice = order.type === 'invoice';
+          const shortId = isInvoice
+            ? (order.invoice_number || order.id.slice(-8).toUpperCase())
+            : order.id.replace('cs_', '').slice(0, 12).toUpperCase();
+          const label = isInvoice ? 'Invoice' : 'Order';
+          const badgeHtml = order.status === 'open'
+            ? `<span class="order-badge order-badge--open">Invoice Due</span>`
+            : `<span class="order-badge">Paid</span>`;
+          const itemsHtml = order.line_items.map(li => {
+            const price = li.amount_total != null
+              ? (li.amount_total / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+              : '';
+            const qty = li.quantity ? `${li.quantity} box${li.quantity !== 1 ? 'es' : ''}` : '';
+            return `<div class="order-item"><span class="order-item-name">${li.description || 'Item'}${qty ? ` · ${qty}` : ''}</span><span class="order-item-price">${price}</span></div>`;
+          }).join('');
+          const invoiceLinkHtml = isInvoice && order.invoice_url && order.status === 'open'
+            ? `<a href="${order.invoice_url}" target="_blank" rel="noopener" style="font-size:13px;font-weight:600;color:var(--gold);">View & Pay Invoice →</a>`
+            : '';
+          const reorderItems = order.line_items
+            .map(li => {
+              const desc = (li.description || '').toLowerCase();
+              if (desc.includes('small'))  return { id: 'small',  boxes: li.quantity };
+              if (desc.includes('medium')) return { id: 'medium', boxes: li.quantity };
+              if (desc.includes('large'))  return { id: 'large',  boxes: li.quantity };
+              return null;
+            })
+            .filter(Boolean);
+          const reorderAttr = reorderItems.length ? `data-reorder='${JSON.stringify(reorderItems)}'` : '';
+          const footerHtml = (invoiceLinkHtml || reorderItems.length) ? `
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(0,32,91,.06);">
+              <span>${invoiceLinkHtml}</span>
+              ${reorderItems.length ? `<button onclick="reorder(this)" ${reorderAttr} style="background:none;border:1.5px solid var(--navy);color:var(--navy);border-radius:50px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer;">Reorder</button>` : ''}
+            </div>` : '';
+          return `
+            <div class="order-card">
+              <div class="order-card-header">
+                <div>
+                  <div class="order-date">${date}</div>
+                  <div class="order-id">${label} #${shortId}</div>
+                </div>
+                <div style="text-align:right;">
+                  <div class="order-total">${total}</div>
+                  ${badgeHtml}
+                </div>
+              </div>
+              ${itemsHtml ? `<div class="order-items">${itemsHtml}</div>` : ''}
+              ${footerHtml}
+            </div>`;
+        }).join('');
+      } catch {
+        container.innerHTML = '<p style="color:var(--muted);font-size:14px;text-align:center;padding:48px 0;">Could not load orders. Please try again later.</p>';
+      }
+    }
+
+    function reorder(btn) {
+      try {
+        const items = JSON.parse(btn.getAttribute('data-reorder'));
+        const cart = {};
+        items.forEach(({ id, boxes }) => { cart[id] = (cart[id] || 0) + boxes; });
+        localStorage.setItem('mata_cart', JSON.stringify(cart));
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        if (typeof openCartDrawer === 'function') openCartDrawer();
+      } catch { /* ignore */ }
+    }
+
+    function renderEmptyOrders() {
+      return `<div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8v4h8z"/></svg>
+        <p>No orders yet. Orders placed through the shop will appear here.</p>
+        <a href="/#products" class="btn btn--gold">Shop Mata Gold</a>
+      </div>`;
+    }
+
+    // ── Save profile (personal info) ─────────────────
+    async function saveProfile() {
+      const btn       = document.getElementById('save-profile-btn');
+      const msgEl     = document.getElementById('save-profile-msg');
+      const firstName = document.getElementById('profile-first').value.trim();
+      const lastName  = document.getElementById('profile-last').value.trim();
+      const newEmail  = document.getElementById('profile-email').value.trim();
+
+      msgEl.textContent = '';
+      if (!firstName) { msgEl.textContent = 'First name is required.'; msgEl.style.color = '#c0392b'; return; }
+      if (!newEmail)  { msgEl.textContent = 'Email is required.'; msgEl.style.color = '#c0392b'; return; }
+
+      btn.disabled = true; btn.textContent = 'Saving…';
+      try {
+        const userId = session?.userId || supaSession?.user?.id;
+        if (!userId) throw new Error('Not authenticated');
+
+        // Save name to profiles table
+        const nameRes = await dbPatch('profiles', userId, { first_name: firstName, last_name: lastName || null });
+        if (!nameRes.ok) throw new Error('Failed to save');
+
+        session.firstName = firstName;
+        session.lastName  = lastName;
+
+        // If email changed, trigger Supabase confirmation flow via direct HTTP (bypasses SDK lock)
+        const emailChanged = newEmail.toLowerCase() !== session.email.toLowerCase();
+        if (emailChanged) {
+          const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+          const accessToken = raw ? JSON.parse(raw)?.access_token : null;
+          if (!accessToken) throw new Error('Not authenticated');
+          const emailRes = await fetch(`${window._supaUrl}/auth/v1/user`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'apikey': window._supaKey, 'Authorization': `Bearer ${accessToken}` },
+            body: JSON.stringify({ email: newEmail, data: { email_redirect_to: 'https://www.mata-tape.com/account' } }),
+          });
+          if (!emailRes.ok) { const d = await emailRes.json(); throw new Error(d.message || 'Failed to update email.'); }
+          sessionStorage.setItem('mata_session', JSON.stringify(session));
+          document.getElementById('email-change-modal').classList.add('open');
+        } else {
+          sessionStorage.setItem('mata_session', JSON.stringify(session));
+          document.getElementById('dash-greeting').textContent = `Welcome back, ${firstName}`;
+          msgEl.textContent = 'Saved!'; msgEl.style.color = '#1a7a3a';
+          setTimeout(() => { msgEl.textContent = ''; }, 2000);
+        }
+      } catch(e) {
+        msgEl.textContent = e.message || 'Error saving. Please try again.'; msgEl.style.color = '#c0392b';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Save Changes';
+      }
     }
 
     // ── Save address ─────────────────────────────────
@@ -767,15 +1191,17 @@
 
       btn.disabled = true; btn.textContent = 'Saving…';
       try {
-        const { error } = await window.sb.from('profiles').update({
+        const userId = session?.userId || supaSession?.user?.id;
+        if (!userId) throw new Error('Not authenticated');
+
+        const addrRes = await dbPatch('profiles', userId, {
           address_line1: addrLine1 || null,
           address_line2: addrLine2 || null,
-          city:          city      || null,
-          state:         state     || null,
-          zip:           zip       || null,
-        }).eq('id', supaSession.user.id);
-
-        if (error) throw error;
+          city:  city  || null,
+          state: state || null,
+          zip:   zip   || null,
+        });
+        if (!addrRes.ok) throw new Error('Failed to save');
 
         // Update session
         session.addrLine1 = addrLine1;
@@ -785,52 +1211,199 @@
         session.zip       = zip;
         sessionStorage.setItem('mata_session', JSON.stringify(session));
 
-        // Also pre-fill cart shipping state if set
         if (state) sessionStorage.setItem('mata_ship_state', state);
 
         btn.textContent = 'Saved!';
         setTimeout(() => { btn.disabled = false; btn.textContent = 'Save Address'; }, 2000);
       } catch(e) {
-        alert('Error saving address. Please try again.');
         btn.disabled = false; btn.textContent = 'Save Address';
+        const msgEl = document.getElementById('save-address-msg');
+        if (msgEl) { msgEl.textContent = 'Error saving address. Please try again.'; }
       }
     }
 
     // ── Sign out ─────────────────────────────────────
     async function signOutAccount() {
-      await window.sb.auth.signOut();
+      const signOutBtn = document.querySelector('.sign-out-btn');
+      if (signOutBtn) { signOutBtn.disabled = true; signOutBtn.textContent = 'Signing out…'; }
+
+      // Delete the Supabase localStorage token directly — instant, zero SDK lock involvement.
+      // Then fire a raw HTTP logout to invalidate the token server-side (fire-and-forget).
+      try {
+        const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+        const accessToken = raw ? JSON.parse(raw)?.access_token : null;
+        localStorage.removeItem('sb-nqlbagluwxotlxmcurru-auth-token');
+        if (accessToken) {
+          fetch(`${window._supaUrl}/auth/v1/logout`, {
+            method: 'POST',
+            headers: { 'apikey': window._supaKey, 'Authorization': `Bearer ${accessToken}` },
+          }).catch(() => {});
+        }
+      } catch(e) {}
+
       session     = null;
       supaSession = null;
       sessionStorage.removeItem('mata_session');
+      sessionStorage.removeItem('mata_ship_state');
+      sessionStorage.removeItem('mata_invoice_zip');
+
+      // Reset nav
+      document.querySelectorAll('.nav-auth-btn').forEach(btn => {
+        btn.textContent = 'Sign In';
+        btn.href = '/account';
+      });
+
+      // Show sign-in form
       document.getElementById('account-dashboard').style.display = 'none';
       document.getElementById('auth-screen').style.display       = 'block';
-      // Reset to sign-in tab state
       document.querySelector('.auth-tabs').style.display         = 'flex';
       document.getElementById('auth-signin').style.display       = 'block';
       document.getElementById('auth-register').style.display     = 'none';
       document.getElementById('auth-confirm').style.display      = 'none';
+      document.getElementById('auth-new-password').style.display = 'none';
+      document.getElementById('auth-forgot-success') && (document.getElementById('auth-forgot-success').style.display = 'none');
       document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
     }
 
-    // ── Forgot password ──────────────────────────────
-    async function forgotPassword() {
-      const email = document.getElementById('signin-email').value.trim();
-      if (!email) { alert('Please enter your email address first.'); return; }
+    // ── Forgot password modal ────────────────────────
+    function forgotPassword() {
+      const prefill = document.getElementById('signin-email').value.trim();
+      if (prefill) document.getElementById('forgot-modal-email').value = prefill;
+      document.getElementById('forgot-modal-form').style.display = 'block';
+      document.getElementById('forgot-modal-success').style.display = 'none';
+      document.getElementById('forgot-modal-msg').textContent = '';
+      document.getElementById('forgot-modal').classList.add('open');
+      setTimeout(() => document.getElementById('forgot-modal-email').focus(), 50);
+    }
+
+    function closeForgotModal() {
+      document.getElementById('forgot-modal').classList.remove('open');
+    }
+
+    async function sendForgotEmail() {
+      const email = document.getElementById('forgot-modal-email').value.trim();
+      const msg   = document.getElementById('forgot-modal-msg');
+      const btn   = document.getElementById('forgot-modal-btn');
+      if (!email) { msg.textContent = 'Please enter your email address.'; return; }
+      btn.disabled = true; btn.textContent = 'Sending…';
       try {
         const { error } = await window.sb.auth.resetPasswordForEmail(email, {
-          redirectTo: window.location.origin + '/account.html'
+          redirectTo: 'https://www.mata-tape.com/account'
         });
-        if (error) { alert(error.message); return; }
-        alert('Password reset email sent! Check your inbox.');
+        if (error) { msg.textContent = error.message; return; }
+        document.getElementById('forgot-modal-sent-email').textContent = email;
+        document.getElementById('forgot-modal-form').style.display = 'none';
+        document.getElementById('forgot-modal-success').style.display = 'block';
       } catch(e) {
-        alert('An unexpected error occurred. Please try again.');
+        msg.textContent = 'An unexpected error occurred. Please try again.';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Send Reset Link';
       }
+    }
+
+    // ── Set new password (after clicking reset link) ─
+    async function setNewPassword() {
+      const password = document.getElementById('new-password').value;
+      const confirm  = document.getElementById('new-password-confirm').value;
+      const msg = document.getElementById('new-password-msg');
+      const btn = document.querySelector('#auth-new-password .submit-btn');
+
+      if (password.length < 8) { msg.textContent = 'Password must be at least 8 characters.'; msg.style.color = '#c0392b'; return; }
+      if (password !== confirm)  { msg.textContent = 'Passwords do not match.'; msg.style.color = '#c0392b'; return; }
+
+      btn.disabled = true; btn.textContent = 'Updating…';
+      try {
+        const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+        const accessToken = raw ? JSON.parse(raw)?.access_token : null;
+        if (!accessToken) throw new Error('Not authenticated');
+        const updateRes = await fetch(`${window._supaUrl}/auth/v1/user`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'apikey': window._supaKey, 'Authorization': `Bearer ${accessToken}` },
+          body: JSON.stringify({ password }),
+        });
+        if (!updateRes.ok) { const d = await updateRes.json(); msg.textContent = d.message || 'Failed to update password.'; msg.style.color = '#c0392b'; return; }
+        msg.textContent = 'Password updated!'; msg.style.color = '#1a7a3a';
+        setTimeout(async () => {
+          const { data: { session: s } } = await window.sb.auth.getSession();
+          if (s) { await syncSession(s); showDashboard(); }
+        }, 1200);
+      } catch(e) {
+        msg.textContent = 'An unexpected error occurred. Please try again.'; msg.style.color = '#c0392b';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Update Password';
+      }
+    }
+
+    // ── Change password (from profile panel) ─────────
+    async function changePassword() {
+      const currentPw = document.getElementById('change-current-pw').value;
+      const newPw     = document.getElementById('change-new-pw').value;
+      const confirmPw = document.getElementById('change-confirm-pw').value;
+      const msg = document.getElementById('change-pw-msg');
+      const btn = document.getElementById('change-pw-btn');
+
+      msg.textContent = '';
+      if (!currentPw)          { msg.textContent = 'Please enter your current password.'; msg.style.color = '#c0392b'; return; }
+      if (newPw.length < 8)    { msg.textContent = 'New password must be at least 8 characters.'; msg.style.color = '#c0392b'; return; }
+      if (newPw !== confirmPw) { msg.textContent = 'Passwords do not match.'; msg.style.color = '#c0392b'; return; }
+      if (newPw === currentPw) { msg.textContent = 'New password must be different from your current password.'; msg.style.color = '#c0392b'; return; }
+
+      btn.disabled = true; btn.textContent = 'Updating…';
+      try {
+        // Verify current password via direct HTTP — bypasses Supabase SDK auth lock
+        // so it doesn't block the subsequent updateUser call
+        const verifyRes = await fetch(`${window._supaUrl}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': window._supaKey },
+          body: JSON.stringify({ email: session.email, password: currentPw }),
+        });
+        if (!verifyRes.ok) { msg.textContent = 'Current password is incorrect.'; msg.style.color = '#c0392b'; return; }
+
+        // Current password confirmed — set new password via direct HTTP (bypasses SDK auth lock)
+        const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+        const accessToken = raw ? JSON.parse(raw)?.access_token : null;
+        if (!accessToken) throw new Error('Not authenticated');
+        const updateRes = await fetch(`${window._supaUrl}/auth/v1/user`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'apikey': window._supaKey, 'Authorization': `Bearer ${accessToken}` },
+          body: JSON.stringify({ password: newPw }),
+        });
+        if (!updateRes.ok) { const d = await updateRes.json(); msg.textContent = d.message || 'Failed to update password.'; msg.style.color = '#c0392b'; return; }
+
+        msg.textContent = 'Password updated successfully!'; msg.style.color = '#1a7a3a';
+        document.getElementById('change-current-pw').value = '';
+        document.getElementById('change-new-pw').value = '';
+        document.getElementById('change-confirm-pw').value = '';
+        setTimeout(() => { msg.textContent = ''; }, 3000);
+      } catch(e) {
+        msg.textContent = 'An unexpected error occurred. Please try again.'; msg.style.color = '#c0392b';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Update Password';
+      }
+    }
+
+    // ── Password visibility toggle ────────────────────
+    function togglePw(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.querySelector('.eye-show').style.display = show ? 'none' : '';
+      btn.querySelector('.eye-hide').style.display = show ? '' : 'none';
     }
 
     init();
 
     document.getElementById('signin-password')?.addEventListener('keydown', e => {
       if (e.key === 'Enter') signIn();
+    });
+    document.getElementById('forgot-modal-email')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendForgotEmail();
+    });
+    document.getElementById('forgot-modal').addEventListener('click', e => {
+      if (e.target === document.getElementById('forgot-modal')) closeForgotModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeForgotModal();
     });
   </script>
 </body>

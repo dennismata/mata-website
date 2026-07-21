@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="Product Photos/MATA_GOLD_ROL_36MM.jpg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Order Confirmed – Mata Tape, Inc.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,20 +40,20 @@
 
   <nav id="navbar">
     <div class="container nav-inner">
-      <a class="nav-logo" href="index.html"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
+      <a class="nav-logo" href="/"><img src="Logo Files/Mata Tape ( Blue - Gold ) A with Tagline.png" alt="Mata Tape, Inc." /></a>
       <ul class="nav-links">
-        <li><a href="index.html#features">Features</a></li>
-        <li><a href="index.html#products">Products</a></li>
-        <li><a href="about.html">About</a></li>
-
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#products">Products</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/partners">Partners</a></li>
       </ul>
       <div class="nav-right">
         <button class="nav-cart" id="nav-cart" aria-label="Cart">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="nav-cart-badge" id="nav-cart-badge">0</span>
         </button>
-        <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
-        <a href="index.html#sample" class="btn btn--gold">Free Sample</a>
+        <a href="/account" class="btn btn--ghost nav-auth-btn">Sign In</a>
+        <a href="/#sample" class="btn btn--gold">Free Sample</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -61,14 +62,14 @@
   </nav>
   <div class="nav-mobile-drawer" id="nav-mobile-drawer">
     <ul>
-      <li><a href="index.html#features">Features</a></li>
-      <li><a href="index.html#products">Products</a></li>
-      <li><a href="about.html">About</a></li>
-
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#products">Products</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/partners">Partners</a></li>
     </ul>
     <div class="nav-mobile-actions">
-      <a href="account.html" class="btn btn--ghost nav-auth-btn">Sign In</a>
-      <a href="index.html#sample" class="btn btn--gold">Free Sample</a>
+      <a href="/account" class="btn btn--ghost nav-auth-btn">Sign In</a>
+      <a href="/#sample" class="btn btn--gold">Free Sample</a>
     </div>
   </div>
 
@@ -80,8 +81,8 @@
       <h1>Order Confirmed!</h1>
       <p>Thank you for your order. You'll receive a confirmation email shortly with your order details and tracking information.</p>
       <div class="success-actions">
-        <a href="index.html#products" class="btn btn--gold">Shop Again</a>
-        <a href="account.html" class="btn btn--ghost">View Account</a>
+        <a href="/#products" class="btn btn--gold">Shop Again</a>
+        <a href="/account" class="btn btn--ghost">View Account</a>
       </div>
     </div>
   </div>
@@ -93,6 +94,21 @@
   <script>
     // Clear cart on successful order
     clearCart();
+
+    // Notify sales team and store order
+    const sessionId = new URLSearchParams(window.location.search).get('session_id');
+    if (sessionId) {
+      let token = null;
+      try {
+        const raw = localStorage.getItem('sb-nqlbagluwxotlxmcurru-auth-token');
+        token = raw ? JSON.parse(raw)?.access_token : null;
+      } catch {}
+      fetch('/api/notify-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
+        body: JSON.stringify({ session_id: sessionId }),
+      }).catch(() => {});
+    }
   </script>
 </body>
 </html>
