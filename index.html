@@ -502,7 +502,7 @@
             <h3>Mata Gold – Small</h3>
             <p class="product-desc">Ideal for intricate trim work, window frames, moldings, and any fine detail masking where precision matters most.</p>
             <div class="product-price">
-              <div class="price-roll" id="price-roll-small"><s>$6.99</s><br>$6.59<span>/roll</span></div>
+              <div class="price-roll" id="price-roll-small"><s>$6.99</s> $6.59<span>/roll</span></div>
               <div class="price-box" id="price-box-small">$237.24/box<br>36 rolls</div>
             </div>
             <table class="spec-table">
@@ -531,7 +531,7 @@
             <h3>Mata Gold – Medium</h3>
             <p class="product-desc">Our most popular size. Perfect for walls, doors, baseboards, and general interior and exterior painting tasks.</p>
             <div class="product-price">
-              <div class="price-roll" id="price-roll-medium"><s>$8.99</s><br>$8.69<span>/roll</span></div>
+              <div class="price-roll" id="price-roll-medium"><s>$8.99</s> $8.69<span>/roll</span></div>
               <div class="price-box" id="price-box-medium">$208.56/box<br>24 rolls</div>
             </div>
             <table class="spec-table">
@@ -560,7 +560,7 @@
             <h3>Mata Gold – Large</h3>
             <p class="product-desc">Maximum coverage for broad surfaces, spray paint applications, and large masking areas where speed matters.</p>
             <div class="product-price">
-              <div class="price-roll" id="price-roll-large"><s>$10.99</s><br>$10.49<span>/roll</span></div>
+              <div class="price-roll" id="price-roll-large"><s>$10.99</s> $10.49<span>/roll</span></div>
               <div class="price-box" id="price-box-large">$209.80/box<br>20 rolls</div>
             </div>
             <table class="spec-table">
@@ -728,7 +728,7 @@
             const origRoll = (p.boxPrice / p.rolls).toFixed(2);
             const rollEl = document.getElementById('price-roll-' + id);
             const boxEl  = document.getElementById('price-box-' + id);
-            if (rollEl) rollEl.innerHTML = `<s>$${origRoll}</s><br>$${discountedRoll.toFixed(2)}<span>/roll</span>`;
+            if (rollEl) rollEl.innerHTML = `<s>$${origRoll}</s> $${discountedRoll.toFixed(2)}<span>/roll</span>`;
             if (boxEl)  boxEl.innerHTML  = `<s>$${p.boxPrice}</s> $${discountedBox.toFixed(2)}/box<br>${p.rolls} rolls`;
           });
         }
